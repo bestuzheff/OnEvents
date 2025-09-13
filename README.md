@@ -57,7 +57,7 @@ docker run --rm -p 8080:80 onevents
 
 ## 📅 Как добавить событие?
 
-Есть два способа:
+### Есть два способа:
 
 ### ✍️ Способ первый — Pull Request
 1. Клонировать репозиторий;  
@@ -74,6 +74,7 @@ address: "ул. Арбат, 12" # Адрес проведения (если Onli
 icon: "default.jpg" # Файл с логотипом (если нет то default.jpg)
 description: "Краткое описание события, чтобы сразу понять, о чем оно." # Краткое описание
 registration_url: "https://example.com/register" # Ссылка на регистрацию
+timezone: "Europe/Moscow" # Часовой пояс места проведения события
 sessions:
   - date: "2025-09-15" # Дата проведения события, формат YYYY-MM-DD (используется для календаря)
     start_time: "10:00" # Время начала события
@@ -82,6 +83,38 @@ sessions:
     start_time: "11:00" # Время начала события
     end_time: "17:30" # Время окончания события
 ```
+
+#### Российские часовые зоны (IANA):
+
+- Europe/Kaliningrad — Калининград (UTC+2)
+- Europe/Moscow — Москва, Санкт-Петербург (UTC+3)
+- Europe/Simferopol — Крым (UTC+3)
+- Europe/Kirov — Киров (UTC+3)
+- Europe/Volgograd — Волгоград (UTC+3)
+- Europe/Astrakhan — Астрахань (UTC+4)
+- Europe/Saratov — Саратов (UTC+4)
+- Europe/Ulyanovsk — Ульяновск (UTC+4)
+- Europe/Samara — Самара (UTC+4)
+- Asia/Yekaterinburg — Екатеринбург (UTC+5)
+- Asia/Orenburg — Оренбург (UTC+5)
+- Asia/Chelyabinsk — Челябинск (UTC+5)
+- Asia/Tomsk — Томск (UTC+7)
+- Asia/Novosibirsk — Новосибирск (UTC+7)
+- Asia/Barnaul — Барнаул (UTC+7)
+- Asia/Novokuznetsk — Новокузнецк (UTC+7)
+- Asia/Krasnoyarsk — Красноярск (UTC+7)
+- Asia/Irkutsk — Иркутск (UTC+8)
+- Asia/Chita — Чита (UTC+9)
+- Asia/Yakutsk — Якутск (UTC+9)
+- Asia/Khandyga — Хандыга (UTC+9)
+- Asia/Vladivostok — Владивосток (UTC+10)
+- Asia/Ust-Nera — Усть-Нера (UTC+10)
+- Asia/Magadan — Магадан (UTC+11)
+- Asia/Sakhalin — Южно-Сахалинск (UTC+11)
+- Asia/Srednekolymsk — Среднеколымск (UTC+11)
+- Asia/Kamchatka — Петропавловск-Камчатский (UTC+12)
+- Asia/Anadyr — Анадырь (UTC+12)
+
 
 ### 📧 Способ второй — через почту
 Просто прислать все данные о событии на почту 👉 **info@onevents.ru**

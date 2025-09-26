@@ -37,6 +37,26 @@ for file in EVENTS_DIR.glob("*.yml"):
 all_events.sort(key=lambda e: e["date"])  # для общего календаря
 events.sort(key=lambda e: e["date"])      # для карточек/индивидуальных .ics
 
+# Функция для добавления UTM меток к ссылкам регистрации
+def add_utm_marks(url: str) -> str:
+    """Добавляет UTM метки к ссылке регистрации, если их там нет"""
+    if not url or 'utm_source=' in url:
+        return url
+    
+    # Определяем разделитель (если в URL уже есть параметры)
+    separator = '&' if '?' in url else '?'
+    
+    # UTM метки для отслеживания трафика с сайта onevents.ru
+    utm_source = 'onevents.ru'        # Источник трафика - наш сайт
+    utm_medium = 'website'            # Канал - веб-сайт (не email, не соцсети)
+    utm_campaign = 'news'             # Кампания - новости/события
+    utm_content = 'link'              # Контент - ссылка на регистрацию
+    
+    # Собираем все UTM параметры в одну строку
+    utm_params = f"{separator}utm_source={utm_source}&utm_medium={utm_medium}&utm_campaign={utm_campaign}&utm_content={utm_content}"
+    
+    return url + utm_params
+
 # Вспомогательные функции для работы с ICS
 def to_hhmmss(time_str: str) -> str:
     """Нормализует время к формату HHMMSS для ICS"""
@@ -112,8 +132,11 @@ def generate_event_vevent(event, session=None, session_index=None):
         date_str = format_date(session_date, format="d MMMM", locale="ru")
         session_title = f"{title} ({date_str})"
         
+        # Добавляем UTM метки к ссылке регистрации для ICS
+        registration_url_with_utm = add_utm_marks(event['registration_url'])
+        
         description_text = (
-            f"{description}\\n\\nСсылка на регистрацию: {event['registration_url']}"
+            f"{description}\\n\\nСсылка на регистрацию: {registration_url_with_utm}"
             f"\\n\\nВремя: {session['start_time']}-{session['end_time']}"
         )
         
@@ -131,8 +154,11 @@ END:VEVENT"""
         # Обычное однодневное событие
         event_date = datetime.strptime(event['date'], "%Y-%m-%d")
         
+        # Добавляем UTM метки к ссылке регистрации для ICS
+        registration_url_with_utm = add_utm_marks(event['registration_url'])
+        
         description_text = (
-            f"{description}\\n\\nСсылка на регистрацию: {event['registration_url']}"
+            f"{description}\\n\\nСсылка на регистрацию: {registration_url_with_utm}"
         )
         
         return f"""BEGIN:VEVENT
@@ -328,6 +354,9 @@ def render_event(e):
     safe_title = SAFE_CHARS_PATTERN.sub('', e['title']).strip()
     safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
     ics_filename = f"{e['date']}-{safe_title}.ics"
+    
+    # Добавляем UTM метки к ссылке регистрации
+    registration_url_with_utm = add_utm_marks(e['registration_url'])
  
     return f"""
     <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="{e['city']}">
@@ -350,7 +379,7 @@ def render_event(e):
         </div>
       </div>
       <p>{e['description']}</p>
-      <a href="{e['registration_url']}" role="button" target="_blank">Регистрация</a>
+      <a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>
       <a href="calendar/{ics_filename}" role="button" download="{ics_filename}" style="margin-left:0.5rem;">Добавить в календарь</a>
     </article>
     """

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>OnEvents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Актуальные события и конференции по 1С в городах России.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+    <link rel="shortcut icon" href="icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="OnEvents">
+    <link rel="manifest" href="icons/site.webmanifest">    
+    <!-- Yandex.Metrika counter --> <script type="text/javascript">     (function(m,e,t,r,i,k,a){         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};         m[i].l=1*new Date();         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103858050', 'ym');      ym(103858050, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true}); </script> <noscript><div><img src="https://mc.yandex.ru/watch/103858050" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+    <style>
+        html { scroll-behavior: smooth; }
+        .sr-only {position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
+
+        :root {
+            --bg:#fafafa; --text:#111; --muted:#666;
+            --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
+            --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
+            --link:#0b76ef;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg:#0f1115; --text:#e6e6e6; --muted:#a0a0a0;
+                --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
+                --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
+                --link:#7cb3ff;
+            }
+        }
+        .dark-theme {
+            --bg:#0f1115; --text:#e6e6e6; --muted:#a0a0a0;
+            --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
+            --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
+            --link:#7cb3ff;
+        }
+        .light-theme {
+            --bg:#fafafa; --text:#111; --muted:#666;
+            --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
+            --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
+            --link:#0b76ef;
+        }
+
+        body {font-family:'JetBrains Mono', monospace;margin:0;padding:0;background:var(--bg);color:var(--text);word-break:break-word;transition:background .2s,color .2s;}
+        a {color:var(--link);} a:hover {color:#a2c8ff !important;}
+        header a {color:var(--header-text);} header a:hover {color:#a2c8ff !important; text-decoration:underline;}
+        
+        /* Темный стиль для выбора города в хедере */
+        #cityFilter {
+            background: #333 !important;
+            color: #fff !important;
+            border-color: #555 !important;
+        }
+        #cityFilter option {
+            background: #333;
+            color: #fff;
+        }
+
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--header-bg); color: var(--header-text);
+            padding: 1em;
+        }
+        .header-inner {max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+        .logo {font-size:1.5em;font-weight:bold;}
+        .logo-onevents {height: 32px; width: auto;}
+        nav {display:flex;gap:1em;align-items:center;}
+        .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;}
+
+        .container {max-width:1000px;margin:2em auto;padding:0 1em;}
+        article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
+        .card-header {display:flex;align-items:center;gap:.75em;margin-bottom:.75em;}
+        .card-title {margin:0;font-size:1.5em;}
+        .meta {display:block;margin:.25em 0 .5em 0;}
+        .meta-item {font-size:.95em;color:var(--muted);display:flex;align-items:baseline;margin:.15em 0;}
+        .meta-item .icon {margin-right:.35em;}
+        footer {background:var(--footer-bg);color:var(--footer-text);text-align:center;padding:1em;margin-top:2em;font-size:.9em;}
+
+        .grid {display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+
+        .icon svg {width:20px;height:20px;fill:currentColor;}
+
+        @media (max-width:600px) {
+            .header-inner {flex-direction:column;align-items:center;text-align:center;}
+            nav {margin-top:.5em;flex-direction:column;gap:.5em;}
+        }
+        #about { scroll-margin-top: 80px; }
+        #public-calendars { scroll-margin-top: 80px; }
+        
+        /* Стили для блока публичных календарей */
+        .calendar-item {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .calendar-city-name {
+            color: var(--text);
+            width: 140px;
+            flex-shrink: 0;
+            text-align: left;
+        }
+        .calendar-input-group {
+            position: relative;
+            flex: 1;
+            max-width: calc(100% - 160px);
+        }
+        .calendar-input {
+            width: 100%;
+            padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            word-break: break-all;
+            box-sizing: border-box;
+        }
+        .calendar-copy-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 3px;
+            color: var(--muted);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+        }
+        .calendar-copy-btn:hover {
+            color: var(--link);
+            background: var(--border);
+        }
+        .calendar-copy-btn:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+        .calendar-copy-btn {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div id="top"></div>
+<script>(function initTheme(){try{const saved=localStorage.getItem('theme');const root=document.documentElement;if(saved==='dark'){root.classList.add('dark-theme');}else if(saved==='light'){root.classList.add('light-theme');}}catch(e){}})();</script>
+
+<header role="banner">
+  <div class="header-inner">
+    <div class="logo">
+      <img class="logo-onevents" src="icons/web-app-manifest-192x192.png">
+      OnEvents
+    </div>
+    <nav aria-label="Главное меню">
+      <label for="cityFilter" class="sr-only">Фильтр по городу</label>
+      <select id="cityFilter" class="pure-input">
+        <option value="">Все города</option>
+      </select>
+      <a href="#top">События</a>
+      <a href="#public-calendars">Календари</a>
+      <a href="#about">О проекте</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="sr-only">Календарь событий OnEvents</h1>
+
+  <div id="events">
+    
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Санкт-Петербург">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «PGConf.СПб 2025»" 
+             src="img/pgconf.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">PGConf.СПб 2025</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-09-29">29 сентября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Санкт-Петербург, Пироговская набережная, д. 5/2, Гостиница “Санкт-Петербург”</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>PGConf.СПб 2025 — крупнейшая конференция по PostgreSQL в России, которая проходит в Санкт-Петербурге. Технические доклады, демонстрации решений для работы с СУБД, мастер-классы, а также нетворкинг и обмен опытом с сообществом.</p>
+      <a href="https://pgconf.ru/pgconfspb2025" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-09-29-PGConfСПб-2025.ics" role="button" download="2025-09-29-PGConfСПб-2025.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Санкт-Петербург">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Стачка СПб&#39;25»" 
+             src="img/stachka.png" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Стачка СПб&#39;25</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-02">2 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Санкт-Петербург, ул. Кораблестроителей, 14, Cosmos St. Petersburg Pribaltiyskaya Hotel</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Крупнейшая региональная IT-конференция России. Собираем более 3 000 специалистов ежегодно — разработчиков, маркетологов, дизайнеров, руководителей и собственников IT-компаний.</p>
+      <a href="https://spb25.nastachku.ru/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-02-Стачка-СПб3925.ics" role="button" download="2025-10-02-Стачка-СПб3925.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Краснодар">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Желтый клуб Краснодар»" 
+             src="img/yc_krasn.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Желтый клуб Краснодар</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-02">2 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Краснодар, ул. Северная, д. 405, Инновационный центр Аквариум</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Краснодар, ждем вас на второй митап Желтого клуба в 2025 году! В этот раз у нас 2 прекрасные докладчицы с очень крутыми материалами, которые пригодятся каждому 1С специалисту.</p>
+      <a href="https://yclub-krd.timepad.ru/event/3560808/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-02-Желтый-клуб-Краснодар.ics" role="button" download="2025-10-02-Желтый-клуб-Краснодар.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Online">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «CORS Пятница. Встреча №14 «Как стать крутым разработчиком 1С?»»" 
+             src="img/cors_academy.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">CORS Пятница. Встреча №14 «Как стать крутым разработчиком 1С?»</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-03">3 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Online</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>CORS Пятница — бесплатное мероприятие для специалистов 1С (аналитиков, консультантов, разработчиков, руководителей проектов, архитекторов). Формат мероприятия — онлайн встреча в Zoom. Каждую встречу поднимается одна тема. Сперва выступает приглашенный хедлайнер, а затем можно пообсуждать тему в свободном формате.</p>
+      <a href="https://cors-consulting.timepad.ru/event/3569874/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-03-CORS-Пятница-Встреча-14-Как-стать-крутым-разработчиком-1С.ics" role="button" download="2025-10-03-CORS-Пятница-Встреча-14-Как-стать-крутым-разработчиком-1С.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Санкт-Петербург">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Кунг-фу конфа»" 
+             src="img/kfk.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Кунг-фу конфа</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-08">8 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Санкт-Петербург, Газовая улица, 10 лит Ж</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Кунг-фу конфа — событие для тех, кто работает с интеграциями и современными подходами в 1С. 🎤 Два практических доклада, минимум теории, максимум пользы. 🍕 Живое общение и пицца-брейк.</p>
+      <a href="https://kungfu-conf-spb2025.tb.ru/?utm_source=onevent&utm_medium=news&utm_campaign=news&utm_content=link&utm_term=onevent" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-08-Кунг-фу-конфа.ics" role="button" download="2025-10-08-Кунг-фу-конфа.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Москва">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Selectel Tech Day 2025»" 
+             src="img/std_2025.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Selectel Tech Day 2025</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-08">8 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Москва, ул. Покровка, 47, Цифровое деловое пространство</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Selectel Tech Day 2025 - Флагманская конференция компании Selectel в Москве. Разберем актуальные темы из мира IT-инфраструктуры и обсудим опыт СТО и топ-менеджеров технологических компаний.</p>
+      <a href="https://techday.selectel.ru/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-08-Selectel-Tech-Day-2025.ics" role="button" download="2025-10-08-Selectel-Tech-Day-2025.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Санкт-Петербург">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «INFOSTART TECH EVENT 2025»" 
+             src="img/ite_2025.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">INFOSTART TECH EVENT 2025</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-09">9 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Санкт-Петербург, Пироговская набережная 5/2 отель “Санкт-Петербург”</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>INFOSTART TECH EVENT 2025 - 15-я конференция для разработчиков, архитекторов, тестировщиков 1С. В программе 80% докладов по технологиям автоматизации учета на платформе 1С:Предприятие и 20% контента по развитию команды и личной эффективности. Конференция пройдет в Санкт-Петербурге и соберет 1500 участников из разных регионов России и мира.</p>
+      <a href="https://event.infostart.ru/2025/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-09-INFOSTART-TECH-EVENT-2025.ics" role="button" download="2025-10-09-INFOSTART-TECH-EVENT-2025.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Санкт-Петербург">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Завтрак Клуба Питерских Одинэсников»" 
+             src="img/breakfast_spb.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Завтрак Клуба Питерских Одинэсников</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-12">12 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Санкт-Петербург, Место пока не придумано - можете повлиять на его выбор 🙂</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Неформальные ежемесячные встречи питерских одинесников. ⚡️В этот раз я решила пригласить заранее всех на завтрак, который будет на следующий день после инфостарта. 💛Очень ждём гостей из других городов! Приходите к нам вкусно есть, пить кофе и делиться впечатлениями и опытом. (Регистрация через бота)</p>
+      <a href="https://t.me/therapy_1c_bot" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-12-Завтрак-Клуба-Питерских-Одинэсников.ics" role="button" download="2025-10-12-Завтрак-Клуба-Питерских-Одинэсников.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Нижний Новгород">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Т1 ЛАМПА: 1С»" 
+             src="img/t1.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Т1 ЛАМПА: 1С</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-14">14 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Нижний Новгород, Зеленский Съезд, 4 (пространство Forself)</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Митап для аналитиков, программистов и других специалистов из сферы 1С. Послушаем хардовые (и не только) доклады от экспертов по 1С-разработке и аналитике, разберем реальные кейсы, проведем уютный вечер в кругу коллег.</p>
+      <a href="https://pro.t1.ru/event/PIWQNMBW" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-14-Т1-ЛАМПА-1С.ics" role="button" download="2025-10-14-Т1-ЛАМПА-1С.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Светлогорск">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «MERGE BALTIC 2025»" 
+             src="img/merge_baltic2025.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">MERGE BALTIC 2025</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-17">17 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Светлогорск, ул. Ленина, 11, Театр эстрады Янтарь Холл</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Merge⠀— крупнейшая межрегиональная IT-конференция. Это место, где встречаются представители разных сфер мира IT: от разработки до маркетинга.</p>
+      <a href="https://baltic2025.mergeconf.ru/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-17-MERGE-BALTIC-2025.ics" role="button" download="2025-10-17-MERGE-BALTIC-2025.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Online">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «CORS Пятница. Встреча №15 «Карьерные развилки опытных аналитиков 1С: как не 'свернуть не туда'»»" 
+             src="img/cors_academy.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">CORS Пятница. Встреча №15 «Карьерные развилки опытных аналитиков 1С: как не 'свернуть не туда'»</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-17">17 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Online</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>CORS Пятница — бесплатное мероприятие для специалистов 1С (аналитиков, консультантов, разработчиков, руководителей проектов, архитекторов). Формат мероприятия — онлайн встреча в Zoom. Каждую встречу поднимается одна тема. Сперва выступает приглашенный хедлайнер, а затем можно пообсуждать тему в свободном формате.</p>
+      <a href="https://cors-consulting.timepad.ru/event/3569890/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-17-CORS-Пятница-Встреча-15-Карьерные-развилки-опытных-аналитиков-1С-как-не-свернуть-не-туда.ics" role="button" download="2025-10-17-CORS-Пятница-Встреча-15-Карьерные-развилки-опытных-аналитиков-1С-как-не-свернуть-не-туда.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Online">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «1CVibeConf»" 
+             src="img/default.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">1CVibeConf</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-18">18 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Online</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Как нейросеть сгенерировала рабочий модуль на 3143 строки кода для 1С? На онлайн-конференции автор этого кейса и другие эксперты расскажут, как это работает и как вам повторить этот опыт. Без магии, только технологии.</p>
+      <a href="https://vibecoding1c.ru/conference" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-18-1CVibeConf.ics" role="button" download="2025-10-18-1CVibeConf.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Москва">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Бизнес-завтрак»" 
+             src="img/breakfast_msk.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Бизнес-завтрак</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-19">19 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Москва, Место уточняется (ориентир — в пределах ТТК, точное место сообщим записавшимся)</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Создаем новую традицию — живые и полезные бизнес-завтраки в неформальной атмосфере. Для руководителей проектов, отделов и компаний, в т.ч. франчайзи. Обсуждаем, как сделать нашу работу с людьми эффективнее, ценность для внутреннего и внешнего заказчика — больше, и как за это получать цену, которая нас будет радовать 😀</p>
+      <a href="https://t.me/ssypachev" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-19-Бизнес-завтрак.ics" role="button" download="2025-10-19-Бизнес-завтрак.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Москва">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Жёлтая конфа»" 
+             src="img/y_conf.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Жёлтая конфа</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-10-24">24 октября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Москва, Ленинградский пр-т., 37 к. 9</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Конференция для аналитиков, программистов и других специалистов из сферы 1С. Мы объединили специалистов 1С, чтобы поговорить об успешных кейсах и методиках внедрения, новинках платформы и карьерных перспективах в сфере 1С.</p>
+      <a href="https://cors.su/zhyoltaya-konfa" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-10-24-Жёлтая-конфа.ics" role="button" download="2025-10-24-Жёлтая-конфа.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Москва">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «MERGE MOSCOW 2025»" 
+             src="img/merge_moscow2025.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">MERGE MOSCOW 2025</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-11-14">14 ноября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Москва, вн. тер. г. муниципальный округ Лефортово, ул. Красноказарменная, д. 17</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Merge⠀— крупнейшая межрегиональная IT-конференция. Это место, где встречаются представители разных сфер мира IT: от разработки до маркетинга.</p>
+      <a href="https://moscow2025.mergeconf.ru/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-11-14-MERGE-MOSCOW-2025.ics" role="button" download="2025-11-14-MERGE-MOSCOW-2025.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Москва">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «Бизнес-форум 1С:ERP 2025»" 
+             src="img/logo1c.png" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">Бизнес-форум 1С:ERP 2025</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2025-11-20">20 ноября 2025</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Москва, МО, Красногорск, Международная ул., д. 16, метро «Мякинино», МВЦ «Крокус Экспо» (павильон №1)</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>Фирма «1С» приглашает пользователей, потенциальных клиентов и партнеров принять участие в 12-м Бизнес-форуме 1С:ERP, посвященном внедрениям и развитию решений и сервисов «1С» для корпоративного рынка, предприятий крупного и среднего масштаба.</p>
+      <a href="https://1c.ru/bf/default.jsp" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2025-11-20-Бизнес-форум-1СERP-2025.ics" role="button" download="2025-11-20-Бизнес-форум-1СERP-2025.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Москва">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «INFOSTART COMMUNITY EVENT 2026»" 
+             src="img/ice_2026.png" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">INFOSTART COMMUNITY EVENT 2026</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2026-03-12">12 марта 2026</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Москва, Конгресс-центр ЦМТ, Краснопресненская наб., 12, 4-й подъезд</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>INFOSTART COMMUNITY EVENT 2026 - Крупнейшее событие от Инфостарта, объединяющее профессионалов из всех сфер 1С. Участников ждет насыщенная программа по разработке, управлению проектами, аналитике, информационной безопасности и управлению ИТ-командами.</p>
+      <a href="https://infostart.ru/event/2374045/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2026-03-12-INFOSTART-COMMUNITY-EVENT-2026.ics" role="button" download="2026-03-12-INFOSTART-COMMUNITY-EVENT-2026.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+
+    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="Санкт-Петербург">
+      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
+        <img class="logo-img" alt="Логотип «INFOSTART A&PM EVENT 2026»" 
+             src="img/iape_2026.jpg" width="72" height="72" 
+             style="border-radius:50%; object-fit:cover;">
+        <div class="event-info">
+          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">INFOSTART A&PM EVENT 2026</h2>
+          <div class="meta-item">
+            <span class="icon">📅</span>
+            <time itemprop="startDate" datetime="2026-11-12">12 ноября 2026</time>
+          </div>
+          <div class="meta-item">
+            <span class="icon">📍</span>
+            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+              <span itemprop="addressLocality">Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p>INFOSTART A&PM EVENT 2026 - Крупнейшая конференция для аналитиков 1С и руководителей проектов 1С.</p>
+      <a href="https://infostart.ru/event/2446048/" role="button" target="_blank">Регистрация</a>
+      <a href="calendar/2026-11-12-INFOSTART-APM-EVENT-2026.ics" role="button" download="2026-11-12-INFOSTART-APM-EVENT-2026.ics" style="margin-left:0.5rem;">Добавить в календарь</a>
+    </article>
+    
+  </div>
+
+  <!-- Блок публичных календарей -->
+  <section id="public-calendars">
+    
+    <h2>🔗 Подписка на календарь</h2>
+    
+    <article class="card">
+        <p>Чтобы всегда быть в курсе событий подпишитесь на календарь в вашем приложении-календаре. События будут автоматически обновляться при добавлении на сайт.</p>
+        <ol>
+            <li>Скопируйте ссылку календаря</li>
+            <li>В приложении календаря выберите "Добавить календарь подписки" (для Apple) или "Добавить календарь по URL" (для Google)</li>
+        </ol>
+        
+    <div class="calendar-item" data-city="">
+        <div class="calendar-city-name">Все города</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Online">
+        <div class="calendar-city-name">Online</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-online.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Иркутск">
+        <div class="calendar-city-name">Иркутск</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-иркутск.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Краснодар">
+        <div class="calendar-city-name">Краснодар</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-краснодар.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Москва">
+        <div class="calendar-city-name">Москва</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-москва.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Нижний Новгород">
+        <div class="calendar-city-name">Нижний Новгород</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-нижний-новгород.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Оренбург">
+        <div class="calendar-city-name">Оренбург</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-оренбург.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Санкт-Петербург">
+        <div class="calendar-city-name">Санкт-Петербург</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-санкт-петербург.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    <div class="calendar-item" data-city="Светлогорск">
+        <div class="calendar-city-name">Светлогорск</div>
+        <div class="calendar-input-group">
+            <input type="text" class="calendar-input" value="https://onevents.ru/calendar/onevents-public-светлогорск.ics" readonly>
+            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+        </div>
+    </div>
+    </article>
+    
+  </section>
+
+  <!-- Блок О проекте -->
+   
+  <section id="about">
+    <h2>О проекте</h2>
+
+    <article class="card">
+      <div class="card-header"><span class="icon">🎯</span><h3 class="card-title">Миссия проекта</h3></div>
+      <p>Мы создаем единое информационное пространство для всех, кто работает с платформой 1С:Предприятие. Наша цель — объединить сообщество разработчиков, консультантов и пользователей, предоставив им удобную платформу для обмена знаниями и опытом.</p>
+    </article>
+
+    <h3>Что мы предлагаем</h3>
+    <div class="grid">
+      <article class="card"><div class="card-header"><span class="icon">📅</span><h4 class="card-title">Календарь событий</h4></div><p>Актуальная информация о предстоящих конференциях, митапах и встречах сообщества.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🤝</span><h4 class="card-title">Сообщество</h4></div><p>Возможность найти единомышленников и поделиться своим опытом с коллегами.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🌐</span><h4 class="card-title">Открытость</h4></div><p>Проект с открытым исходным кодом, где каждый может внести свой вклад.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">💬</span><h4 class="card-title">Telegram</h4></div><p>Все события дублируем и в <a href="https://t.me/OnEvents" target="_blank">Telegram</a> — подписывайтесь!</p></article>
+    
+    
+    </div>
+
+    <h3>Как это работает</h3>
+    <div class="grid">
+      <article class="card"><div class="card-header"><span class="icon">📝</span><h4 class="card-title">Создание</h4></div><p>Создайте файл с описанием события в соответствующей папке.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🔍</span><h4 class="card-title">Проверка</h4></div><p>Наша команда проверит корректность информации.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🚀</span><h4 class="card-title">Публикация</h4></div><p>Событие появится на сайте и станет доступно сообществу.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">😎</span><h4 class="card-title">Для ленивых</h4></div><p>Просто пришлите данные о событии нам на почту.</p></article>
+    </div>
+
+    <article class="card">
+      <div class="card-header"><span class="icon">📬</span><h3 class="card-title">Контакты</h3></div>
+      <ul>
+        <li><a href="https://github.com/bestuzheff/OnEvents" target="_blank">GitHub</a></li>
+        <li><a href="mailto:info@onevents.ru">info@onevents.ru</a></li>
+        <li><a href="https://t.me/Un_tru" target="_blank">@Un_tru</a></li>
+        <li><a href="https://t.me/bestuzheff" target="_blank">@bestuzheff</a></li>
+      </ul>
+    </article>
+  </section>
+</main>
+
+<footer role="contentinfo"><small>© OnEvents, 2025. Дата актуальности: 27 сентября 2025</small></footer>
+
+<script>(function themeToggle(){const btn=document.getElementById('themeToggle');const icon=document.getElementById('themeIcon');const root=document.documentElement;function isDark(){return root.classList.contains('dark-theme');}function setTheme(mode){if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='🌙';}else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='☀️';}try{localStorage.setItem('theme',mode);}catch(e){}}btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});try{const saved=localStorage.getItem('theme');if(saved==='dark'){icon.textContent='🌙';btn.setAttribute('aria-pressed','true');}else if(saved==='light'){icon.textContent='☀️';btn.setAttribute('aria-pressed','false');}else{if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){icon.textContent='🌙';btn.setAttribute('aria-pressed','true');}else{icon.textContent='☀️';btn.setAttribute('aria-pressed','false');}}}catch(e){}})();</script>
+<script>document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){const targetId=this.getAttribute("href").substring(1);if(!targetId)return;const targetEl=document.getElementById(targetId);if(targetEl){e.preventDefault();targetEl.scrollIntoView({behavior:"smooth"});history.pushState(null,"","#"+targetId);}});});</script>
+<script>
+(function cityFilterInit(){
+  const SELECT_ID = 'cityFilter';
+  function getCards(){ return Array.from(document.querySelectorAll('article.card[data-city]')); }
+  function getCalendarItems(){ return Array.from(document.querySelectorAll('.calendar-item[data-city]')); }
+  function uniqueCities(){
+    const set = new Set(getCards().map(c => (c.getAttribute('data-city')||'').trim()).filter(Boolean));
+    return Array.from(set).sort((a,b) => a.localeCompare(b, 'ru'));
+  }
+  function buildOptions(){
+    const sel = document.getElementById(SELECT_ID);
+    if(!sel) return;
+    const existing = new Set(Array.from(sel.options).map(o=>o.value));
+    uniqueCities().forEach(city => {
+      if(!existing.has(city)){
+        const opt = document.createElement('option');
+        opt.value = city;
+        opt.textContent = city;
+        sel.appendChild(opt);
+      }
+    });
+  }
+  function applyFilter(city){
+    const cards = getCards();
+    const calendarItems = getCalendarItems();
+    
+    cards.forEach(card => {
+      const c = (card.getAttribute('data-city')||'').trim();
+      card.style.display = (!city || c === city) ? '' : 'none';
+    });
+    
+    calendarItems.forEach(item => {
+      const c = (item.getAttribute('data-city')||'').trim();
+      // Показываем календарь если:
+      // 1. Нет фильтра (показываем все)
+      // 2. Это общий календарь (data-city="")
+      // 3. Город совпадает с фильтром
+      item.style.display = (!city || c === '' || c === city) ? '' : 'none';
+    });
+  }
+  function loadSaved(){
+    try { return localStorage.getItem('cityFilter') || ''; } catch(e){ return ''; }
+  }
+  function saveSelected(val){
+    try { localStorage.setItem('cityFilter', val || ''); } catch(e){}
+  }
+  function onChange(e){
+    const val = e.target.value;
+    saveSelected(val);
+    applyFilter(val);
+  }
+  function init(){
+    const sel = document.getElementById(SELECT_ID);
+    if(!sel) return;
+    buildOptions();
+    const saved = loadSaved();
+    if(saved){
+      sel.value = saved;
+    }
+    sel.addEventListener('change', onChange);
+    applyFilter(sel.value || '');
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+<script>
+// Функциональность копирования ссылок календарей
+(function copyCalendarLinks() {
+  function copyToClipboard(text) {
+    if (navigator.clipboard) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      // Fallback для старых браузеров
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        return Promise.resolve();
+      } catch (err) {
+        return Promise.reject(err);
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+  }
+
+  function initCopyButtons() {
+    document.querySelectorAll('.calendar-copy-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const input = this.closest('.calendar-input-group').querySelector('.calendar-input');
+        const url = input.value;
+        
+        copyToClipboard(url).then(() => {
+          // Временная смена иконки на галочку
+          const originalText = this.textContent;
+          this.textContent = '✓';
+          this.style.color = 'var(--link)';
+          
+          setTimeout(() => {
+            this.textContent = originalText;
+            this.style.color = '';
+          }, 2000);
+        }).catch(() => {
+          // Fallback - показываем URL в alert
+          alert('Скопируйте ссылку: ' + url);
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCopyButtons);
+  } else {
+    initCopyButtons();
+  }
+})();
+</script>
+</body>
+</html>

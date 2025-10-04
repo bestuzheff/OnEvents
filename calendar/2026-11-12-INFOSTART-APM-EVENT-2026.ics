@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:87f31d88604d5a12bdd1495157c5d300@onevents.ru
+DTSTART:20261112T100000
+DTEND:20261112T180000
+SUMMARY:INFOSTART A&PM EVENT 2026 (12 ноября)
+DESCRIPTION:INFOSTART A&PM EVENT 2026 - Крупнейшая конференция для аналитиков 1С и руководителей проектов 1С.\n\nСсылка на регистрацию: https://infostart.ru/event/2446048/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D1%83%D0%BB.%20%D0%9A%D0%BE%D1%80%D0%B0%D0%B1%D0%BB%D0%B5%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D0%B9%2C%2014%2C%20%D0%BE%D1%82%D0%B5%D0%BB%D1%8C%20Cosmos%20Saint-Petersburg%20Pribaltiyskaya%20Hotel
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:8dde6603531262b1639c0f34e408f60a@onevents.ru
+DTSTART:20261113T100000
+DTEND:20261113T180000
+SUMMARY:INFOSTART A&PM EVENT 2026 (13 ноября)
+DESCRIPTION:INFOSTART A&PM EVENT 2026 - Крупнейшая конференция для аналитиков 1С и руководителей проектов 1С.\n\nСсылка на регистрацию: https://infostart.ru/event/2446048/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D1%83%D0%BB.%20%D0%9A%D0%BE%D1%80%D0%B0%D0%B1%D0%BB%D0%B5%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D0%B9%2C%2014%2C%20%D0%BE%D1%82%D0%B5%D0%BB%D1%8C%20Cosmos%20Saint-Petersburg%20Pribaltiyskaya%20Hotel
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:19e1a263dc4748759a746fcfa7910436@onevents.ru
+DTSTART:20261114T100000
+DTEND:20261114T180000
+SUMMARY:INFOSTART A&PM EVENT 2026 (14 ноября)
+DESCRIPTION:INFOSTART A&PM EVENT 2026 - Крупнейшая конференция для аналитиков 1С и руководителей проектов 1С.\n\nСсылка на регистрацию: https://infostart.ru/event/2446048/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D1%83%D0%BB.%20%D0%9A%D0%BE%D1%80%D0%B0%D0%B1%D0%BB%D0%B5%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D0%B9%2C%2014%2C%20%D0%BE%D1%82%D0%B5%D0%BB%D1%8C%20Cosmos%20Saint-Petersburg%20Pribaltiyskaya%20Hotel
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

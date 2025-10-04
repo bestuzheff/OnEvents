@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:15302749280059d0bea2bfc828e47c0d@onevents.ru
+DTSTART:20251008T100000
+DTEND:20251008T140000
+SUMMARY:Единый семинар 1С (8 октября)
+DESCRIPTION:Единый семинар — это бесплатное мероприятие\, которое полезно бухгалтерам\, руководителям организаций\, ИT‑специалистам\, директорам по персоналу и специалистам кадровых служб.\n\nСсылка на регистрацию: https://es.1c.ru/register\n\nВремя: 10:00-14:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

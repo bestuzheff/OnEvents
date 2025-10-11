@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:b76408bc26ddbbff1056c8c7a4e22ba0@onevents.ru
+DTSTART:20251012T113000
+DTEND:20251012T150000
+SUMMARY:Завтрак Клуба Питерских Одинэсников (12 октября)
+DESCRIPTION:Неформальные ежемесячные встречи питерских одинесников. ⚡️В этот раз я решила пригласить заранее всех на завтрак\, который будет на следующий день после инфостарта. 💛Очень ждём гостей из других городов! Приходите к нам вкусно есть\, пить кофе и делиться впечатлениями и опытом. (Регистрация через бота)\n\nСсылка на регистрацию: https://t.me/therapy_1c_bot\n\nВремя: 11:30-15:00\n\nПоказать на карте: https://clck.ru/3PbdnC
+LOCATION:Санкт-Петербург, набережная Обводного канала, 118С, Vokzal 1853
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

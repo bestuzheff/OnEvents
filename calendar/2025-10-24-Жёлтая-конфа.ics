@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:302e9d9d406d4eee30b01590d89d1fcc@onevents.ru
+DTSTART:20251024T090000
+DTEND:20251024T181000
+SUMMARY:Жёлтая конфа (24 октября)
+DESCRIPTION:Конференция для аналитиков\, программистов и других специалистов из сферы 1С. Мы объединили специалистов 1С\, чтобы поговорить об успешных кейсах и методиках внедрения\, новинках платформы и карьерных перспективах в сфере 1С.\n\nСсылка на регистрацию: https://cors.su/zhyoltaya-konfa\n\nВремя: 09:00-18:10\n\nПоказать на карте: https://clck.ru/3PTX6B
+LOCATION:Москва, Ленинградский пр-т., 37 к. 9
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

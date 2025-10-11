@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:cd35ce20c03ca3a6a4545b9404944c20@onevents.ru
+DTSTART:20251026T120000
+DTEND:20251026T160000
+SUMMARY:Круглый стол от проекта 'ИТ-Бранчи 1Сников' (26 октября)
+DESCRIPTION:Круглый стол по теме обучения. Как учимся\, чему учимся\, где находим время. Обмен мнениями и живое общение\n\nСсылка на регистрацию: https://yellownote.timepad.ru/event/3612969\n\nВремя: 12:00-16:00\n\nПоказать на карте: https://clck.ru/3PccNA
+LOCATION:Санкт-Петербург, ул. Гороховая, 16
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

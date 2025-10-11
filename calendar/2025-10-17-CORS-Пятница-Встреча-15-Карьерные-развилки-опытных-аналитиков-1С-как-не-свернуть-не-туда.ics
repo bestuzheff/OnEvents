@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:50875fa74953970477fbd9829dabacbb@onevents.ru
+DTSTART:20251017T160000
+DTEND:20251017T180000
+SUMMARY:CORS Пятница. Встреча №15 «Карьерные развилки опытных аналитиков 1С: как не 'свернуть не туда'» (17 октября)
+DESCRIPTION:CORS Пятница — бесплатное мероприятие для специалистов 1С (аналитиков\, консультантов\, разработчиков\, руководителей проектов\, архитекторов). Формат мероприятия — онлайн встреча в Zoom. Каждую встречу поднимается одна тема. Сперва выступает приглашенный хедлайнер\, а затем можно пообсуждать тему в свободном формате.\n\nСсылка на регистрацию: https://cors-consulting.timepad.ru/event/3569890/\n\nВремя: 16:00-18:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

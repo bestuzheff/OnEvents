@@ -402,6 +402,7 @@ def render_event(e):
 
     return f"""
     <article class="card" itemscope itemtype="https://schema.org/Event" data-city="{e['city']}" id="{event_id}">
+      <button class="share-event-btn" data-event-id="{event_id}" title="Поделиться ссылкой на событие">🔗</button>
       <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
         <img class="logo-img" alt="Логотип «{e['title']}»" 
              src="img/{e['icon']}" width="72" height="72" 
@@ -424,7 +425,6 @@ def render_event(e):
       <div class="event-actions">
         <a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>
         <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
-        <button class="share-event-btn" data-event-id="{event_id}" title="Поделиться ссылкой на событие">🔗 Поделиться</button>
       </div>
     </article>
     """

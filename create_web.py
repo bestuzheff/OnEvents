@@ -26,6 +26,9 @@ for file in EVENTS_DIR.glob("*.yml"):
     with open(file, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
+    # Добавляем имя файла к данным события (без расширения .yml)
+    data['filename'] = file.stem
+    
     event_date = datetime.strptime(data["date"], "%Y-%m-%d").date()
     all_events.append(data)
     if event_date >= datetime.today().date():
@@ -366,11 +369,9 @@ def generate_event_calendars(events, calendar_dir):
 
 # Функция генерации ID события для якорных ссылок
 def generate_event_id(event):
-    """Генерирует уникальный ID для события на основе даты и названия"""
-    # Используем дату и безопасное название
-    safe_title = SAFE_CHARS_PATTERN.sub('', event['title']).strip()
-    safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
-    return f"event-{event['date']}-{safe_title}".lower()
+    """Генерирует уникальный ID для события на основе имени файла"""
+    # Используем имя файла как основу для ID (оно уже содержит дату и краткое описание)
+    return f"event-{event['filename']}"
 
 # Функция генерации карточки
 def render_event(e):

@@ -151,6 +151,45 @@
         .calendar-copy-btn {
             font-size: 14px;
         }
+        
+        /* Стили для действий с событиями */
+        .event-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .share-event-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9em;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .share-event-btn:hover {
+            background: var(--border);
+            color: var(--link);
+        }
+        .share-event-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Стили для якорных ссылок */
+        .card {
+            scroll-margin-top: 100px;
+        }
+        .card.highlighted {
+            border-color: var(--link);
+            box-shadow: 0 0 0 2px rgba(123, 179, 255, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -358,6 +397,95 @@
   } else {
     initCopyButtons();
   }
+})();
+</script>
+
+<script>
+// Функциональность "Поделиться ссылкой" для событий
+(function shareEventLinks() {
+  function copyToClipboard(text) {
+    if (navigator.clipboard) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      // Fallback для старых браузеров
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        return Promise.resolve();
+      } catch (err) {
+        return Promise.reject(err);
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+  }
+
+  function initShareButtons() {
+    document.querySelectorAll('.share-event-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const eventId = this.getAttribute('data-event-id');
+        const eventUrl = `${window.location.origin}${window.location.pathname}#${eventId}`;
+        
+        copyToClipboard(eventUrl).then(() => {
+          // Временная смена текста на "Скопировано!"
+          const originalText = this.innerHTML;
+          this.innerHTML = '✓ Скопировано!';
+          this.style.color = 'var(--link)';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+            this.style.color = '';
+          }, 2000);
+        }).catch(() => {
+          // Fallback - показываем URL в alert
+          alert('Скопируйте ссылку: ' + eventUrl);
+        });
+      });
+    });
+  }
+
+  // Подсветка события при переходе по якорной ссылке
+  function highlightEventFromHash() {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#event-')) {
+      const eventElement = document.querySelector(hash);
+      if (eventElement) {
+        // Убираем предыдущую подсветку
+        document.querySelectorAll('.card.highlighted').forEach(el => {
+          el.classList.remove('highlighted');
+        });
+        
+        // Добавляем подсветку к текущему событию
+        eventElement.classList.add('highlighted');
+        
+        // Убираем подсветку через 3 секунды
+        setTimeout(() => {
+          eventElement.classList.remove('highlighted');
+        }, 3000);
+      }
+    }
+  }
+
+  // Инициализация при загрузке страницы
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      initShareButtons();
+      highlightEventFromHash();
+    });
+  } else {
+    initShareButtons();
+    highlightEventFromHash();
+  }
+
+  // Обработка изменения хеша в URL
+  window.addEventListener('hashchange', highlightEventFromHash);
 })();
 </script>
 </body>

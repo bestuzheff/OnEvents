@@ -364,6 +364,14 @@ def generate_event_calendars(events, calendar_dir):
         ics_file_path = calendar_dir / ics_filename
         ics_file_path.write_text(ics_content, encoding="utf-8")
 
+# Функция генерации ID события для якорных ссылок
+def generate_event_id(event):
+    """Генерирует уникальный ID для события на основе даты и названия"""
+    # Используем дату и безопасное название
+    safe_title = SAFE_CHARS_PATTERN.sub('', event['title']).strip()
+    safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
+    return f"event-{event['date']}-{safe_title}".lower()
+
 # Функция генерации карточки
 def render_event(e):
     date_obj = datetime.strptime(e['date'], "%Y-%m-%d")
@@ -383,14 +391,17 @@ def render_event(e):
     # Добавляем UTM метки к ссылке регистрации
     registration_url_with_utm = add_utm_marks(e['registration_url'])
     
+    # Генерируем уникальный ID для события
+    event_id = generate_event_id(e)
+    
     # Добавляем ссылку на карту
     map_url = map_link(e['city'], e['address'])
     map_link_html = ""
     if map_url:
         map_link_html = f' <a href="{map_url}" target="_blank" class="map-link" title="Показать на карте">Показать на карте</a>'
- 
+
     return f"""
-    <article class="card" itemscope itemtype="https://schema.org/Event"  data-city="{e['city']}">
+    <article class="card" itemscope itemtype="https://schema.org/Event" data-city="{e['city']}" id="{event_id}">
       <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
         <img class="logo-img" alt="Логотип «{e['title']}»" 
              src="img/{e['icon']}" width="72" height="72" 
@@ -410,8 +421,11 @@ def render_event(e):
         </div>
       </div>
       <p>{e['description']}</p>
-      <a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>
-      <a href="calendar/{ics_filename}" role="button" download="{ics_filename}" style="margin-left:0.5rem;">Добавить в календарь</a>
+      <div class="event-actions">
+        <a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>
+        <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
+        <button class="share-event-btn" data-event-id="{event_id}" title="Поделиться ссылкой на событие">🔗 Поделиться</button>
+      </div>
     </article>
     """
 

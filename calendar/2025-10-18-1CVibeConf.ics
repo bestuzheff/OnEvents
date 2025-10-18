@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:acd331cba48e6a8b9e3b541755ca2b47@onevents.ru
+DTSTART:20251018T120000
+DTEND:20251018T181000
+SUMMARY:1CVibeConf (18 октября)
+DESCRIPTION:Как нейросеть сгенерировала рабочий модуль на 3143 строки кода для 1С? На онлайн-конференции автор этого кейса и другие эксперты расскажут\, как это работает и как вам повторить этот опыт. Без магии\, только технологии.\n\nСсылка на регистрацию: https://vibecoding1c.ru/conference\n\nВремя: 12:00-18:10
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

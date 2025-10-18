@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:3c85b99883680e245772f5e18311bc91@onevents.ru
+DTSTART:20251030T140000
+DTEND:20251030T170000
+SUMMARY:BitUp «Искусственный интеллект в 1С» (30 октября)
+DESCRIPTION:Онлайн-митап для 1С-разработчиков\, аналитиков и руководителей. Узнайте от экспертов «Первого Бита»\, как безопасно и эффективно внедрять ИИ в проекты 1С — от автоматизации рутины до создания умных помощников.\n\nСсылка на регистрацию: https://1solution.ru/events/future/bitup-2025-iskusstvennyy-intellekt-v-1s/?utm_source=website&utm_medium=onevents\n\nВремя: 14:00-17:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

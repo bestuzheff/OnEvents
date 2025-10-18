@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:3e396e311d38e6e5592c2065261b8c97@onevents.ru
+DTSTART:20251121T093000
+DTEND:20251121T180000
+SUMMARY:1Событие Для малого бизнеса (21 ноября)
+DESCRIPTION:Это первая специализированная конференция 1С\, сфокусированная исключительно на запросах малого бизнеса. Программа построена на практических кейсах\, живом общении с экспертами и возможностью лично протестировать решения.\n\nСсылка на регистрацию: https://1c-event.ru/\n\nВремя: 09:30-18:00\n\nПоказать на карте: https://clck.ru/3PjFYC
+LOCATION:Москва, МО, Красногорск, Международная ул., д. 16, метро «Мякинино», МВЦ «Крокус Экспо»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

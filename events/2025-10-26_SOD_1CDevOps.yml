@@ -1,0 +1,11 @@
+title: "Стрим 1С и DevOps. Владимир Пашковский и Иосиф Правец"
+date: "2025-09-18"
+city: "Online" 
+address: ""
+icon: "SOD_1CDevOps.png"
+description: "Стрим про DevOps в 1С. Иосиф Правец в гостях у Владимира Пашковского. Обсудим зачем нужно применять DevOps-практики в 1С."
+registration_url: "https://t.me/secrets_of_devops/37"
+sessions:
+  - date: "2025-10-26"
+    start_time: "15:00"
+    end_time: "17:00"

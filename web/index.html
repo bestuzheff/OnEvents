@@ -95,11 +95,11 @@
                 scroll-margin-top: 160px;
             }
             
-            /* Уменьшаем размер кнопки поделиться на мобильных */
-            .share-event-btn {
-                width: 2rem;
-                height: 2rem;
-                font-size: 1em;
+            /* Уменьшаем размер кнопки копирования на мобильных */
+            .event-copy-btn {
+                width: 18px;
+                height: 18px;
+                font-size: 12px;
                 top: 0.75rem;
                 right: 0.75rem;
             }
@@ -170,6 +170,34 @@
             transform: translateY(-50%) scale(0.9);
         }
         
+        /* Стили для кнопки копирования ссылки события */
+        .event-copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 3px;
+            color: var(--muted);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            z-index: 10;
+        }
+        .event-copy-btn:hover {
+            color: var(--link);
+            background: var(--border);
+        }
+        .event-copy-btn:active {
+            transform: scale(0.9);
+        }
+        
         /* Стили для действий с событиями */
         .event-actions {
             display: flex;
@@ -178,49 +206,6 @@
             margin-top: 1rem;
         }
         
-        /* Стили для кнопки "Поделиться" в виде иконки */
-        .share-event-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: transparent;
-            border: none;
-            color: var(--muted);
-            padding: 0.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            z-index: 10;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-        .share-event-btn:hover {
-            background: var(--border);
-            color: var(--link);
-            transform: scale(1.1);
-        }
-        .share-event-btn:active {
-            transform: scale(0.95);
-        }
-        .share-event-btn.copied {
-            width: auto;
-            min-width: 7rem;
-            border-radius: 1.25rem;
-            background: var(--link);
-            color: white;
-            font-size: 0.85em;
-            padding: 0.5rem 1rem;
-        }
-        .share-event-btn.copying {
-            pointer-events: none;
-            opacity: 0.8;
-        }
         
         /* Стили для якорных ссылок */
         .card {
@@ -474,8 +459,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 </script>
 
 <script>
-// Функциональность "Поделиться ссылкой" для событий
-(function shareEventLinks() {
+// Функциональность копирования ссылок событий
+(function copyEventLinks() {
   function copyToClipboard(text) {
     if (navigator.clipboard) {
       return navigator.clipboard.writeText(text);
@@ -497,46 +482,44 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   }
 
-  function initShareButtons() {
-    document.querySelectorAll('.share-event-btn').forEach(btn => {
+  function initEventCopyButtons() {
+    document.querySelectorAll('.event-copy-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         
-        // Проверяем, не выполняется ли уже анимация
-        if (this.classList.contains('copying')) {
-          return;
-        }
-        
         const eventId = this.getAttribute('data-event-id');
-        const eventUrl = `${window.location.origin}${window.location.pathname}#${eventId}`;
+        const url = `${window.location.origin}${window.location.pathname}#${eventId}`;
         
-        copyToClipboard(eventUrl).then(() => {
-          // Блокируем повторные нажатия
-          this.classList.add('copying');
-          
-          // Сохраняем оригинальный текст если его еще нет
-          if (!this.dataset.originalText) {
-            this.dataset.originalText = this.innerHTML;
-          }
-          
-          // Временная смена текста на "Скопировано!"
-          this.innerHTML = '✓ Скопировано!';
-          this.classList.add('copied');
+        copyToClipboard(url).then(() => {
+          // Временная смена иконки на галочку
+          const originalText = this.textContent;
+          this.textContent = '✓';
+          this.style.color = 'var(--link)';
           
           setTimeout(() => {
-            this.innerHTML = this.dataset.originalText;
-            this.classList.remove('copied');
-            this.classList.remove('copying');
+            this.textContent = originalText;
+            this.style.color = '';
           }, 2000);
         }).catch(() => {
           // Fallback - показываем URL в alert
-          alert('Скопируйте ссылку: ' + eventUrl);
+          alert('Скопируйте ссылку: ' + url);
         });
       });
     });
   }
 
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEventCopyButtons);
+  } else {
+    initEventCopyButtons();
+  }
+})();
+</script>
+
+<script>
+// Функциональность подсветки событий при переходе по якорной ссылке
+(function highlightEvents() {
   // Подсветка события при переходе по якорной ссылке
   function highlightEventFromHash() {
     const hash = window.location.hash;
@@ -575,12 +558,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
   // Инициализация при загрузке страницы
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      initShareButtons();
-      highlightEventFromHash();
-    });
+    document.addEventListener('DOMContentLoaded', highlightEventFromHash);
   } else {
-    initShareButtons();
     highlightEventFromHash();
   }
 

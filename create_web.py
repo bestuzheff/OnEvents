@@ -403,7 +403,7 @@ def render_event(e):
 
     return f"""
     <article class="card" itemscope itemtype="https://schema.org/Event" data-city="{e['city']}" id="{event_id}">
-      <button class="share-event-btn" data-event-id="{event_id}" title="Поделиться ссылкой на событие">🔗</button>
+      <button class="event-copy-btn" data-event-id="{event_id}" title="Копировать ссылку на событие">📋</button>
       <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
         <img class="logo-img" alt="Логотип «{e['title']}»" 
              src="img/{e['icon']}" width="72" height="72" 

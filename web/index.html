@@ -89,9 +89,29 @@
         @media (max-width:600px) {
             .header-inner {flex-direction:column;align-items:center;text-align:center;}
             nav {margin-top:.5em;flex-direction:column;gap:.5em;}
+            
+            /* Увеличиваем отступ для якорных ссылок на мобильных */
+            .card {
+                scroll-margin-top: 160px;
+            }
+            
+            /* Уменьшаем размер кнопки копирования на мобильных */
+            .event-copy-btn {
+                width: 18px;
+                height: 18px;
+                font-size: 12px;
+                top: 0.75rem;
+                right: 0.75rem;
+            }
         }
         #about { scroll-margin-top: 80px; }
         #public-calendars { scroll-margin-top: 80px; }
+        
+        /* Дополнительные отступы для мобильных */
+        @media (max-width:600px) {
+            #about { scroll-margin-top: 160px; }
+            #public-calendars { scroll-margin-top: 200px; }
+        }
         
         /* Стили для блока публичных календарей */
         .calendar-item {
@@ -140,6 +160,7 @@
             justify-content: center;
             width: 20px;
             height: 20px;
+            font-size: 14px;
         }
         .calendar-copy-btn:hover {
             color: var(--link);
@@ -148,8 +169,52 @@
         .calendar-copy-btn:active {
             transform: translateY(-50%) scale(0.9);
         }
-        .calendar-copy-btn {
+        
+        /* Стили для кнопки копирования ссылки события */
+        .event-copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 3px;
+            color: var(--muted);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
             font-size: 14px;
+            z-index: 10;
+        }
+        .event-copy-btn:hover {
+            color: var(--link);
+            background: var(--border);
+        }
+        .event-copy-btn:active {
+            transform: scale(0.9);
+        }
+        
+        /* Стили для действий с событиями */
+        .event-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        
+        /* Стили для якорных ссылок */
+        .card {
+            scroll-margin-top: 100px;
+            position: relative;
+        }
+        .card.highlighted {
+            border-color: var(--link);
+            box-shadow: 0 0 0 2px rgba(123, 179, 255, 0.2);
         }
     </style>
 </head>
@@ -231,7 +296,39 @@
 <footer role="contentinfo"><small>© OnEvents, 2025. Дата актуальности: {{ builddate }}</small></footer>
 
 <script>(function themeToggle(){const btn=document.getElementById('themeToggle');const icon=document.getElementById('themeIcon');const root=document.documentElement;function isDark(){return root.classList.contains('dark-theme');}function setTheme(mode){if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='🌙';}else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='☀️';}try{localStorage.setItem('theme',mode);}catch(e){}}btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});try{const saved=localStorage.getItem('theme');if(saved==='dark'){icon.textContent='🌙';btn.setAttribute('aria-pressed','true');}else if(saved==='light'){icon.textContent='☀️';btn.setAttribute('aria-pressed','false');}else{if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){icon.textContent='🌙';btn.setAttribute('aria-pressed','true');}else{icon.textContent='☀️';btn.setAttribute('aria-pressed','false');}}}catch(e){}})();</script>
-<script>document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){const targetId=this.getAttribute("href").substring(1);if(!targetId)return;const targetEl=document.getElementById(targetId);if(targetEl){e.preventDefault();targetEl.scrollIntoView({behavior:"smooth"});history.pushState(null,"","#"+targetId);}});});</script>
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function(e) {
+    const targetId = this.getAttribute("href").substring(1);
+    if (!targetId) return;
+    
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      e.preventDefault();
+      
+      // Получаем высоту хедера
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      
+      // Дополнительный отступ для мобильных устройств
+      const isMobile = window.innerWidth <= 600;
+      const extraOffset = isMobile ? 40 : 20; // дополнительный отступ
+      
+      // Вычисляем позицию с учетом высоты хедера и дополнительного отступа
+      const targetPosition = targetEl.offsetTop - headerHeight - extraOffset;
+      
+      // Плавный скролл к вычисленной позиции
+      window.scrollTo({
+        top: Math.max(0, targetPosition),
+        behavior: "smooth"
+      });
+      
+      // Обновляем URL
+      history.pushState(null, "", "#" + targetId);
+    }
+  });
+});
+</script>
 <script>
 (function cityFilterInit(){
   const SELECT_ID = 'cityFilter';
@@ -358,6 +455,116 @@
   } else {
     initCopyButtons();
   }
+})();
+</script>
+
+<script>
+// Функциональность копирования ссылок событий
+(function copyEventLinks() {
+  function copyToClipboard(text) {
+    if (navigator.clipboard) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      // Fallback для старых браузеров
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        return Promise.resolve();
+      } catch (err) {
+        return Promise.reject(err);
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+  }
+
+  function initEventCopyButtons() {
+    document.querySelectorAll('.event-copy-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const eventId = this.getAttribute('data-event-id');
+        const url = `${window.location.origin}${window.location.pathname}#${eventId}`;
+        
+        copyToClipboard(url).then(() => {
+          // Временная смена иконки на галочку
+          const originalText = this.textContent;
+          this.textContent = '✓';
+          this.style.color = 'var(--link)';
+          
+          setTimeout(() => {
+            this.textContent = originalText;
+            this.style.color = '';
+          }, 2000);
+        }).catch(() => {
+          // Fallback - показываем URL в alert
+          alert('Скопируйте ссылку: ' + url);
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEventCopyButtons);
+  } else {
+    initEventCopyButtons();
+  }
+})();
+</script>
+
+<script>
+// Функциональность подсветки событий при переходе по якорной ссылке
+(function highlightEvents() {
+  // Подсветка события при переходе по якорной ссылке
+  function highlightEventFromHash() {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#event-')) {
+      const eventElement = document.querySelector(hash);
+      if (eventElement) {
+        // Убираем предыдущую подсветку
+        document.querySelectorAll('.card.highlighted').forEach(el => {
+          el.classList.remove('highlighted');
+        });
+        
+        // Добавляем подсветку к текущему событию
+        eventElement.classList.add('highlighted');
+        
+        // Корректируем позицию скролла с учетом хедера
+        setTimeout(() => {
+          const header = document.querySelector('header');
+          const headerHeight = header ? header.offsetHeight : 0;
+          const isMobile = window.innerWidth <= 600;
+          const extraOffset = isMobile ? 40 : 20;
+          const targetPosition = eventElement.offsetTop - headerHeight - extraOffset;
+          
+          window.scrollTo({
+            top: Math.max(0, targetPosition),
+            behavior: "smooth"
+          });
+        }, 100); // небольшая задержка для корректной работы
+        
+        // Убираем подсветку через 3 секунды
+        setTimeout(() => {
+          eventElement.classList.remove('highlighted');
+        }, 3000);
+      }
+    }
+  }
+
+  // Инициализация при загрузке страницы
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', highlightEventFromHash);
+  } else {
+    highlightEventFromHash();
+  }
+
+  // Обработка изменения хеша в URL
+  window.addEventListener('hashchange', highlightEventFromHash);
 })();
 </script>
 </body>

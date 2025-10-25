@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:bee3a274698f39b38c01702880154bf3@onevents.ru
+DTSTART:20251026T150000
+DTEND:20251026T170000
+SUMMARY:Стрим 1С и DevOps. Владимир Пашковский и Иосиф Правец (26 октября)
+DESCRIPTION:Стрим про DevOps в 1С. Иосиф Правец в гостях у Владимира Пашковского. Обсудим зачем нужно применять DevOps-практики в 1С.\n\nСсылка на регистрацию: https://t.me/secrets_of_devops/37\n\nВремя: 15:00-17:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

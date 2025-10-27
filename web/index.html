@@ -66,10 +66,65 @@
             padding: 1em;
         }
         .header-inner {max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
-        .logo {font-size:2em;font-weight:bold; display: flex; align-items: center;}
+        .logo {font-size:1.75em;font-weight:bold; display: flex; align-items: center;}
         .logo-onevents {height: 32px; width: auto;}
         nav {display:flex;gap:1em;align-items:center;}
         .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;}
+        
+        /* Бургер-меню */
+        .burger-container {
+            position: relative;
+        }
+        .burger-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--header-text);
+            font-size: 1.5rem;
+        }
+        .burger-menu-btn:hover {
+            opacity: 0.8;
+        }
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 999;
+            min-width: 180px;
+        }
+        .mobile-menu nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            width: 100%;
+        }
+        .mobile-menu nav a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: ;
+        }
+        .mobile-menu nav a:hover {
+            background: var(--border);
+            color: var(--link);
+        }
+        .mobile-menu.open {
+            display: block;
+        }
+        nav.main-nav {
+            display: none;
+        }
 
         .container {max-width:1000px;margin:2em auto;padding:0 1em;}
         article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
@@ -86,32 +141,9 @@
 
         .icon svg {width:20px;height:20px;fill:currentColor;}
 
-        @media (max-width:600px) {
-            .header-inner {flex-direction:column;align-items:center;text-align:center;}
-            nav {margin-top:.5em;flex-direction:column;gap:.5em;}
-            
-            /* Увеличиваем отступ для якорных ссылок на мобильных */
-            .card {
-                scroll-margin-top: 160px;
-            }
-            
-            /* Уменьшаем размер кнопки копирования на мобильных */
-            .event-copy-btn {
-                width: 18px;
-                height: 18px;
-                font-size: 12px;
-                top: 0.75rem;
-                right: 0.75rem;
-            }
-        }
         #about { scroll-margin-top: 80px; }
         #public-calendars { scroll-margin-top: 80px; }
         
-        /* Дополнительные отступы для мобильных */
-        @media (max-width:600px) {
-            #about { scroll-margin-top: 160px; }
-            #public-calendars { scroll-margin-top: 200px; }
-        }
         
         /* Стили для блока публичных календарей */
         .calendar-item {
@@ -228,16 +260,23 @@
       <img class="logo-onevents" src="icons/web-app-manifest-192x192.png">
       OnEvents
     </div>
-    <nav aria-label="Главное меню">
+    <div style="display: flex; align-items: center; gap: 1rem;">
       <label for="cityFilter" class="sr-only">Фильтр по городу</label>
       <select id="cityFilter" class="pure-input">
         <option value="">Все города</option>
       </select>
-      <a href="#top">События</a>
-      <a href="#public-calendars">Календари</a>
-      <a href="#about">О проекте</a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
-    </nav>
+      <div class="burger-container">
+        <button class="burger-menu-btn" id="burgerMenuBtn" type="button" aria-label="Открыть меню">☰</button>
+        <div class="mobile-menu" id="mobileMenu">
+          <nav>
+            <a href="#top" class="mobile-menu-link">События</a>
+            <a href="#public-calendars" class="mobile-menu-link">Календари</a>
+            <a href="#about" class="mobile-menu-link">О проекте</a>
+          </nav>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -516,6 +555,43 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   }
 })();
 </script>
+
+<script>
+// Функциональность бургер-меню
+(function burgerMenu() {
+  const burgerBtn = document.getElementById('burgerMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  if (!burgerBtn || !mobileMenu) return;
+  
+  burgerBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    mobileMenu.classList.toggle('open');
+    
+    // Меняем иконку
+    const icon = this.textContent;
+    this.textContent = icon === '☰' ? '✕' : '☰';
+  });
+  
+  // Закрываем меню при клике вне его или при клике на ссылку
+  document.addEventListener('click', function(e) {
+    if (!mobileMenu.contains(e.target) && e.target !== burgerBtn) {
+      mobileMenu.classList.remove('open');
+      burgerBtn.textContent = '☰';
+    }
+  });
+  
+  // Закрываем меню при клике на ссылки
+  mobileMenu.querySelectorAll('.mobile-menu-link').forEach(link => {
+    link.addEventListener('click', function() {
+      mobileMenu.classList.remove('open');
+      burgerBtn.textContent = '☰';
+    });
+  });
+})();
+</script>
+
 
 <script>
 // Функциональность подсветки событий при переходе по якорной ссылке

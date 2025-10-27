@@ -68,6 +68,26 @@
         .header-inner {max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
         .logo {font-size:1.75em;font-weight:bold; display: flex; align-items: center;}
         .logo-onevents {height: 32px; width: auto;}
+        
+        @media (max-width: 600px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            .logo {
+                font-size: 1.75em;
+                width: 100%;
+                justify-content: center;
+            }
+            .logo-onevents {
+                height: 28px;
+            }
+            div[style*="flex"] {
+                width: 100%;
+                justify-content: center;
+            }
+        }
         nav {display:flex;gap:1em;align-items:center;}
         .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;}
         
@@ -113,7 +133,7 @@
             text-decoration: none;
             border-radius: 4px;
             transition: all 0.2s;
-            font-size: ;
+            font-size: 0.95em;
         }
         .mobile-menu nav a:hover {
             background: var(--border);
@@ -308,8 +328,7 @@
       <article class="card"><div class="card-header"><span class="icon">🤝</span><h4 class="card-title">Сообщество</h4></div><p>Возможность найти единомышленников и поделиться своим опытом с коллегами.</p></article>
       <article class="card"><div class="card-header"><span class="icon">🌐</span><h4 class="card-title">Открытость</h4></div><p>Проект с открытым исходным кодом, где каждый может внести свой вклад.</p></article>
       <article class="card"><div class="card-header"><span class="icon">💬</span><h4 class="card-title">Telegram</h4></div><p>Все события дублируем и в <a href="https://t.me/OnEvents" target="_blank">Telegram</a> — подписывайтесь!</p></article>
-    
-    
+      <article class="card"><div class="card-header"><span class="icon">💬</span><h4 class="card-title">вконтакте</h4></div><p>Теперь у нас есть группа <a href="https://vk.com/onevents_ru" target="_blank">вконтакте</a></p></article>
     </div>
 
     <h3>Как это работает</h3>

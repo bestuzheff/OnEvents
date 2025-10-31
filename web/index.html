@@ -71,21 +71,26 @@
         
         @media (max-width: 600px) {
             .header-inner {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
-                gap: 1rem;
+                gap: .75rem;
+                flex-wrap: nowrap;
             }
             .logo {
                 font-size: 1.75em;
-                width: 100%;
-                justify-content: center;
+                width: auto;
+                justify-content: flex-start;
             }
             .logo-onevents {
                 height: 28px;
             }
-            div[style*="flex"] {
-                width: 100%;
-                justify-content: center;
+            #headerControls {
+                display: flex;
+                width: auto;
+                margin-left: auto;
+                justify-content: flex-end;
+                gap: .5rem;
+                flex-wrap: nowrap;
             }
         }
         nav {display:flex;gap:1em;align-items:center;}
@@ -147,6 +152,9 @@
         .mobile-menu.open {
             display: block;
         }
+        /* Фильтр города внутри бургер-меню */
+        .mobile-menu .city-filter-wrapper { padding: 0.25rem 0.5rem 0.5rem; }
+        .mobile-menu #cityFilter { width: 100%; }
         nav.main-nav {
             display: none;
         }
@@ -285,7 +293,7 @@
       <img class="logo-onevents" src="icons/web-app-manifest-192x192.png">
       OnEvents
     </div>
-    <div style="display: flex; align-items: center; gap: 1rem;">
+    <div id="headerControls" style="display: flex; align-items: center; gap: 1rem;">
       <label for="cityFilter" class="sr-only">Фильтр по городу</label>
       <select id="cityFilter" class="pure-input">
         <option value="">Все города</option>
@@ -295,6 +303,7 @@
         <button class="burger-menu-btn" id="burgerMenuBtn" type="button" aria-label="Открыть меню">☰</button>
         <div class="mobile-menu" id="mobileMenu">
           <nav>
+            <div id="mobileCityFilterWrapper" class="city-filter-wrapper"></div>
             <a href="#top" class="mobile-menu-link">События</a>
             <a href="#public-calendars" class="mobile-menu-link">Календари</a>
             <a href="#about" class="mobile-menu-link">О проекте</a>
@@ -442,6 +451,14 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const val = e.target.value;
     saveSelected(val);
     applyFilter(val);
+    // Закрываем бургер-меню при выборе города на мобильных
+    const mobileMenu = document.getElementById('mobileMenu');
+    const burgerBtn = document.getElementById('burgerMenuBtn');
+    const isMobile = window.innerWidth <= 600;
+    if (isMobile && mobileMenu && mobileMenu.contains(e.target)) {
+      mobileMenu.classList.remove('open');
+      if (burgerBtn) burgerBtn.textContent = '☰';
+    }
   }
   function init(){
     const sel = document.getElementById(SELECT_ID);
@@ -616,6 +633,51 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 })();
 </script>
 
+
+<script>
+// Перенос фильтра города в бургер-меню на мобильных
+(function relocateCityFilter(){
+  const MOBILE_MAX = 600;
+  const selectEl = document.getElementById('cityFilter');
+  const headerControls = document.getElementById('headerControls');
+  const themeToggle = document.getElementById('themeToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (!selectEl || !headerControls || !mobileMenu) return;
+
+  const nav = mobileMenu.querySelector('nav');
+  let mobileWrapper = document.getElementById('mobileCityFilterWrapper');
+  if (!mobileWrapper && nav) {
+    mobileWrapper = document.createElement('div');
+    mobileWrapper.id = 'mobileCityFilterWrapper';
+    mobileWrapper.className = 'city-filter-wrapper';
+    nav.insertBefore(mobileWrapper, nav.firstChild);
+  }
+
+  function updatePlacement(){
+    const isMobile = window.innerWidth <= MOBILE_MAX;
+    if (isMobile) {
+      if (mobileWrapper && selectEl.parentElement !== mobileWrapper) {
+        mobileWrapper.appendChild(selectEl);
+      }
+    } else {
+      if (selectEl.parentElement !== headerControls) {
+        if (themeToggle && themeToggle.parentElement === headerControls) {
+          headerControls.insertBefore(selectEl, themeToggle);
+        } else {
+          headerControls.appendChild(selectEl);
+        }
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updatePlacement);
+  } else {
+    updatePlacement();
+  }
+  window.addEventListener('resize', updatePlacement);
+})();
+</script>
 
 <script>
 // Функциональность подсветки событий при переходе по якорной ссылке

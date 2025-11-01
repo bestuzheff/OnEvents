@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:924f90fe8d65bc1f8e10be548aeb0df1@onevents.ru
+DTSTART:20251120T093000
+DTEND:20251120T190000
+SUMMARY:Бизнес-форум 1С:ERP 2025 (20 ноября)
+DESCRIPTION:Фирма «1С» приглашает пользователей\, потенциальных клиентов и партнеров принять участие в 12-м Бизнес-форуме 1С:ERP\, посвященном внедрениям и развитию решений и сервисов «1С» для корпоративного рынка\, предприятий крупного и среднего масштаба.\n\nСсылка на регистрацию: https://1c.ru/bf/default.jsp\n\nВремя: 09:30-19:00\n\nПоказать на карте: https://clck.ru/3PTX6D
+LOCATION:Москва, МО, Красногорск, Международная ул., д. 16, метро «Мякинино», МВЦ «Крокус Экспо» (павильон №1)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:b890292f049b484c0cd5fbc61cf0219d@onevents.ru
+DTSTART:20251107T140000
+DTEND:20251107T150000
+SUMMARY:Зачем учить ArchiMate? (7 ноября)
+DESCRIPTION:Настоящее и будущее нотации для начинающих архитекторов. Единый язык для архитекторов. Как перестать «рисовать схемы ради схем» и начать проектировать бизнес и ИТ системно.\n\nСсылка на регистрацию: https://cors-consulting.timepad.ru/event/3651090/\n\nВремя: 14:00-15:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:7073b504b5f154041fc28ecff8d14f6b@onevents.ru
+DTSTART:20251113T170000
+DTEND:20251113T220000
+SUMMARY:Воркшоп: Что такое долг в ИТ и как с ним работать? (13 ноября)
+DESCRIPTION:Ноябрь\, год уже близится к концу. Нужно задумываться о подведении не только положительных моментов (итогов) 2025 года\, но и ... накопленном тех долге. И формировать планы по его сокращению на следующий год.\n\nСсылка на регистрацию: https://t.me/therapy_1c/740\n\nВремя: 17:00-22:00\n\nПоказать на карте: https://clck.ru/3Q6XUb
+LOCATION:Санкт-Петербург, улица Цветочная дом 19
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:29fb18804f76619dfac45f4ac1808d8a@onevents.ru
+DTSTART:20251102T123000
+DTEND:20251102T180000
+SUMMARY:Клуб Питерских Одинесников идет гулять! (2 ноября)
+DESCRIPTION:В воскресенье 2 ноября идём гулять по Еловым холмам. ☕️Если ты не боишься грязи\, знаешь\, как утепляться в дождь и готовишь лучший глинтвейн\, то давай регистрируйся через бот к нам на прогулку\, бери с собой мужа/жену/собаку/хомячка/друга... Напоминаю\, что прогулки полезны для ментального здоровья.\n\nСсылка на регистрацию: https://t.me/therapy_1c_bot\n\nВремя: 12:30-18:00\n\nПоказать на карте: https://clck.ru/3Q3cFx
+LOCATION:Санкт-Петербург, экотропа Еловые холмы
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

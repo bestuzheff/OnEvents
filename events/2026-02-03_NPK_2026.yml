@@ -2,9 +2,9 @@ title: "Новые информационные технологии в обра
 date: "2026-02-03"       
 city: "Москва"
 address: "проспект Мира, д. 150, Гостиница «Космос»"
-icon: "1c-event.jpg"
+icon: "logo1c.png"
 description: "В поисках баланса количества и качества подготовки специалистов для цифровой экономики на базе решений 1С."
-registration_url: "https://educonf.1c.ru/conf2026/visitors/registration/"
+registration_url: "https://educonf.1c.ru/conf2026/"
 sessions:
   - date: "2026-02-03"
     start_time: "10:00"

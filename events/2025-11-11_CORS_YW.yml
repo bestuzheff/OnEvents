@@ -1,0 +1,11 @@
+title: "Жёлтый вебинар"
+date: "2025-11-11"
+city: "Online"
+address: ""
+icon: "cors_academy.jpg"
+description: "Документация? Слишком длинно, не читал... Неформальная встреча о том, как писать документацию в 1С и не сойти с ума."
+registration_url: "https://cors-consulting.timepad.ru/event/3653096/"
+sessions:
+  - date: "2025-11-11"
+    start_time: "11:00"
+    end_time: "12:00"

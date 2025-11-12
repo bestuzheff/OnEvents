@@ -1,0 +1,11 @@
+title: "Project Meetup"
+date: "2025-12-16"
+city: "Новосибирск"
+address: "Красный проспект, 17/1, 9 этаж, ресторан 'Большие Пузырики'"
+icon: "koronatech.png"
+description: "Приглашаем на бесплатный митап менеджеров проектов, менеджеров продуктов, бизнес-аналитиков, аналитиков данных и тимлидов!"
+registration_url: "https://koronatech.ru/events/242/"
+sessions:
+  - date: "2025-12-16"
+    start_time: "19:00"
+    end_time: "21:30"

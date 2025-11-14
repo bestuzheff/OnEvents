@@ -1,0 +1,11 @@
+title: "CORS Митап №7"
+date: "2025-11-27"
+city: "Online"
+address: ""
+icon: "cors_academy.jpg"
+description: "Прошлое, настоящее и будущее бизнеса 1С:Франчайзи. Как изменился рынок 1С:Франчайзи за последние 20 лет и стоит ли открывать свою фирму сейчас." # Краткое описание
+registration_url: "https://cors-consulting.timepad.ru/event/3661313"
+sessions:
+  - date: "2025-11-27"
+    start_time: "16:00"
+    end_time: "18:00"

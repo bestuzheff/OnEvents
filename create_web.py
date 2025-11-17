@@ -332,7 +332,7 @@ def render_public_calendars(public_calendars: list[tuple[str, str, str]]):
         <div class="calendar-city-name">{name}</div>
         <div class="calendar-input-group">
             <input type="text" class="calendar-input" value="{url}" readonly>
-            <button class="calendar-copy-btn" title="Копировать ссылку">📋</button>
+            <button class="calendar-copy-btn" title="Копировать ссылку">🔗</button>
         </div>
     </div>""")
     
@@ -402,24 +402,26 @@ def render_event(e):
 
     return f"""
     <article class="card" itemscope itemtype="https://schema.org/Event" data-city="{e['city']}" id="{event_id}">
-      <button class="event-copy-btn" data-event-id="{event_id}" title="Копировать ссылку на событие">📋</button>
-      <div class="card-header" style="display:flex; align-items:flex-start; gap:1em;">
-        <img class="logo-img" alt="Логотип «{e['title']}»" 
-             src="img/{e['icon']}" width="72" height="72" 
-             style="border-radius:50%; object-fit:cover;">
-        <div class="event-info">
-          <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>
-          <div class="meta-item">
-            <span class="icon">📅</span>
-            <time itemprop="startDate" datetime="{e['date']}">{date_str}</time>
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «{e['title']}»" 
+               src="img/{e['icon']}" width="72" height="72" 
+               style="border-radius:50%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time itemprop="startDate" datetime="{e['date']}">{date_str}</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+                <span itemprop="addressLocality">{address_str}</span>
+              </span>
+            </div>{map_link_html}
           </div>
-          <div class="meta-item">
-            <span class="icon">📍</span>
-            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
-              <span itemprop="addressLocality">{address_str}</span>
-            </span>
-          </div>{map_link_html}
         </div>
+        <button class="event-copy-btn" data-event-id="{event_id}" title="Копировать ссылку на событие">🔗</button>
       </div>
       <p>{e['description']}</p>
       <div class="event-actions">

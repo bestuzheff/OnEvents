@@ -55,6 +55,23 @@ def shorten_url(url: str) -> str:
         # В случае любой ошибки возвращаем оригинальную ссылку
         return url
 
+
+# Функция возвращает таймзону для события на основе города
+def get_timezone_for_event(event: dict):
+    """Возвращает таймзону для события на основе города."""
+    timezones = {
+        "online": "Europe/Moscow",
+        "онлайн": "Europe/Moscow",
+        "санкт-петербург": "Europe/Moscow",
+        "москва": "Europe/Moscow",
+        "новосибирск": "Asia/Novosibirsk",
+        "иркутск": "Asia/Irkutsk",
+    }
+
+    city = str(event.get('city', '')).strip().lower()
+    return timezones.get(city)
+
+
 # Функция для создания ссылки на Яндекс.Карты
 def map_link(city: str, address: str = "") -> str:
     """Создает ссылку на Яндекс.Карты"""
@@ -139,6 +156,9 @@ def generate_event_vevent(event, session=None, session_index=None):
     title = clean_text(event['title'])
     description = clean_text(event['description'])
     
+    tzid = get_timezone_for_event(event)
+    tz_param = f";TZID={tzid}" if tzid else ""
+
     if session:
         # Сессия события
         session_date = datetime.strptime(session['date'], "%Y-%m-%d")
@@ -165,8 +185,8 @@ def generate_event_vevent(event, session=None, session_index=None):
         
         return f"""BEGIN:VEVENT
 UID:{uid}@onevents.ru
-DTSTART:{start_datetime}
-DTEND:{end_datetime}
+DTSTART{tz_param}:{start_datetime}
+DTEND{tz_param}:{end_datetime}
 SUMMARY:{session_title}
 DESCRIPTION:{description_text}
 LOCATION:{location}
@@ -260,6 +280,11 @@ VERSION:2.0
 PRODID:-//OnEvents//OnEvents Calendar//RU
 CALSCALE:GREGORIAN
 METHOD:PUBLISH"""
+
+    tzid = get_timezone_for_event(event)
+    if tzid:
+        ics_content += f"""
+X-WR-TIMEZONE:{tzid}"""
     
     # Проверяем, есть ли секция sessions для события
     if 'sessions' in event and event['sessions']:

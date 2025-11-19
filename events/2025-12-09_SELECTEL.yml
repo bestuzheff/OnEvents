@@ -1,0 +1,11 @@
+title: "Selectel проведет ужин для CEO и CTO IT-компаний"
+date: "2025-12-09"
+city: "Москва"
+address: "ул. Большая Дмитровка"
+icon: "selectel.png"
+description: "Мы приглашаем CEO и CTO IT-компаний, чтобы обсудить тренды управления продуктом, стратегии привлечения и удержания специалистов и неочевидные возможности 1C для оптимизации процессов."
+registration_url: "https://promo.selectel.ru/1c_dec"
+sessions:
+  - date: "2025-12-09"
+    start_time: "19:00"
+    end_time: "22:00"

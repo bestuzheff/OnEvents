@@ -1,0 +1,11 @@
+title: "1С Online Meetup"
+date: "2025-11-20"
+city: "Online"
+address: ""
+icon: "Aston.png"
+description: "1С Online Meetup от компании ASTON. Два доклада: 'Практический опыт внедрения 1С с импортозамещаемых и legacy-систем' и 'Управляем изменениями при внедрении 1С: как подготовить компанию и сотрудников к переходу на новую систему'"
+registration_url: "https://career.astondevs.ru/meetups/2025/1c-november"
+sessions:
+  - date: "2025-11-20"
+    start_time: "18:00"
+    end_time: "19:30"

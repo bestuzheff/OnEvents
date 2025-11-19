@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }} - OnEvents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ description_short }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../icons/favicon.svg">
+    <link rel="shortcut icon" href="../icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="OnEvents">
+    <link rel="manifest" href="../icons/site.webmanifest">
+    <!-- Yandex.Metrika counter -->
+    <script
+        type="text/javascript">     (function (m, e, t, r, i, k, a) { m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) }; m[i].l = 1 * new Date(); for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } } k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a) })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=103858050', 'ym'); ym(103858050, 'init', { ssr: true, clickmap: true, ecommerce: "dataLayer", accurateTrackBounce: true, trackLinks: true }); </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/103858050" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript> <!-- /Yandex.Metrika counter -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .sr-only {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+
+        :root {
+            --bg: #fafafa;
+            --text: #111;
+            --muted: #666;
+            --card-bg: #fff;
+            --border: #ddd;
+            --shadow: 0 2px 4px rgba(0, 0, 0, .1);
+            --header-bg: #222;
+            --header-text: #fff;
+            --footer-bg: #222;
+            --footer-text: #ccc;
+            --link: #0b76ef;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f1115;
+                --text: #e6e6e6;
+                --muted: #a0a0a0;
+                --card-bg: #161a22;
+                --border: #2a2f3a;
+                --shadow: 0 2px 6px rgba(0, 0, 0, .35);
+                --header-bg: #0b0e14;
+                --header-text: #e6e6e6;
+                --footer-bg: #0b0e14;
+                --footer-text: #a6a6a6;
+                --link: #7cb3ff;
+            }
+        }
+
+        .dark-theme {
+            --bg: #0f1115;
+            --text: #e6e6e6;
+            --muted: #a0a0a0;
+            --card-bg: #161a22;
+            --border: #2a2f3a;
+            --shadow: 0 2px 6px rgba(0, 0, 0, .35);
+            --header-bg: #0b0e14;
+            --header-text: #e6e6e6;
+            --footer-bg: #0b0e14;
+            --footer-text: #a6a6a6;
+            --link: #7cb3ff;
+        }
+
+        .light-theme {
+            --bg: #fafafa;
+            --text: #111;
+            --muted: #666;
+            --card-bg: #fff;
+            --border: #ddd;
+            --shadow: 0 2px 4px rgba(0, 0, 0, .1);
+            --header-bg: #222;
+            --header-text: #fff;
+            --footer-bg: #222;
+            --footer-text: #ccc;
+            --link: #0b76ef;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            word-break: break-word;
+            transition: background .2s, color .2s;
+        }
+
+        a {
+            color: var(--link);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #a2c8ff !important;
+            text-decoration: underline;
+        }
+
+        header a {
+            color: var(--header-text);
+        }
+
+        header a:hover {
+            color: #a2c8ff !important;
+            text-decoration: underline;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--header-bg);
+            color: var(--header-text);
+            padding: 1em;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .75rem;
+        }
+
+        .logo {
+            font-size: 1.75em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-onevents {
+            height: 32px;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 1em;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            appearance: none;
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            line-height: 1;
+            font-size: 1.15em;
+            color: var(--header-text);
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2em auto;
+            padding: 0 1em;
+        }
+
+        article.card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25em;
+            margin-bottom: 1.5em;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: .75em;
+            margin-bottom: .75em;
+            flex-wrap: wrap;
+        }
+
+        .card-header-main {
+            display: flex;
+            align-items: flex-start;
+            gap: .75em;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .meta {
+            display: block;
+            margin: .25em 0 .5em 0;
+        }
+
+        .meta-item {
+            font-size: .95em;
+            color: var(--muted);
+            display: flex;
+            align-items: baseline;
+            margin: .15em 0;
+        }
+
+        .meta-item .icon {
+            margin-right: .35em;
+        }
+
+        .map-link {
+            display: block;
+            margin-top: .25em;
+            text-decoration: none;
+            font-size: 0.9em;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            color: var(--link);
+        }
+
+        .map-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 1em;
+            margin-top: 2em;
+            font-size: .9em;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Event specific styles */
+        .session-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1em 0;
+        }
+
+        .session-item:last-child {
+            border-bottom: none;
+        }
+
+        .session-time {
+            font-weight: bold;
+            color: var(--muted);
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        .session-title {
+            font-size: 1.2em;
+            margin: 0 0 0.5em 0;
+        }
+
+        .session-speaker {
+            font-style: italic;
+            color: var(--link);
+        }
+
+        .session-description {
+            margin-top: 0.5em;
+            color: var(--text);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top"></div>
+    <script>(function initTheme() { try { const saved = localStorage.getItem('theme'); const root = document.documentElement; if (saved === 'dark') { root.classList.add('dark-theme'); } else if (saved === 'light') { root.classList.add('light-theme'); } } catch (e) { } })();</script>
+
+    <header role="banner">
+        <div class="header-inner">
+            <div class="logo">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center; gap: 0.5em;">
+                    <img class="logo-onevents" src="../icons/web-app-manifest-192x192.png">
+                    OnEvents
+                </a>
+            </div>
+            <nav>
+                <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false"
+                    aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← На главную</a>
+
+        <article class="card" itemscope itemtype="https://schema.org/Event">
+            <div class="card-header">
+                <div class="card-header-main">
+                    <img class="logo-img" alt="Логотип «{{ title }}»" src="../img/{{ icon }}" width="72" height="72"
+                        style="border-radius:50%; object-fit:cover;">
+                    <div class="event-info">
+                        <h1 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{{ title }}</h1>
+                        <div class="meta-item">
+                            <span class="icon">📅</span>
+                            <time itemprop="startDate" datetime="{{ date }}">{{ date_str }}</time>
+                        </div>
+                        <div class="meta-item">
+                            <span class="icon">📌</span>
+                            <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+                                <span itemprop="addressLocality">{{ address_str }}</span>
+                            </span>
+                        </div>
+                        {{ map_link_html }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-description">
+                <p>{{ description }}</p>
+            </div>
+
+            <div class="event-actions" style="margin-top: 1.5em; margin-bottom: 1.5em;">
+                <a href="{{ registration_url }}" role="button" target="_blank">Регистрация</a>
+                <a href="../calendar/{{ ics_filename }}" role="button" download="{{ ics_filename }}">Добавить в
+                    календарь</a>
+            </div>
+
+            {{ sessions_html }}
+
+        </article>
+    </main>
+
+    <footer role="contentinfo"><small>© OnEvents, 2025. Дата актуальности: {{ builddate }}</small></footer>
+
+    <script>(function themeToggle() { const btn = document.getElementById('themeToggle'); const icon = document.getElementById('themeIcon'); const root = document.documentElement; function isDark() { return root.classList.contains('dark-theme'); } function setTheme(mode) { if (mode === 'dark') { root.classList.remove('light-theme'); root.classList.add('dark-theme'); btn.setAttribute('aria-pressed', 'true'); icon.textContent = '☀️'; } else { root.classList.remove('dark-theme'); root.classList.add('light-theme'); btn.setAttribute('aria-pressed', 'false'); icon.textContent = '🌙'; } try { localStorage.setItem('theme', mode); } catch (e) { } } btn.addEventListener('click', function (e) { e.preventDefault(); setTheme(isDark() ? 'light' : 'dark'); }); try { const saved = localStorage.getItem('theme'); if (saved === 'dark') { icon.textContent = '☀️'; btn.setAttribute('aria-pressed', 'true'); } else if (saved === 'light') { icon.textContent = '🌙'; btn.setAttribute('aria-pressed', 'false'); } else { if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { icon.textContent = '☀️'; btn.setAttribute('aria-pressed', 'true'); } else { icon.textContent = '🌙'; btn.setAttribute('aria-pressed', 'false'); } } } catch (e) { } })();</script>
+</body>
+
+</html>

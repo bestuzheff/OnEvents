@@ -59,14 +59,15 @@ def shorten_url(url: str) -> str:
 # Функция возвращает таймзону для события на основе города
 def get_timezone_for_event(event: dict):
     """Возвращает таймзону для события на основе города."""
+    tz_moscow = "Europe/Moscow"
     timezones = {
-        "online": "Europe/Moscow",
-        "онлайн": "Europe/Moscow",
-        "санкт-петербург": "Europe/Moscow",
-        "москва": "Europe/Moscow",
+        "online": tz_moscow,
+        "онлайн": tz_moscow,
+        "санкт-петербург": tz_moscow,
+        "москва": tz_moscow,
         "новосибирск": "Asia/Novosibirsk",
         "иркутск": "Asia/Irkutsk",
-    }
+    }   
 
     city = str(event.get('city', '')).strip().lower()
     return timezones.get(city)

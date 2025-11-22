@@ -3,6 +3,7 @@ from datetime import datetime, date
 from pathlib import Path
 from babel.dates import format_date
 import shutil
+import os
 import hashlib
 import requests
 
@@ -434,6 +435,12 @@ def render_event(e):
 # Создаем папку site при необходимости
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+# Создаем папки для событий и спикеров
+EVENTS_OUTPUT_DIR = OUTPUT_DIR / "events"
+EVENTS_OUTPUT_DIR.mkdir(exist_ok=True)
+SPEAKERS_OUTPUT_DIR = OUTPUT_DIR / "speakers"
+SPEAKERS_OUTPUT_DIR.mkdir(exist_ok=True)
+
 # Копируем картинки
 shutil.copytree("img", "site/img", dirs_exist_ok=True)
 
@@ -447,8 +454,225 @@ calendar_dir.mkdir(exist_ok=True)
 generate_event_calendars(events, calendar_dir)
 public_calendars = generate_public_calendars(all_events, calendar_dir)
 
-# Генерируем HTML
-events_html = "\n".join(render_event(e) for e in events)
+# Загружаем шаблоны страниц
+event_template = Path("web/event.html").read_text(encoding="utf-8")
+speaker_template = Path("web/speaker.html").read_text(encoding="utf-8")
+
+# Текущая дата для футера
+today_date_str = format_date(date.today(), format="d MMMM y", locale="ru")
+
+# Словарь для хранения информации о спикерах
+# speaker_name -> list of {event_title, event_date, event_url, talk_title}
+speakers_data = {}
+
+# Функция для генерации страницы события
+def generate_event_page(event):
+    event_filename = event['filename']
+    event_url = f"../events/{event_filename}.html"
+    
+    date_obj = datetime.strptime(event['date'], "%Y-%m-%d")
+    date_str = format_date(date_obj, format="d MMMM y", locale="ru")
+    
+    if len(event['address']) == 0:
+      address_str  = event['city']
+    else:
+      address_str  = event['city'] + ", "  + event['address']
+      
+    # Ссылка на карту
+    map_url = map_link(event['city'], event['address'])
+    map_link_html = ""
+    if map_url:
+        map_link_html = f' <a href="{map_url}" target="_blank" class="map-link" title="Показать на карте">Показать на карте</a>'
+        
+    # ICS filename
+    safe_title = SAFE_CHARS_PATTERN.sub('', event['title']).strip()
+    safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
+    ics_filename = f"{event['date']}-{safe_title}.ics"
+    
+    # UTM marks
+    registration_url_with_utm = add_utm_marks(event['registration_url'])
+    
+    # Sessions
+    sessions_html = ""
+    if 'sessions' in event and event['sessions']:
+        sessions_html += "<h2>Программа</h2>"
+        for session in event['sessions']:
+            # Собираем данные о спикере
+            speaker_name = session.get('speaker')
+            speaker_link = ""
+            if speaker_name:
+                speaker_slug = make_slug(speaker_name)
+                speaker_link = f'<a href="../speakers/{speaker_slug}.html" class="session-speaker">{speaker_name}</a>'
+                
+                # Добавляем в общий словарь спикеров
+                if speaker_name not in speakers_data:
+                    speakers_data[speaker_name] = []
+                speakers_data[speaker_name].append({
+                    'event_title': event['title'],
+                    'event_date': event['date'],
+                    'event_url': event_url,
+                    'talk_title': session.get('title', 'Без названия')
+                })
+            
+            title = session.get('title', '')
+            description = session.get('description', '')
+            
+            sessions_html += f"""
+            <div class="session-item">
+                <span class="session-time">{session['start_time']} - {session['end_time']}</span>
+                <h3 class="session-title">{title}</h3>
+                {speaker_link}
+                <div class="session-description">{description}</div>
+            </div>
+            """
+            
+    page_html = (
+        event_template
+        .replace("{{ title }}", event['title'])
+        .replace("{{ description }}", event['description'])
+        .replace("{{ description_short }}", event['description'][:150] + "...")
+        .replace("{{ date }}", event['date'])
+        .replace("{{ date_str }}", date_str)
+        .replace("{{ address_str }}", address_str)
+        .replace("{{ map_link_html }}", map_link_html)
+        .replace("{{ icon }}", event['icon'])
+        .replace("{{ registration_url }}", registration_url_with_utm)
+        .replace("{{ ics_filename }}", ics_filename)
+        .replace("{{ sessions_html }}", sessions_html)
+        .replace("{{ builddate }}", today_date_str)
+    )
+    
+    (EVENTS_OUTPUT_DIR / f"{event_filename}.html").write_text(page_html, encoding="utf-8")
+
+# Генерируем страницы событий и собираем данные о спикерах
+for event in all_events:
+    generate_event_page(event)
+
+# Функция для генерации страницы спикера
+def generate_speaker_page(name, talks):
+    slug = make_slug(name)
+    
+    # Сортируем доклады по дате (сначала новые)
+    talks.sort(key=lambda x: x['event_date'], reverse=True)
+    
+    talks_html = ""
+    for talk in talks:
+        date_obj = datetime.strptime(talk['event_date'], "%Y-%m-%d")
+        date_str = format_date(date_obj, format="d MMMM y", locale="ru")
+        
+        talks_html += f"""
+        <div class="talk-item">
+            <div class="talk-event">
+                <a href="{talk['event_url']}">{talk['event_title']}</a> • {date_str}
+            </div>
+            <div class="talk-title">{talk['talk_title']}</div>
+        </div>
+        """
+        
+    # Пытаемся найти фото спикера
+    avatar_file = "default.jpg"
+    
+    # 1. Проверяем speakers.yml
+    speakers_data = {}
+    if os.path.exists("speakers.yml"):
+        with open("speakers.yml", "r") as f:
+            try:
+                speakers_data = yaml.safe_load(f) or {}
+            except yaml.YAMLError:
+                print("Error parsing speakers.yml")
+    
+    if name in speakers_data and "avatar" in speakers_data[name]:
+        avatar_file = speakers_data[name]["avatar"]
+    else:
+        # 2. Фолбэк на slug (старый способ)
+        speaker_slug = make_slug(name)
+        for ext in [".jpg", ".png", ".jpeg"]:
+            potential_path = os.path.join("img", f"{speaker_slug}{ext}")
+            if os.path.exists(potential_path):
+                avatar_file = f"{speaker_slug}{ext}"
+                break
+
+    page_html = (
+        speaker_template
+        .replace("{{ name }}", name)
+        .replace("{{ avatar }}", avatar_file)
+        .replace("{{ talks_html }}", talks_html)
+        .replace("{{ builddate }}", today_date_str)
+    )
+    
+    (SPEAKERS_OUTPUT_DIR / f"{slug}.html").write_text(page_html, encoding="utf-8")
+
+# Генерируем страницы спикеров
+for name, talks in speakers_data.items():
+    generate_speaker_page(name, talks)
+
+# Генерируем HTML главной страницы
+# Обновляем render_event чтобы заголовок был ссылкой на страницу события
+def render_event_updated(e):
+    date_obj = datetime.strptime(e['date'], "%Y-%m-%d")
+    date_str = date_str = format_date(date_obj, format="d MMMM y", locale="ru")  # 15 сентября 2025
+    
+    
+    if len(e['address']) == 0:
+      address_str  = e['city']
+    else:
+      address_str  = e['city'] + ", "  + e['address']
+    
+    # Генерируем имя файла для .ics
+    safe_title = SAFE_CHARS_PATTERN.sub('', e['title']).strip()
+    safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
+    ics_filename = f"{e['date']}-{safe_title}.ics"
+    
+    # UTM метки к ссылке регистрации
+    registration_url_with_utm = add_utm_marks(e['registration_url'])
+    
+    # Генерируем уникальный ID для события
+    event_id = generate_event_id(e)
+    
+    # Добавляем ссылку на карту
+    map_url = map_link(e['city'], e['address'])
+    map_link_html = ""
+    if map_url:
+        map_link_html = f' <a href="{map_url}" target="_blank" class="map-link" title="Показать на карте">Показать на карте</a>'
+
+    # Ссылка на страницу события
+    event_page_url = f"events/{e['filename']}.html"
+
+    return f"""
+    <article class="card" itemscope itemtype="https://schema.org/Event" data-city="{e['city']}" id="{event_id}">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «{e['title']}»" 
+               src="img/{e['icon']}" width="72" height="72" 
+               style="border-radius:50%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">
+                <a href="{event_page_url}" style="text-decoration:none; color:inherit;">{e['title']}</a>
+            </h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time itemprop="startDate" datetime="{e['date']}">{date_str}</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span itemprop="location" itemscope itemtype="https://schema.org/Place">
+                <span itemprop="addressLocality">{address_str}</span>
+              </span>
+            </div>{map_link_html}
+          </div>
+        </div>
+        <button class="event-copy-btn" data-event-id="{event_id}" title="Копировать ссылку на событие">🔗</button>
+      </div>
+      <p>{e['description']}</p>
+      <div class="event-actions">
+        <a href="{event_page_url}" role="button">Подробнее</a>
+        <a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>
+        <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
+      </div>
+    </article>
+    """
+
+events_html = "\n".join(render_event_updated(e) for e in events)
 public_calendars_html = render_public_calendars(public_calendars)
 
 # Подставляем в шаблон

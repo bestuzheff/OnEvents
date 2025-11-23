@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:0c765e6c4e2382967d068eb88789899b@onevents.ru
+DTSTART;VALUE=DATE:20251206
+SUMMARY:Новогодний корпоратив Клуба Московских одинэсников
+DESCRIPTION:Наконец-то приближается Новый год\, а это значит\, что приближается наша вторая встреча. Формат встречи – игры\, дискуссии\, просто общение.❗️ВАЖНО! Место проведения может измениться в зависимости от количества желающих.❗️\n\nСсылка на регистрацию: https://t.me/moscowclub1C/1103\n\nПоказать на карте: https://clck.ru/3PTX6X
+LOCATION:Москва, м. Добрынинская, ул. Валовая 32/75, антикафе «Белый лист»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

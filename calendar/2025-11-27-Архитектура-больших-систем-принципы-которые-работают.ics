@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:121d9fd1148c52397c4792e3c6bfc381@onevents.ru
+DTSTART:20251127T110000
+DTEND:20251127T120000
+SUMMARY:Архитектура больших систем: принципы\, которые работают (27 ноября)
+DESCRIPTION:На вебинаре мы расскажем о принципах внедрения учетных систем\, которые помогут достичь бизнес-целей и снизить бэклог ИТ-задач.\n\nСсылка на регистрацию: https://1c.korusconsulting.ru/events/arkhitektura-bolshikh-sistem-printsipy-kotorye-rabotayut/?utm_source=onevents.ru&utm_medium=1C\n\nВремя: 11:00-12:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e6ec70365f99e400a6c52b37ded7edda@onevents.ru
+DTSTART:20251127T160000
+DTEND:20251127T180000
+SUMMARY:CORS Митап №7 (27 ноября)
+DESCRIPTION:Прошлое\, настоящее и будущее бизнеса 1С:Франчайзи. Как изменился рынок 1С:Франчайзи за последние 20 лет и стоит ли открывать свою фирму сейчас.\n\nСсылка на регистрацию: https://cors-consulting.timepad.ru/event/3661313\n\nВремя: 16:00-18:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

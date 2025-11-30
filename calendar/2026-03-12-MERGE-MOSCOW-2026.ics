@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e03806f47d1218b019e8bac18d5d3d67@onevents.ru
+DTSTART;VALUE=DATE:20260312
+SUMMARY:MERGE MOSCOW 2026
+DESCRIPTION:Merge⠀— крупнейшая межрегиональная IT-конференция. Это место\, где встречаются представители разных сфер мира IT: от разработки до маркетинга.\n\nСсылка на регистрацию: https://moscow2025.mergeconf.ru/\n\nПоказать на карте: https://clck.ru/3PTX6C
+LOCATION:Москва, вн. тер. г. муниципальный округ Лефортово, ул. Красноказарменная, д. 17
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

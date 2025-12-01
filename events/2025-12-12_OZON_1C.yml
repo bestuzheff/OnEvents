@@ -1,0 +1,11 @@
+title: "Ozon Tech Community 1C Club Meetup"
+date: "2025-12-12"
+city: "Санкт-Петербург"
+address: "Приморский проспект, 70"
+icon: "ozontech.png"
+description: "Ламповый митап от команды Ozon Tech в новом офисе в Петербурге. Поделимся нашим опытом внедрения 1С:УХ, инсайтами и нюансами в тестировании и аналитике. Открыто поговорим о сложностях и вызовах применения 1С в крупных компаниях с экспертами рынка."
+registration_url: "https://ozon.tech/events/183-ozon-tech-community-1c-club-meetup"
+sessions:
+  - date: "2025-12-12"
+    start_time: "18:30"
+    end_time: "22:00"

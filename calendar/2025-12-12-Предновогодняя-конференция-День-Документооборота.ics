@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:b82d39c0d3d4e7ebaa657c6e5a936908@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251212T100000
+DTEND;TZID=Europe/Moscow:20251212T180000
+SUMMARY:Предновогодняя конференция «День Документооборота» (12 декабря)
+DESCRIPTION:Целью Конференции является обмен опытом внедрения и эксплуатации «1С:Документооборот»\, «1С:Архив»\, «1С-ЭДО»\, «1С:Документооборот Холдинга»\, «1С:EDI» для предприятий и учреждений\, представление новых возможностей этих решений и платформы «1С:Предприятие».\n\nСсылка на регистрацию: https://regevent.1c.ru/fdo\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3Qcf6y
+LOCATION:Москва, Дмитровское ш., д. 9, Новый Зал фирмы «1С»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

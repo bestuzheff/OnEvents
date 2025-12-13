@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:f31f8faab4373637319e636da4d17e48@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251219T100000
+DTEND;TZID=Europe/Moscow:20251219T175000
+SUMMARY:Жёлтый онлайн-митап №1 (19 декабря)
+DESCRIPTION:Нейросети для аналитиков 1С. Практика и кейсы от экспертов\, которые уже используют ИИ в проектах 1С: анализ\, обследование\, требования\, автоматизация.\n\nСсылка на регистрацию: https://cors.su/zhyoltyj-mitap-1-nejroseti-dlya-analitikov-1s\n\nВремя: 10:00-17:50
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

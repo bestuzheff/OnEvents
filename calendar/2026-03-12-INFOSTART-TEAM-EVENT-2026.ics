@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:8c3cc99ac9c08470a2ab18e93c2d0196@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260312T100000
+DTEND;TZID=Europe/Moscow:20260312T180000
+SUMMARY:INFOSTART TEAM EVENT 2026 (12 марта)
+DESCRIPTION:Крупнейшее событие от Инфостарта\, объединяющее профессионалов из всех сфер 1С. Участников ждет насыщенная программа по разработке\, управлению проектами\, аналитике\, информационной безопасности и управлению ИТ-командами.\n\nСсылка на регистрацию: https://infostart.ru/event/2374045/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX6E
+LOCATION:Москва, Конгресс-центр ЦМТ, Краснопресненская наб., 12, 4-й подъезд
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:7b137df6d771417a81d33de10575dd11@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260313T100000
+DTEND;TZID=Europe/Moscow:20260313T181000
+SUMMARY:INFOSTART TEAM EVENT 2026 (13 марта)
+DESCRIPTION:Крупнейшее событие от Инфостарта\, объединяющее профессионалов из всех сфер 1С. Участников ждет насыщенная программа по разработке\, управлению проектами\, аналитике\, информационной безопасности и управлению ИТ-командами.\n\nСсылка на регистрацию: https://infostart.ru/event/2374045/\n\nВремя: 10:00-18:10\n\nПоказать на карте: https://clck.ru/3PTX6E
+LOCATION:Москва, Конгресс-центр ЦМТ, Краснопресненская наб., 12, 4-й подъезд
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:f8079d2c96d80204976bfed873db477e@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260314T100000
+DTEND;TZID=Europe/Moscow:20260314T180000
+SUMMARY:INFOSTART TEAM EVENT 2026 (14 марта)
+DESCRIPTION:Крупнейшее событие от Инфостарта\, объединяющее профессионалов из всех сфер 1С. Участников ждет насыщенная программа по разработке\, управлению проектами\, аналитике\, информационной безопасности и управлению ИТ-командами.\n\nСсылка на регистрацию: https://infostart.ru/event/2374045/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX6E
+LOCATION:Москва, Конгресс-центр ЦМТ, Краснопресненская наб., 12, 4-й подъезд
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

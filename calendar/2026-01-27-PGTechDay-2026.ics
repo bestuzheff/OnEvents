@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:9fa1ad82749460c8c8fe5cf909631231@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260127T100000
+DTEND;TZID=Europe/Moscow:20260127T182000
+SUMMARY:PGTechDay 2026 (27 января)
+DESCRIPTION:Первая продуктовая конференция от лидера рынка российских СУБД — компании Postgres Professional\n\nСсылка на регистрацию: https://pgproday.ru/pgtechday\n\nВремя: 10:00-18:20\n\nПоказать на карте: https://clck.ru/3QmwtT
+LOCATION:Москва, площадь Евразии, 2 Гостиница 'Рэдиссон Славянская'
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

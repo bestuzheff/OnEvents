@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:90873dc5cda87fd43db8a67438b02e71@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251221T130000
+DTEND;TZID=Europe/Moscow:20251221T190000
+SUMMARY:Предновогодний Утренник Клуба Питерских Одинэсников (21 декабря)
+DESCRIPTION:Предновогодний Утренник для взрослых: знакомства\, игры и магия! 🎄✨ Спешим запустить праздничное настроение пораньше! Приглашаем вас на тёплую и душевную встречу в честь Нового года. Это идеальный способ провести предпраздничное воскресенье ярко: познакомиться\, поиграть и погрузиться в волшебную атмосферу. (запись через бота)\n\nСсылка на регистрацию: https://t.me/therapy_1c/784\n\nВремя: 13:00-19:00\n\nПоказать на карте: https://clck.ru/3Qjhwc
+LOCATION:Санкт-Петербург, Думская улица, 4 лит А, ТЦ Перинные ряды, Антикафе «12 комнат»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

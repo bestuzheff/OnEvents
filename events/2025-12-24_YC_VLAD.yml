@@ -1,0 +1,11 @@
+title: "Желтый клуб Владивосток"
+date: "2025-12-24"
+city: "Владивосток"
+address: "ул. Светланская 33, 3 этаж — коворкинг Дом"
+icon: "yc_vlad.jpg"
+description: "24 декабря 2025 года пройдет пятый митап Желтого клуба во Владивостоке. В программе встречи: два доклада, пицца, общение с единомышленниками."
+registration_url: "https://zheltyy-klub-vladivostok.timepad.ru/event/3727903"
+sessions:
+  - date: "2025-12-24"
+    start_time: "19:00"
+    end_time: "21:00"

@@ -1,0 +1,18 @@
+title: "Infostart Tech Event 2026"
+date: "2026-10-08"
+city: "Санкт-Петербург"
+address: "Пироговская набережная 5/2 отель “Санкт-Петербург”"
+icon: "TECH2026.jpg"
+description: "16-я конференция для разработчиков, архитекторов, тестировщиков 1С. Три дня погружения в профессиональное общение, новые знания в мире темного фэнтези"
+registration_url: "https://infostart.ru/event/tech2026/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=tech2026"
+sessions:
+  - date: "2026-10-08"
+    start_time: "10:00"
+    end_time: "18:00"
+  - date: "2026-10-09"
+    start_time: "10:00"
+    end_time: "18:00"
+  - date: "2026-10-10"
+    start_time: "10:00"
+    end_time: "18:00"
+

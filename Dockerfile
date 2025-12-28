@@ -14,7 +14,7 @@ COPY create_web.py /app/create_web.py
 RUN mkdir -p /app/utils
 COPY utils/ /app/utils/
 RUN mkdir -p /app/web
-COPY web/index.html /app/web/index.html
+COPY web/ /app/web/
 RUN mkdir -p /app/img
 COPY img/ /app/img/
 RUN mkdir -p /app/events

@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:3b2acba8c81def35dddb88ec02c77985@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260106T130000
+DTEND;TZID=Europe/Moscow:20260106T150000
+SUMMARY:ИТ-Бранч 1Сников (6 января)
+DESCRIPTION:Неформальное общение  1Сников: прошлых\, настоящих\, будущих. Встречаемся в кофейне\, пьем кофе\, делимся планами на 2026. (Запись на встречу через Telegram)\n\nСсылка на регистрацию: http://t.me/sAnastasia\n\nВремя: 13:00-15:00
+LOCATION:Санкт-Петербург, Уточняется. Центр города
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

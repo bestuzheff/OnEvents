@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:89996b4348f2d5afebd50574b805bdf0@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260203T100000
+DTEND;TZID=Europe/Moscow:20260203T180000
+SUMMARY:Новые информационные технологии в образовании 2026 (3 февраля)
+DESCRIPTION:В поисках баланса количества и качества подготовки специалистов для цифровой экономики на базе решений 1С.\n\nСсылка на регистрацию: https://educonf.1c.ru/conf2026/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3QAtoR
+LOCATION:Москва, проспект Мира, д. 150, Гостиница «Космос»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:33214f405b92a330346a778e2e801ee3@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260204T100000
+DTEND;TZID=Europe/Moscow:20260204T180000
+SUMMARY:Новые информационные технологии в образовании 2026 (4 февраля)
+DESCRIPTION:В поисках баланса количества и качества подготовки специалистов для цифровой экономики на базе решений 1С.\n\nСсылка на регистрацию: https://educonf.1c.ru/conf2026/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3QAtoR
+LOCATION:Москва, проспект Мира, д. 150, Гостиница «Космос»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

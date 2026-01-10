@@ -1,0 +1,11 @@
+title: "PGTechDay 2026"
+date: "2026-01-27"
+city: "Москва"
+address: "площадь Евразии, 2 Гостиница 'Рэдиссон Славянская'"
+icon: "pgpro.png"
+description: "Первая продуктовая конференция от лидера рынка российских СУБД — компании Postgres Professional"
+registration_url: "https://pgproday.ru/pgtechday"
+sessions:
+  - date: "2026-01-27"
+    start_time: "10:00"
+    end_time: "18:20"

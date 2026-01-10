@@ -1,0 +1,11 @@
+title: "Жёлтый онлайн-митап №1"
+date: "2025-12-19"
+city: "Online"
+address: ""
+icon: "cors_academy.jpg"
+description: "Нейросети для аналитиков 1С. Практика и кейсы от экспертов, которые уже используют ИИ в проектах 1С: анализ, обследование, требования, автоматизация."
+registration_url: "https://cors.su/zhyoltyj-mitap-1-nejroseti-dlya-analitikov-1s"
+sessions:
+  - date: "2025-12-19"
+    start_time: "10:00"
+    end_time: "17:50"

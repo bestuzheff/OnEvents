@@ -1,5 +1,8 @@
 import yaml
-from datetime import datetime, date
+from datetime import datetime, date, timezone
+from email.utils import format_datetime
+from zoneinfo import ZoneInfo
+import xml.sax.saxutils as saxutils
 from pathlib import Path
 from babel.dates import format_date
 import shutil
@@ -55,7 +58,6 @@ def shorten_url(url: str) -> str:
         # В случае любой ошибки возвращаем оригинальную ссылку
         return url
 
-
 # Функция возвращает таймзону для события на основе города
 def get_timezone_for_event(event: dict):
     """Возвращает таймзону для события на основе города."""
@@ -71,7 +73,6 @@ def get_timezone_for_event(event: dict):
 
     city = str(event.get('city', '')).strip().lower()
     return timezones.get(city)
-
 
 # Функция для создания ссылки на Яндекс.Карты
 def map_link(city: str, address: str = "") -> str:
@@ -125,7 +126,6 @@ def add_utm_marks(url: str) -> str:
     utm_params = f"{separator}utm_source={utm_source}&utm_medium={utm_medium}&utm_campaign={utm_campaign}&utm_content={utm_content}"
     
     return url + utm_params
-
 
 def generate_event_vevent(event, session=None, session_index=None):
     """Генерирует VEVENT для события или сессии"""
@@ -457,6 +457,67 @@ def render_event(e):
     </article>
     """
 
+# Функция генерации RSS ленты
+def generate_rss(all_events):
+    """Генерирует общий RSS со всеми событиями"""
+
+    site_url = "https://onevents.ru"
+    rss_url = f"{site_url}/rss/rss.xml"
+    rss_items = []
+    now = datetime.now(timezone.utc)
+
+    # Для RSS события должны идти от свежего к прошедшему
+    all_events = sorted(all_events, key=lambda e: e["date"], reverse=True)
+    for event in all_events:
+        tz_name = get_timezone_for_event(event) or "Europe/Moscow"
+        tz = ZoneInfo(tz_name)
+        event_date = datetime.strptime(event["date"], "%Y-%m-%d")
+        event_date = event_date.replace(tzinfo=tz)
+        pub_date = format_datetime(event_date)
+
+        event_id = generate_event_id(event)
+        event_link = f"{site_url}/#{event_id}"
+
+        title = saxutils.escape(event["title"])
+        description_text = (
+            f"{event['description']}\n\n"
+            f"Дата: {format_date(event_date.date(), format='d MMMM y', locale='ru')}\n"
+            f"Место: {event['city']}"
+        )
+
+        if event.get("registration_url"):
+            description_text += f"\nРегистрация: {event['registration_url']}"
+
+        guid = f"onevents-{event['filename']}"
+
+        rss_items.append(f"""
+        <item>
+            <title>{title}</title>
+            <link>{event_link}</link>
+            <guid isPermaLink="false">{guid}</guid>
+            <pubDate>{pub_date}</pubDate>
+            <description>{saxutils.escape(description_text)}</description>
+        </item>
+        """)
+
+    rss_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>События 1С — OnEvents</title>
+    <link>{site_url}</link>
+    <atom:link href="{rss_url}" rel="self" type="application/rss+xml" />
+    <description>Все события 1С от OnEvents</description>
+    <language>ru</language>
+    <lastBuildDate>{format_datetime(now)}</lastBuildDate>
+    <generator>OnEvents</generator>
+    {''.join(rss_items)}
+</channel>
+</rss>
+"""
+
+    return rss_content
+
 # Создаем папку site при необходимости
 OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -472,6 +533,13 @@ calendar_dir.mkdir(exist_ok=True)
 
 generate_event_calendars(events, calendar_dir)
 public_calendars = generate_public_calendars(all_events, calendar_dir)
+
+# Генерируем RSS
+rss_dir = OUTPUT_DIR / "rss"
+rss_dir.mkdir(exist_ok=True)
+rss_content = generate_rss(all_events)
+rss_file = rss_dir / "rss.xml"
+rss_file.write_text(rss_content, encoding="utf-8")
 
 # Генерируем HTML
 events_html = "\n".join(render_event(e) for e in events)

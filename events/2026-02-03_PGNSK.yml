@@ -1,0 +1,11 @@
+title: "PGMeetupNSK - Разговоры вокруг QA"
+date: "2026-02-03"
+city: "Новосибирск"
+address: "ул. Инженерная, д. 7, БЦ Port i7"
+icon: "pgconf.jpg"
+description: "PGMeetup — традиционное мероприятие от компании Postgres Professional, где в рамках камерной атмосферы мы не выбираем одну конкретную тему для обсуждения, а просто берём направление, которое нам кажется интересным."
+registration_url: "https://pgconf.ru/030226"
+sessions:
+  - date: "2026-02-03"
+    start_time: "18:30"
+    end_time: "21:30"

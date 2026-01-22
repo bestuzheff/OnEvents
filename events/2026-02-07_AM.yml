@@ -1,0 +1,11 @@
+title: "Analyst Marathon #16"
+date: "2026-02-07"
+city: "Online"
+address: ""
+icon: "am.png"
+description: "Это будет не просто конференция, а практический рывок для архитекторов, аналитиков и всех, кто строит цифровое завтра. Интеграции, API, Микросервисы, Архитектурные подходы в работе BA/SA BPM."
+registration_url: "https://analyst-marathon.timepad.ru/event/3693271"
+sessions:
+  - date: "2026-02-07"
+    start_time: "10:00"
+    end_time: "17:00"

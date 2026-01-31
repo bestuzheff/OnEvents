@@ -1,0 +1,340 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Санкт-Петербург - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-санкт-петербург.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260131T044517Z
+DTSTAMP:20260131T044517Z
+BEGIN:VEVENT
+UID:d0e3f2d7be3222fc5d0d1e6515743d67@onevents.ru
+DTSTART;VALUE=DATE:20250906
+SUMMARY:Завтрак Клуба Питерских Одинэсников
+DESCRIPTION:Неформальные ежемесячные встречи питерских одинесников. Собираемся\, чтобы поболтать за жизнь и за работу\, обменяться годными советами и просто вкусно позавтракать в хорошей компании. (Регистрация через бота. Локация может поменяться.)\n\nСсылка на регистрацию: https://t.me/therapy_1c_bot\n\nПоказать на карте: https://clck.ru/3PTX6P
+LOCATION:Санкт-Петербург, ул. Решетникова, 12, Московский рынок
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:92fba940a2c654741cde1c15b814ac8f@onevents.ru
+DTSTART;VALUE=DATE:20250910
+SUMMARY:Желтый клуб Питер
+DESCRIPTION:Желтый клуб — сообщество 1С программистов. Наша цель — расти профессионально вместе с единомышленниками из 1С сферы. Желтый клуб объединяет 1С разработчиков\, 1С аналитиков и пользователей платформы 1С Предприятие.\n\nСсылка на регистрацию: https://yellowspb.timepad.ru/event/3494297/\n\nПоказать на карте: https://clck.ru/3PTX6R
+LOCATION:Санкт-Петербург, ул. Малая Посадская 7/4, 2 этаж, Эквиум Лофт
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:e69f6a5015be1683051a52ce1d08cf9c@onevents.ru
+DTSTART;VALUE=DATE:20250916
+SUMMARY:DevOops 2025
+DESCRIPTION:Конференция по инженерным решениям и DevOps-культуре. Она объединяет специалистов по разработке и эксплуатации\, чтобы в итоге все могли релизить чаще\, а чинить быстрее и надежнее.\n\nСсылка на регистрацию: https://devoops.ru/\n\nПоказать на карте: https://clck.ru/3PTX6Y
+LOCATION:Санкт-Петербург, площадь Победы дом 1, Cosmos Saint-Petersburg Pulkovskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:c744b20430e68d05a3b74581960a8d59@onevents.ru
+DTSTART;VALUE=DATE:20250918
+SUMMARY:Бизнес-завтрак: Как организовать комплексную миграцию на 1С:ERP и уложиться в бюджет
+DESCRIPTION:Приглашаем встретиться за завтраком и обсудить\, как быстро\, безопасно и экономически обоснованно внедрить 1С для оперативного учета. Спикеры из Selectel и РАУ ИТ расскажут\, как выбрать инфраструктурное решение под 1С и из чего складывается стоимость внедрения\, поделятся кейсами и сделают обзор конкретных инструментов.\n\nСсылка на регистрацию: https://slc.tl/ykb18\n\nПоказать на карте: https://clck.ru/3PTX6b
+LOCATION:Санкт-Петербург, Цветочная, 23, ст. м. Московские ворота
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:d07dc8f53ec69872cdbc6f7824aa0b5d@onevents.ru
+DTSTART;TZID=Europe/Moscow:20250924T190000
+DTEND;TZID=Europe/Moscow:20250924T214500
+SUMMARY:1С в облаке (24 сентября)
+DESCRIPTION:Приглашаем на первую бесплатную вечернюю встречу из серии Инфостарт Среда. Формат — три доклада и круглый стол о том\, как оптимизировать 1С в облаке\, повысить безопасность и снизить издержки.\n\nСсылка на регистрацию: https://infostart.ru/event/2458266/\n\nВремя: 19:00-21:45\n\nПоказать на карте: https://clck.ru/3PTX6c
+LOCATION:Санкт-Петербург, ул. Цветочная, 19
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:62fcde2528092482ebfcd2b03561608d@onevents.ru
+DTSTART;TZID=Europe/Moscow:20250929T100000
+DTEND;TZID=Europe/Moscow:20250929T193000
+SUMMARY:PGConf.СПб 2025 (29 сентября)
+DESCRIPTION:PGConf.СПб 2025 — крупнейшая конференция по PostgreSQL в России\, которая проходит в Санкт-Петербурге. Технические доклады\, демонстрации решений для работы с СУБД\, мастер-классы\, а также нетворкинг и обмен опытом с сообществом.\n\nСсылка на регистрацию: https://pgconf.ru/pgconfspb2025\n\nВремя: 10:00-19:30\n\nПоказать на карте: https://clck.ru/3PTX5p
+LOCATION:Санкт-Петербург, Пироговская набережная, д. 5/2, Гостиница “Санкт-Петербург”
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:5b9aa4e49ac95b85b59593d938150546@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251002T100000
+DTEND;TZID=Europe/Moscow:20251002T195000
+SUMMARY:Стачка СПб&#39\;25 (2 октября)
+DESCRIPTION:Крупнейшая региональная IT-конференция России. Собираем более 3 000 специалистов ежегодно — разработчиков\, маркетологов\, дизайнеров\, руководителей и собственников IT-компаний.\n\nСсылка на регистрацию: https://spb25.nastachku.ru/\n\nВремя: 10:00-19:50\n\nПоказать на карте: https://clck.ru/3PTX5r
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, Cosmos St. Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:80eb0d50253d848b367cb649a84be370@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251003T100000
+DTEND;TZID=Europe/Moscow:20251003T190000
+SUMMARY:Стачка СПб&#39\;25 (3 октября)
+DESCRIPTION:Крупнейшая региональная IT-конференция России. Собираем более 3 000 специалистов ежегодно — разработчиков\, маркетологов\, дизайнеров\, руководителей и собственников IT-компаний.\n\nСсылка на регистрацию: https://spb25.nastachku.ru/\n\nВремя: 10:00-19:00\n\nПоказать на карте: https://clck.ru/3PTX5r
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, Cosmos St. Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:8f6e1f01795e3518d1668ab527331216@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251008T190000
+DTEND;TZID=Europe/Moscow:20251008T220000
+SUMMARY:Кунг-фу конфа (8 октября)
+DESCRIPTION:Кунг-фу конфа — событие для тех\, кто работает с интеграциями и современными подходами в 1С. 🎤 Два практических доклада\, минимум теории\, максимум пользы. 🍕 Живое общение и пицца-брейк.\n\nСсылка на регистрацию: https://kungfu-conf-spb2025.tb.ru/?utm_source=onevent&utm_medium=news&utm_campaign=news&utm_content=link&utm_term=onevent\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3PTX5u
+LOCATION:Санкт-Петербург, Газовая улица, 10 лит Ж
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:915fb9c1ffc3c72c542004c78a34d76c@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251009T100000
+DTEND;TZID=Europe/Moscow:20251009T180000
+SUMMARY:INFOSTART TECH EVENT 2025 (9 октября)
+DESCRIPTION:INFOSTART TECH EVENT 2025 - 15-я конференция для разработчиков\, архитекторов\, тестировщиков 1С. В программе 80% докладов по технологиям автоматизации учета на платформе 1С:Предприятие и 20% контента по развитию команды и личной эффективности. Конференция пройдет в Санкт-Петербурге и соберет 1500 участников из разных регионов России и мира.\n\nСсылка на регистрацию: https://event.infostart.ru/2025/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX63
+LOCATION:Санкт-Петербург, Пироговская набережная 5/2 отель “Санкт-Петербург”
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:bd244d57c5d846b1b22f2a86343fd016@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251010T100000
+DTEND;TZID=Europe/Moscow:20251010T181000
+SUMMARY:INFOSTART TECH EVENT 2025 (10 октября)
+DESCRIPTION:INFOSTART TECH EVENT 2025 - 15-я конференция для разработчиков\, архитекторов\, тестировщиков 1С. В программе 80% докладов по технологиям автоматизации учета на платформе 1С:Предприятие и 20% контента по развитию команды и личной эффективности. Конференция пройдет в Санкт-Петербурге и соберет 1500 участников из разных регионов России и мира.\n\nСсылка на регистрацию: https://event.infostart.ru/2025/\n\nВремя: 10:00-18:10\n\nПоказать на карте: https://clck.ru/3PTX63
+LOCATION:Санкт-Петербург, Пироговская набережная 5/2 отель “Санкт-Петербург”
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:3a6e24352191443fd8e49eee6bbdcea3@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251011T100000
+DTEND;TZID=Europe/Moscow:20251011T181000
+SUMMARY:INFOSTART TECH EVENT 2025 (11 октября)
+DESCRIPTION:INFOSTART TECH EVENT 2025 - 15-я конференция для разработчиков\, архитекторов\, тестировщиков 1С. В программе 80% докладов по технологиям автоматизации учета на платформе 1С:Предприятие и 20% контента по развитию команды и личной эффективности. Конференция пройдет в Санкт-Петербурге и соберет 1500 участников из разных регионов России и мира.\n\nСсылка на регистрацию: https://event.infostart.ru/2025/\n\nВремя: 10:00-18:10\n\nПоказать на карте: https://clck.ru/3PTX63
+LOCATION:Санкт-Петербург, Пироговская набережная 5/2 отель “Санкт-Петербург”
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:b76408bc26ddbbff1056c8c7a4e22ba0@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251012T113000
+DTEND;TZID=Europe/Moscow:20251012T150000
+SUMMARY:Завтрак Клуба Питерских Одинэсников (12 октября)
+DESCRIPTION:Неформальные ежемесячные встречи питерских одинесников. ⚡️В этот раз я решила пригласить заранее всех на завтрак\, который будет на следующий день после инфостарта. 💛Очень ждём гостей из других городов! Приходите к нам вкусно есть\, пить кофе и делиться впечатлениями и опытом. (Регистрация через бота)\n\nСсылка на регистрацию: https://t.me/therapy_1c_bot\n\nВремя: 11:30-15:00\n\nПоказать на карте: https://clck.ru/3PbdnC
+LOCATION:Санкт-Петербург, набережная Обводного канала, 118С, Vokzal 1853
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:f888cd3e603bb4a9ef1adc044d7e8625@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251025T113000
+DTEND;TZID=Europe/Moscow:20251025T230000
+SUMMARY:Встреча Клуба Питерских Одинэсников (25 октября)
+DESCRIPTION:Приглашаем на 11-ю встречу Клуба Питерских Одинэсников! Встреча будет полезна аналитикам\, тестировщикам и разработчикам\, но мы рады всем.\n\nСсылка на регистрацию: https://therapy-1c.timepad.ru/event/3609584\n\nВремя: 11:30-23:00\n\nПоказать на карте: https://clck.ru/3PYddG
+LOCATION:Санкт-Петербург, Ул. Оптиков, д. 4/3, БЦ Лахта-2
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:29fb18804f76619dfac45f4ac1808d8a@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251102T123000
+DTEND;TZID=Europe/Moscow:20251102T180000
+SUMMARY:Клуб Питерских Одинесников идет гулять! (2 ноября)
+DESCRIPTION:В воскресенье 2 ноября идём гулять по Еловым холмам. ☕️Если ты не боишься грязи\, знаешь\, как утепляться в дождь и готовишь лучший глинтвейн\, то давай регистрируйся через бот к нам на прогулку\, бери с собой мужа/жену/собаку/хомячка/друга... Напоминаю\, что прогулки полезны для ментального здоровья.\n\nСсылка на регистрацию: https://t.me/therapy_1c_bot\n\nВремя: 12:30-18:00\n\nПоказать на карте: https://clck.ru/3Q3cFx
+LOCATION:Санкт-Петербург, экотропа Еловые холмы
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:8e8fbffc053bb9efb594cd73fb34796a@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251103T130000
+DTEND;TZID=Europe/Moscow:20251103T170000
+SUMMARY:Круглый стол от проекта 'ИТ-Бранчи 1Сников' (3 ноября)
+DESCRIPTION:Круглый стол по теме обучения. Как учимся\, чему учимся\, где находим время. Обмен мнениями и живое общение\n\nСсылка на регистрацию: https://yellownote.timepad.ru/event/3612969\n\nВремя: 13:00-17:00\n\nПоказать на карте: https://clck.ru/3PccNA
+LOCATION:Санкт-Петербург, ул. Гороховая, 16
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:2a2b9eb3c6597390704ca8b2974eaaca@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251113T100000
+DTEND;TZID=Europe/Moscow:20251113T180000
+SUMMARY:Решения 1С для цифровизации кадровых отделов и HR (13 ноября)
+DESCRIPTION:Целью конференции является представление для HR-менеджеров и сотрудников кадровых служб новых возможностей программ «1С:Зарплата и управление персоналом КОРП»\, «1С:Персонал»\, «1С:Кабинет сотрудника». Обмен опытом по эксплуатации этих решений\, дискуссии на темы HR-маркетинга\, бренда работодателя\, вопросам кадрового аудита\, подбора\, адаптации\, удержания сотрудников и многое другое.\n\nСсылка на регистрацию: https://regevent.1c.ru/cadr/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3QAgWw
+LOCATION:Санкт-Петербург, площадь Победы, 1 (Cosmos Saint-Petersburg Pulkovskaya Hotel)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:7073b504b5f154041fc28ecff8d14f6b@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251113T170000
+DTEND;TZID=Europe/Moscow:20251113T220000
+SUMMARY:Воркшоп: Что такое долг в ИТ и как с ним работать? (13 ноября)
+DESCRIPTION:Ноябрь\, год уже близится к концу. Нужно задумываться о подведении не только положительных моментов (итогов) 2025 года\, но и ... накопленном тех долге. И формировать планы по его сокращению на следующий год.\n\nСсылка на регистрацию: https://t.me/therapy_1c/740\n\nВремя: 17:00-22:00\n\nПоказать на карте: https://clck.ru/3Q6XUb
+LOCATION:Санкт-Петербург, улица Цветочная дом 19
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:79e5735af65ec67f75fc7e9cf946be17@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251114T100000
+DTEND;TZID=Europe/Moscow:20251114T120000
+SUMMARY:Завтрак в стиле мастермайнд (14 ноября)
+DESCRIPTION:Приглашаю вас присоединиться к нашим регулярным встречам на тёплый и продуктивный завтрак\, где в этот раз мы разберём два главных «тихих врага» (или все же друга) продуктивности - прокрастинацию и выгорание. (Мест мало\, успевайте записаться.)\n\nСсылка на регистрацию: https://t.me/vsemnetworking/12\n\nВремя: 10:00-12:00\n\nПоказать на карте: https://clck.ru/3QGRgP
+LOCATION:Санкт-Петербург, наб. Канала Грибоедова 18–20, Марчеллис
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:9f5632cca7102cd20bc05327de3ddb28@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251124T100000
+DTEND;TZID=Europe/Moscow:20251124T120000
+SUMMARY:Завтрак в стиле мастермайнд (24 ноября)
+DESCRIPTION:Приглашаю вас присоединиться к нашим регулярным встречам на тёплый и продуктивный завтрак\, где в этот раз мы разберём два главных «тихих врага» (или все же друга) продуктивности - прокрастинацию и выгорание. 📍Адреса проведения после записи (центр города).\n\nСсылка на регистрацию: https://t.me/vsemnetworking/22\n\nВремя: 10:00-12:00
+LOCATION:Санкт-Петербург
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:372dccb9d0fec2c2a884e0a64fdeeb9e@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251124T190000
+DTEND;TZID=Europe/Moscow:20251124T210000
+SUMMARY:Ужин в стиле мастермайнд (24 ноября)
+DESCRIPTION:Приглашаю вас присоединиться к нашим регулярным встречам на тёплый и продуктивный завтрак\, где в этот раз мы разберём два главных «тихих врага» (или все же друга) продуктивности - прокрастинацию и выгорание. 📍Адреса проведения после записи (центр города).\n\nСсылка на регистрацию: https://t.me/vsemnetworking/22\n\nВремя: 19:00-21:00
+LOCATION:Санкт-Петербург
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:59c3222ae643866dcd3751232004e9d0@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251127T193000
+DTEND;TZID=Europe/Moscow:20251127T220000
+SUMMARY:Желтый клуб Питер (27 ноября)
+DESCRIPTION:Желтый клуб — сообщество 1С программистов. Наша цель — расти профессионально вместе с единомышленниками из 1С сферы. Желтый клуб объединяет 1С разработчиков\, 1С аналитиков и пользователей платформы 1С Предприятие.\n\nСсылка на регистрацию: https://yellowspb.timepad.ru/event/3641478\n\nВремя: 19:30-22:00\n\nПоказать на карте: https://clck.ru/3PTX6R
+LOCATION:Санкт-Петербург, ул. Малая Посадская 7/4, 2 этаж, Эквиум Лофт
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ff5116a2ef0feae398008d936cd52200@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251127T183000
+DTEND;TZID=Europe/Moscow:20251127T223000
+SUMMARY:От знакомства к возможностям (27 ноября)
+DESCRIPTION:Практический интенсив по нетворкингу. Ваша сеть контактов - ваш главный актив. Почему он до сих пор не работает? За 4 часа вы получите работающую систему нетворкинга.\n\nСсылка на регистрацию: https://t.me/vsemnetworking/23\n\nВремя: 18:30-22:30
+LOCATION:Санкт-Петербург
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:6d88337ac0eac82c4878a3b64e736729@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251128T190000
+DTEND;TZID=Europe/Moscow:20251128T220000
+SUMMARY:Встреча Клуба Питерских Одинэсников (28 ноября)
+DESCRIPTION:Друзья\, анонсируем особенное событие — 13-я встреча Клуба Питерских Одинэсников совместно с OZON Банком!\n\nСсылка на регистрацию: https://therapy-1c.timepad.ru/event/3654372/\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3QJvSy
+LOCATION:Санкт-Петербург, Приморский проспект, 70
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:d05d5e8c58498cbb0c6be4763517d979@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251212T183000
+DTEND;TZID=Europe/Moscow:20251212T220000
+SUMMARY:Ozon Tech Community 1C Club Meetup (12 декабря)
+DESCRIPTION:Ламповый митап от команды Ozon Tech в новом офисе в Петербурге. Поделимся нашим опытом внедрения 1С:УХ\, инсайтами и нюансами в тестировании и аналитике. Открыто поговорим о сложностях и вызовах применения 1С в крупных компаниях с экспертами рынка.\n\nСсылка на регистрацию: https://ozon.tech/events/183-ozon-tech-community-1c-club-meetup\n\nВремя: 18:30-22:00\n\nПоказать на карте: https://clck.ru/3QJvSy
+LOCATION:Санкт-Петербург, Приморский проспект, 70
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:90873dc5cda87fd43db8a67438b02e71@onevents.ru
+DTSTART;TZID=Europe/Moscow:20251221T130000
+DTEND;TZID=Europe/Moscow:20251221T190000
+SUMMARY:Предновогодний Утренник Клуба Питерских Одинэсников (21 декабря)
+DESCRIPTION:Предновогодний Утренник для взрослых: знакомства\, игры и магия! 🎄✨ Спешим запустить праздничное настроение пораньше! Приглашаем вас на тёплую и душевную встречу в честь Нового года. Это идеальный способ провести предпраздничное воскресенье ярко: познакомиться\, поиграть и погрузиться в волшебную атмосферу. (запись через бота)\n\nСсылка на регистрацию: https://t.me/therapy_1c/784\n\nВремя: 13:00-19:00\n\nПоказать на карте: https://clck.ru/3Qjhwc
+LOCATION:Санкт-Петербург, Думская улица, 4 лит А, ТЦ Перинные ряды, Антикафе «12 комнат»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:3b2acba8c81def35dddb88ec02c77985@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260106T130000
+DTEND;TZID=Europe/Moscow:20260106T150000
+SUMMARY:ИТ-Бранч 1Сников (6 января)
+DESCRIPTION:Неформальное общение  1Сников: прошлых\, настоящих\, будущих. Встречаемся в кофейне\, пьем кофе\, делимся планами на 2026. (Запись на встречу через Telegram)\n\nСсылка на регистрацию: http://t.me/sAnastasia\n\nВремя: 13:00-15:00
+LOCATION:Санкт-Петербург, Уточняется. Центр города
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:68921b7d68e85623d6f46b85b2669ef6@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261008T100000
+DTEND;TZID=Europe/Moscow:20261008T180000
+SUMMARY:Infostart Tech Event 2026 (8 октября)
+DESCRIPTION:16-я конференция для разработчиков\, архитекторов\, тестировщиков 1С. Три дня погружения в профессиональное общение\, новые знания в мире темного фэнтези\n\nСсылка на регистрацию: https://infostart.ru/event/tech2026/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=tech2026\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX63
+LOCATION:Санкт-Петербург, Пироговская набережная 5/2 отель “Санкт-Петербург”
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:2dd6cc2e7191495c8ea389d3449c7e85@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261009T100000
+DTEND;TZID=Europe/Moscow:20261009T180000
+SUMMARY:Infostart Tech Event 2026 (9 октября)
+DESCRIPTION:16-я конференция для разработчиков\, архитекторов\, тестировщиков 1С. Три дня погружения в профессиональное общение\, новые знания в мире темного фэнтези\n\nСсылка на регистрацию: https://infostart.ru/event/tech2026/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=tech2026\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX63
+LOCATION:Санкт-Петербург, Пироговская набережная 5/2 отель “Санкт-Петербург”
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:e414603e374d311958c79d85d020a259@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261010T100000
+DTEND;TZID=Europe/Moscow:20261010T180000
+SUMMARY:Infostart Tech Event 2026 (10 октября)
+DESCRIPTION:16-я конференция для разработчиков\, архитекторов\, тестировщиков 1С. Три дня погружения в профессиональное общение\, новые знания в мире темного фэнтези\n\nСсылка на регистрацию: https://infostart.ru/event/tech2026/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=tech2026\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX63
+LOCATION:Санкт-Петербург, Пироговская набережная 5/2 отель “Санкт-Петербург”
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:9b5a7cb52bdc1329b6db72ec7e753e59@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261112T100000
+DTEND;TZID=Europe/Moscow:20261112T180000
+SUMMARY:Infostart A&PM Event 2026 (12 ноября)
+DESCRIPTION:Практическая конференция для аналитиков и руководителей проектов. Три дня профессионального общения\, новых знаний и практик в мире высокого фэнтези\n\nСсылка на регистрацию: https://infostart.ru/event/apm2026/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=apm2026\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX6H
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:d92b2b71bb8ed1e0cb754eda77c76c0f@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261113T100000
+DTEND;TZID=Europe/Moscow:20261113T180000
+SUMMARY:Infostart A&PM Event 2026 (13 ноября)
+DESCRIPTION:Практическая конференция для аналитиков и руководителей проектов. Три дня профессионального общения\, новых знаний и практик в мире высокого фэнтези\n\nСсылка на регистрацию: https://infostart.ru/event/apm2026/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=apm2026\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX6H
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:afcafd114a7fe8b72adcac0a653a9e7a@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261114T100000
+DTEND;TZID=Europe/Moscow:20261114T180000
+SUMMARY:Infostart A&PM Event 2026 (14 ноября)
+DESCRIPTION:Практическая конференция для аналитиков и руководителей проектов. Три дня профессионального общения\, новых знаний и практик в мире высокого фэнтези\n\nСсылка на регистрацию: https://infostart.ru/event/apm2026/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=apm2026\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX6H
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

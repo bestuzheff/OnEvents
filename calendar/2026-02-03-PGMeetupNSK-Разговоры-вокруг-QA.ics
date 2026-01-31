@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Asia/Novosibirsk
+BEGIN:VEVENT
+UID:07f976dd57261744d82ec98582da2a15@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20260203T183000
+DTEND;TZID=Asia/Novosibirsk:20260203T213000
+SUMMARY:PGMeetupNSK - Разговоры вокруг QA (3 февраля)
+DESCRIPTION:PGMeetup — традиционное мероприятие от компании Postgres Professional\, где в рамках камерной атмосферы мы не выбираем одну конкретную тему для обсуждения\, а просто берём направление\, которое нам кажется интересным.\n\nСсылка на регистрацию: https://pgconf.ru/030226\n\nВремя: 18:30-21:30\n\nПоказать на карте: https://clck.ru/3RFnwM
+LOCATION:Новосибирск, ул. Инженерная, д. 7, БЦ Port i7
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

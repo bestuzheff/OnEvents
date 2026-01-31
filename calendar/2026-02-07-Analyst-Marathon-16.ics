@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:9d7e8da5d38b8bc7517498339b440d8d@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260207T100000
+DTEND;TZID=Europe/Moscow:20260207T170000
+SUMMARY:Analyst Marathon #16 (7 февраля)
+DESCRIPTION:Это будет не просто конференция\, а практический рывок для архитекторов\, аналитиков и всех\, кто строит цифровое завтра. Интеграции\, API\, Микросервисы\, Архитектурные подходы в работе BA/SA BPM.\n\nСсылка на регистрацию: https://analyst-marathon.timepad.ru/event/3693271\n\nВремя: 10:00-17:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

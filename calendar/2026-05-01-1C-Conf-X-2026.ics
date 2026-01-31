@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:6b5680357b837ee54058c01637473484@onevents.ru
+DTSTART;VALUE=DATE:20260501
+SUMMARY:1C Conf X 2026
+DESCRIPTION:Конференция объединяет ведущих специалистов\, которые поделятся успешными проектами и практическими советами по решению сложных задач в 1С-разработке. (❗️Точная дата и место проведения конференции уточняется и будут доступны позже.)\n\nСсылка на регистрацию: https://1cconf.ru/2026
+LOCATION:Москва
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

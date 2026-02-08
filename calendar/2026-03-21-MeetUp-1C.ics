@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:12ab14be0c0e53adb16d06adc8160e19@onevents.ru
+DTSTART:20260321T100000
+DTEND:20260321T140000
+SUMMARY:MeetUp 1C (21 марта)
+DESCRIPTION:Неформальная встреча для программистов 1С разного уровня\, в рамках которой участники смогут погрузиться в атмосферу комьюнити 1С\, познакомиться с высококвалифицированными специалистами и пообщаться с единомышленниками. (Ссылка на регистрацию будет позже.)\n\nСсылка на регистрацию: \n\nВремя: 10:00-14:00\n\nПоказать на карте: https://clck.ru/3RbwD6
+LOCATION:Владивосток, Набережная улица, 20
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

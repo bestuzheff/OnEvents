@@ -431,7 +431,7 @@ def render_event(e):
       <div class="card-header">
         <div class="card-header-main">
           <img class="logo-img" alt="Логотип «{e['title']}»" 
-               src="img/{e['icon']}" width="72" height="72" 
+               src="img/events/{e['icon']}" width="72" height="72" 
                style="border-radius:50%; object-fit:cover;">
           <div class="event-info">
             <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>

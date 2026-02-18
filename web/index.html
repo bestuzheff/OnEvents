@@ -304,6 +304,7 @@
           <nav>
             <div id="mobileCityFilterWrapper" class="city-filter-wrapper"></div>
             <a href="#top" class="mobile-menu-link">События</a>
+            <a href="#webinars" class="mobile-menu-link">Прямой эфир</a>
             <a href="#public-calendars" class="mobile-menu-link">Календари</a>
             <a href="#about" class="mobile-menu-link">О проекте</a>
             <a href="https://onevents.ru/rss/rss.xml" class="mobile-menu-link">RSS</a>
@@ -320,6 +321,34 @@
   <div id="events">
     {{ events }}
   </div>
+
+  <!-- Блок прямой эфир -->
+  <section id="webinars">
+    <h2>📺 Прямой эфир</h2>
+
+      <article class="card" itemscope itemtype="https://schema.org/Event">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «{e['title']}»" src="img/webinars/2026-02-26_RI.jpg" width="128" height="128"> 
+          <div class="event-info">
+            <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time itemprop="startDate" datetime="{e['date']}">{date_str}</time>
+            </div>
+          </div>
+        </div>
+        <button class="event-copy-btn" data-event-id="{event_id}" title="Копировать ссылку на событие">🔗</button>
+      </div>
+      <p>{e['description']}</p>
+      <div class="event-actions">
+        <a href="{registration_url_with_utm}" role="button" target="_blank">Трансляция</a>
+        <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
+      </div>
+    </article>
+  
+  </section>
+
 
   <!-- Блок публичных календарей -->
   <section id="public-calendars">

@@ -505,7 +505,7 @@ def render_webinar(e):
     webinar_id = generate_event_id(e, "webinar")
     
     return f"""
-    <article class="card" itemscope itemtype="https://schema.org/Event">
+    <article class="card" itemscope itemtype="https://schema.org/Event" id="{webinar_id}">
       <div class="card-header">
         <div class="card-header-main">
           <img class="logo-img" alt="Логотип «{e['title']}»" src="img/webinars/{e['pic']}" width="256">

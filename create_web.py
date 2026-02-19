@@ -1,13 +1,13 @@
 import yaml
 from datetime import datetime, date, timezone
 from email.utils import format_datetime
-from zoneinfo import ZoneInfo
 import xml.sax.saxutils as saxutils
 from pathlib import Path
 from babel.dates import format_date
 import shutil
 import hashlib
 import requests
+import pytz
 
 from utils.text import clean_text, make_slug, to_hhmmss, SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
 
@@ -215,15 +215,15 @@ def generate_event_vevent(event, session=None, session_index=None):
         )
         
         return f"""BEGIN:VEVENT
-        UID:{uid}@onevents.ru
-        DTSTART{tz_param}:{start_datetime}
-        DTEND{tz_param}:{end_datetime}
-        SUMMARY:{session_title}
-        DESCRIPTION:{description_text}
-        LOCATION:{location}
-        STATUS:CONFIRMED
-        TRANSP:OPAQUE
-        END:VEVENT"""
+UID:{uid}@onevents.ru
+DTSTART{tz_param}:{start_datetime}
+DTEND{tz_param}:{end_datetime}
+SUMMARY:{session_title}
+DESCRIPTION:{description_text}
+LOCATION:{location}
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT"""
     else:
         # Обычное однодневное событие
         event_date = datetime.strptime(event['date'], "%Y-%m-%d")
@@ -241,14 +241,14 @@ def generate_event_vevent(event, session=None, session_index=None):
         )
         
         return f"""BEGIN:VEVENT
-        UID:{uid}@onevents.ru
-        DTSTART;VALUE=DATE:{event_date.strftime('%Y%m%d')}
-        SUMMARY:{title}
-        DESCRIPTION:{description_text}
-        LOCATION:{location}
-        STATUS:CONFIRMED
-        TRANSP:OPAQUE
-        END:VEVENT"""
+UID:{uid}@onevents.ru
+DTSTART;VALUE=DATE:{event_date.strftime('%Y%m%d')}
+SUMMARY:{title}
+DESCRIPTION:{description_text}
+LOCATION:{location}
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT"""
 
 # Функция генерации общего календаря со всеми событиями
 def generate_public_calendar(events, calendar_name: str | None = None, wr_url: str | None = None):
@@ -267,18 +267,18 @@ def generate_public_calendar(events, calendar_name: str | None = None, wr_url: s
     cal_url = wr_url
 
     ics_content = f"""BEGIN:VCALENDAR
-    VERSION:2.0
-    PRODID:-//OnEvents//OnEvents Calendar//RU
-    CALSCALE:GREGORIAN
-    METHOD:PUBLISH
-    X-WR-CALNAME:{cal_name}
-    X-WR-CALDESC:Календарь 1С событий от OnEvents
-    X-WR-TIMEZONE:Europe/Moscow
-    X-WR-URL:{cal_url}
-    REFRESH-INTERVAL;VALUE=DURATION:PT1H
-    X-PUBLISHED-TTL:PT1H
-    LAST-MODIFIED:{now_str}
-    DTSTAMP:{now_str}"""
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:{cal_name}
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:{cal_url}
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:{now_str}
+DTSTAMP:{now_str}"""
     
     # Добавляем все события в календарь
     for event in events:
@@ -298,7 +298,7 @@ def generate_public_calendar(events, calendar_name: str | None = None, wr_url: s
             ics_content += f"\n{vevent}"
     
     ics_content += """
-    END:VCALENDAR"""
+END:VCALENDAR"""
     
     return ics_content
 
@@ -308,15 +308,15 @@ def generate_ics_content(event):
     
     # Формируем ICS содержимое
     ics_content = """BEGIN:VCALENDAR
-    VERSION:2.0
-    PRODID:-//OnEvents//OnEvents Calendar//RU
-    CALSCALE:GREGORIAN
-    METHOD:PUBLISH"""
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH"""
 
     tzid = get_timezone_for_event(event)
     if tzid:
         ics_content += f"""
-        X-WR-TIMEZONE:{tzid}"""
+X-WR-TIMEZONE:{tzid}"""
     
     # Проверяем, есть ли секция sessions для события
     if 'sessions' in event and event['sessions']:
@@ -334,7 +334,7 @@ def generate_ics_content(event):
         ics_content += f"\n{vevent}"
     
     ics_content += """
-    END:VCALENDAR"""
+END:VCALENDAR"""
     
     return ics_content
 
@@ -508,7 +508,7 @@ def render_webinar(e):
     <article class="card" itemscope itemtype="https://schema.org/Event">
       <div class="card-header">
         <div class="card-header-main">
-          <img class="logo-img" alt="Логотип «{e['title']}»" src="img/events/{e['pic']}" width="256">
+          <img class="logo-img" alt="Логотип «{e['title']}»" src="img/webinars/{e['pic']}" width="256">
           <div class="event-info">
             <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>
             <div class="meta-item">
@@ -541,7 +541,7 @@ def generate_rss(all_events):
     all_events = sorted(all_events, key=lambda e: e["date"], reverse=True)
     for event in all_events:
         tz_name = get_timezone_for_event(event) or "Europe/Moscow"
-        tz = ZoneInfo(tz_name)
+        tz = pytz.timezone(tz_name)
         event_date = datetime.strptime(event["date"], "%Y-%m-%d")
         event_date = event_date.replace(tzinfo=tz)
         pub_date = format_datetime(event_date)

@@ -19,6 +19,8 @@ RUN mkdir -p /app/img
 COPY img/ /app/img/
 RUN mkdir -p /app/events
 COPY events/ /app/events/
+RUN mkdir -p /app/webinars
+COPY webinars/ /app/webinars/
 RUN mkdir -p /app/icons
 COPY icons/ /app/icons/
 

@@ -13,6 +13,7 @@ from utils.text import clean_text, make_slug, to_hhmmss, SAFE_CHARS_PATTERN, DAS
 
 # Пути
 EVENTS_DIR = Path("events")
+WEBINARS_DIR = Path("webinars")
 TEMPLATE_FILE = Path("web/index.html")
 OUTPUT_DIR = Path("site")
 OUTPUT_FILE = OUTPUT_DIR / "index.html"
@@ -21,9 +22,13 @@ OUTPUT_FILE = OUTPUT_DIR / "index.html"
 template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
 # Список событий
-all_events = []  # все события (включая прошедшие)
-events = []      # только будущие события для карточек/индивидуальных .ics
+all_events = []    # все события (включая прошедшие)
+events = []        # только будущие события для карточек/индивидуальных .ics
+all_webinars = []  # все вебинары (включая прошедшие)
+webinars = []      # только будущие вебинары для карточек/индивидуальных .ics
 
+#######################################################
+# Заполняем события
 for file in EVENTS_DIR.glob("*.yml"):
     with open(file, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
@@ -39,6 +44,25 @@ for file in EVENTS_DIR.glob("*.yml"):
 # Сортируем по дате
 all_events.sort(key=lambda e: e["date"])  # для общего календаря
 events.sort(key=lambda e: e["date"])      # для карточек/индивидуальных .ics
+
+#######################################################
+# Заполняем вебинары
+for file in WEBINARS_DIR.glob("*.yml"):
+    with open(file, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+
+    # Добавляем имя файла к данным вебинара (без расширения .yml)
+    data['filename'] = file.stem
+    
+    webinar_date = datetime.strptime(data["date"], "%Y-%m-%d").date()
+    all_webinars.append(data)
+    if webinar_date >= datetime.today().date():
+        webinars.append(data)
+
+# Сортируем по дате
+all_webinars.sort(key=lambda e: e["date"])  # для общего календаря
+webinars.sort(key=lambda e: e["date"])      # для карточек/индивидуальных .ics
+
 
 # Функция для сокращения ссылок через clck.ru
 def shorten_url(url: str) -> str:
@@ -134,8 +158,9 @@ def generate_event_vevent(event, session=None, session_index=None):
     uid_components = [
         event['title'],
         event['date'],
-        event['city'],
+        event.get('city', ''),
         event.get('address', ''),
+        event.get('url', ''),
         event.get('registration_url', '')
     ]
     
@@ -150,9 +175,13 @@ def generate_event_vevent(event, session=None, session_index=None):
     uid = hashlib.md5(uid_string.encode('utf-8')).hexdigest() # NOSONAR
     
     # Формируем адрес
-    location = event['city']
-    if event['address']:
-        location += f", {event['address']}"
+    location = event.get('city', '')
+    if not location:
+        location = "Online"
+
+    address = event.get('address')
+    if address:  # проверяет на None и «ложные» значения
+        location += f", {address}"
     
     title = clean_text(event['title'])
     description = clean_text(event['description'])
@@ -174,26 +203,27 @@ def generate_event_vevent(event, session=None, session_index=None):
         
         
         # Добавляем короткую ссылку на карту если есть
-        map_url = shorten_url(map_link(event['city'], event['address']))
+        map_url = shorten_url(map_link(event.get('city', ''), event.get('address', '')))
         map_text = ""
         if map_url:
             map_text = f"\\n\\nПоказать на карте: {map_url}"
         
+        registration_link = event.get('registration_url') or event.get('url', '')
         description_text = (
-            f"{description}\\n\\nСсылка на регистрацию: {event['registration_url']}"
+            f"{description}\\n\\nСсылка: {registration_link}"
             f"\\n\\nВремя: {session['start_time']}-{session['end_time']}{map_text}"
         )
         
         return f"""BEGIN:VEVENT
-UID:{uid}@onevents.ru
-DTSTART{tz_param}:{start_datetime}
-DTEND{tz_param}:{end_datetime}
-SUMMARY:{session_title}
-DESCRIPTION:{description_text}
-LOCATION:{location}
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT"""
+        UID:{uid}@onevents.ru
+        DTSTART{tz_param}:{start_datetime}
+        DTEND{tz_param}:{end_datetime}
+        SUMMARY:{session_title}
+        DESCRIPTION:{description_text}
+        LOCATION:{location}
+        STATUS:CONFIRMED
+        TRANSP:OPAQUE
+        END:VEVENT"""
     else:
         # Обычное однодневное событие
         event_date = datetime.strptime(event['date'], "%Y-%m-%d")
@@ -205,19 +235,20 @@ END:VEVENT"""
         if map_url:
             map_text = f"\\n\\nПоказать на карте: {map_url}"
         
+        registration_link = event.get('registration_url') or event.get('url', '')
         description_text = (
-            f"{description}\\n\\nСсылка на регистрацию: {event['registration_url']}{map_text}"
+            f"{description}\\n\\nСсылка: {registration_link}{map_text}"
         )
         
         return f"""BEGIN:VEVENT
-UID:{uid}@onevents.ru
-DTSTART;VALUE=DATE:{event_date.strftime('%Y%m%d')}
-SUMMARY:{title}
-DESCRIPTION:{description_text}
-LOCATION:{location}
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT"""
+        UID:{uid}@onevents.ru
+        DTSTART;VALUE=DATE:{event_date.strftime('%Y%m%d')}
+        SUMMARY:{title}
+        DESCRIPTION:{description_text}
+        LOCATION:{location}
+        STATUS:CONFIRMED
+        TRANSP:OPAQUE
+        END:VEVENT"""
 
 # Функция генерации общего календаря со всеми событиями
 def generate_public_calendar(events, calendar_name: str | None = None, wr_url: str | None = None):
@@ -236,18 +267,18 @@ def generate_public_calendar(events, calendar_name: str | None = None, wr_url: s
     cal_url = wr_url
 
     ics_content = f"""BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//OnEvents//OnEvents Calendar//RU
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:{cal_name}
-X-WR-CALDESC:Календарь 1С событий от OnEvents
-X-WR-TIMEZONE:Europe/Moscow
-X-WR-URL:{cal_url}
-REFRESH-INTERVAL;VALUE=DURATION:PT1H
-X-PUBLISHED-TTL:PT1H
-LAST-MODIFIED:{now_str}
-DTSTAMP:{now_str}"""
+    VERSION:2.0
+    PRODID:-//OnEvents//OnEvents Calendar//RU
+    CALSCALE:GREGORIAN
+    METHOD:PUBLISH
+    X-WR-CALNAME:{cal_name}
+    X-WR-CALDESC:Календарь 1С событий от OnEvents
+    X-WR-TIMEZONE:Europe/Moscow
+    X-WR-URL:{cal_url}
+    REFRESH-INTERVAL;VALUE=DURATION:PT1H
+    X-PUBLISHED-TTL:PT1H
+    LAST-MODIFIED:{now_str}
+    DTSTAMP:{now_str}"""
     
     # Добавляем все события в календарь
     for event in events:
@@ -267,7 +298,7 @@ DTSTAMP:{now_str}"""
             ics_content += f"\n{vevent}"
     
     ics_content += """
-END:VCALENDAR"""
+    END:VCALENDAR"""
     
     return ics_content
 
@@ -277,15 +308,15 @@ def generate_ics_content(event):
     
     # Формируем ICS содержимое
     ics_content = """BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//OnEvents//OnEvents Calendar//RU
-CALSCALE:GREGORIAN
-METHOD:PUBLISH"""
+    VERSION:2.0
+    PRODID:-//OnEvents//OnEvents Calendar//RU
+    CALSCALE:GREGORIAN
+    METHOD:PUBLISH"""
 
     tzid = get_timezone_for_event(event)
     if tzid:
         ics_content += f"""
-X-WR-TIMEZONE:{tzid}"""
+        X-WR-TIMEZONE:{tzid}"""
     
     # Проверяем, есть ли секция sessions для события
     if 'sessions' in event and event['sessions']:
@@ -303,7 +334,7 @@ X-WR-TIMEZONE:{tzid}"""
         ics_content += f"\n{vevent}"
     
     ics_content += """
-END:VCALENDAR"""
+    END:VCALENDAR"""
     
     return ics_content
 
@@ -393,12 +424,12 @@ def generate_event_calendars(events, calendar_dir):
         ics_file_path.write_text(ics_content, encoding="utf-8")
 
 # Функция генерации ID события для якорных ссылок
-def generate_event_id(event):
+def generate_event_id(event, type):
     """Генерирует уникальный ID для события на основе имени файла"""
     # Используем имя файла как основу для ID (оно уже содержит дату и краткое описание)
-    return f"event-{event['filename']}"
+    return f"{type}-{event['filename']}"
 
-# Функция генерации карточки
+# Функция генерации карточки события
 def render_event(e):
     date_obj = datetime.strptime(e['date'], "%Y-%m-%d")
     date_str = date_str = format_date(date_obj, format="d MMMM y", locale="ru")  # 15 сентября 2025
@@ -418,7 +449,7 @@ def render_event(e):
     registration_url_with_utm = add_utm_marks(e['registration_url'])
     
     # Генерируем уникальный ID для события
-    event_id = generate_event_id(e)
+    event_id = generate_event_id(e, "event")
     
     # Добавляем ссылку на карту
     map_url = map_link(e['city'], e['address'])
@@ -457,6 +488,46 @@ def render_event(e):
     </article>
     """
 
+# Функция генерации карточки вебинара
+def render_webinar(e):
+    date_obj = datetime.strptime(e['date'], "%Y-%m-%d")
+    date_str = date_str = format_date(date_obj, format="d MMMM y", locale="ru")  # 15 сентября 2025
+        
+    # Генерируем имя файла для .ics
+    safe_title = SAFE_CHARS_PATTERN.sub('', e['title']).strip()
+    safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
+    ics_filename = f"{e['date']}-{safe_title}.ics"
+    
+    # Добавляем UTM метки к ссылке регистрации
+    translation_url = e['url']
+    
+    # Генерируем уникальный ID для события
+    webinar_id = generate_event_id(e, "webinar")
+    
+    return f"""
+    <article class="card" itemscope itemtype="https://schema.org/Event">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «{e['title']}»" src="img/events/{e['pic']}" width="256">
+          <div class="event-info">
+            <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time itemprop="startDate" datetime="{e['date']}">{date_str}</time>
+            </div>
+            {e['description']}
+            <div class="event-actions">
+              <a href="{translation_url}" role="button" target="_blank">Трансляция</a>
+              <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
+            </div>
+          </div>
+        </div>
+        <button class="event-copy-btn" data-event-id="{webinar_id}" title="Копировать ссылку на событие">🔗</button>
+      </div>
+    </article>
+    """    
+
+
 # Функция генерации RSS ленты
 def generate_rss(all_events):
     """Генерирует общий RSS со всеми событиями"""
@@ -475,7 +546,7 @@ def generate_rss(all_events):
         event_date = event_date.replace(tzinfo=tz)
         pub_date = format_datetime(event_date)
 
-        event_id = generate_event_id(event)
+        event_id = generate_event_id(event, "event")
         event_link = f"{site_url}/#{event_id}"
 
         title = saxutils.escape(event["title"])
@@ -501,20 +572,20 @@ def generate_rss(all_events):
         """)
 
     rss_content = f"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
-    xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-    <title>События 1С — OnEvents</title>
-    <link>{site_url}</link>
-    <atom:link href="{rss_url}" rel="self" type="application/rss+xml" />
-    <description>Все события 1С от OnEvents</description>
-    <language>ru</language>
-    <lastBuildDate>{format_datetime(now)}</lastBuildDate>
-    <generator>OnEvents</generator>
-    {''.join(rss_items)}
-</channel>
-</rss>
-"""
+    <rss version="2.0"
+        xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>События 1С — OnEvents</title>
+        <link>{site_url}</link>
+        <atom:link href="{rss_url}" rel="self" type="application/rss+xml" />
+        <description>Все события 1С от OnEvents</description>
+        <language>ru</language>
+        <lastBuildDate>{format_datetime(now)}</lastBuildDate>
+        <generator>OnEvents</generator>
+        {''.join(rss_items)}
+    </channel>
+    </rss>
+    """
 
     return rss_content
 
@@ -532,6 +603,7 @@ calendar_dir = OUTPUT_DIR / "calendar"
 calendar_dir.mkdir(exist_ok=True)
 
 generate_event_calendars(events, calendar_dir)
+generate_event_calendars(webinars, calendar_dir)
 public_calendars = generate_public_calendars(all_events, calendar_dir)
 
 # Генерируем RSS
@@ -543,6 +615,7 @@ rss_file.write_text(rss_content, encoding="utf-8")
 
 # Генерируем HTML
 events_html = "\n".join(render_event(e) for e in events)
+webinar_html = "\n".join(render_webinar(e) for e in webinars)
 public_calendars_html = render_public_calendars(public_calendars)
 
 # Подставляем в шаблон
@@ -550,6 +623,7 @@ today_date_str = format_date(date.today(), format="d MMMM y", locale="ru")
 result_html = (
     template
     .replace("{{ events }}", events_html)
+    .replace("{{ webinars }}", webinar_html)
     .replace("{{ public_calendars }}", public_calendars_html)
     .replace("{{ builddate }}", today_date_str)
 )

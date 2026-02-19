@@ -163,6 +163,8 @@
         article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
         .card-header {display:flex;align-items:flex-start;gap:.75em;margin-bottom:.75em;flex-wrap:wrap;}
         .card-header-main {display:flex;align-items:flex-start;gap:.75em;flex:1;min-width:0;}
+        .event-info {display:flex;flex-direction:column;gap:.35em;flex:1;min-width:0;}
+        #webinars .event-info p {margin:0;line-height:1.25;}
         .card-title {margin:0;font-size:1.5em;}
         .meta {display:block;margin:.25em 0 .5em 0;}
         .meta-item {font-size:.95em;color:var(--muted);display:flex;align-items:baseline;margin:.15em 0;}
@@ -234,6 +236,17 @@
         }
         .calendar-copy-btn:active {
             transform: translateY(-50%) scale(0.9);
+        }
+
+        /* Адаптивное поведение блока вебинаров */
+        @media (max-width: 600px) {
+            #webinars .card-header-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #webinars .event-info {
+                width: 100%;
+            }
         }
         
         /* Стили для кнопки копирования ссылки события */
@@ -325,29 +338,8 @@
   <!-- Блок прямой эфир -->
   <section id="webinars">
     <h2>📺 Прямой эфир</h2>
-
-      <article class="card" itemscope itemtype="https://schema.org/Event">
-      <div class="card-header">
-        <div class="card-header-main">
-          <img class="logo-img" alt="Логотип «{e['title']}»" src="img/webinars/2026-02-26_RI.jpg" width="128" height="128"> 
-          <div class="event-info">
-            <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>
-            <div class="meta-item">
-              <span class="icon">📅</span>
-              <time itemprop="startDate" datetime="{e['date']}">{date_str}</time>
-            </div>
-          </div>
-        </div>
-        <button class="event-copy-btn" data-event-id="{event_id}" title="Копировать ссылку на событие">🔗</button>
-      </div>
-      <p>{e['description']}</p>
-      <div class="event-actions">
-        <a href="{registration_url_with_utm}" role="button" target="_blank">Трансляция</a>
-        <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
-      </div>
-    </article>
-  
-  </section>
+    {{ webinars }}
+    </section>
 
 
   <!-- Блок публичных календарей -->
@@ -355,8 +347,7 @@
     {{ public_calendars }}
   </section>
 
-  <!-- Блок О проекте -->
-   
+  <!-- Блок О проекте -->   
   <section id="about">
     <h2>О проекте</h2>
 

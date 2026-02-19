@@ -163,6 +163,8 @@
         article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
         .card-header {display:flex;align-items:flex-start;gap:.75em;margin-bottom:.75em;flex-wrap:wrap;}
         .card-header-main {display:flex;align-items:flex-start;gap:.75em;flex:1;min-width:0;}
+        .event-info {display:flex;flex-direction:column;gap:.35em;flex:1;min-width:0;}
+        #webinars .event-info p {margin:0;line-height:1.25;}
         .card-title {margin:0;font-size:1.5em;}
         .meta {display:block;margin:.25em 0 .5em 0;}
         .meta-item {font-size:.95em;color:var(--muted);display:flex;align-items:baseline;margin:.15em 0;}
@@ -235,6 +237,17 @@
         .calendar-copy-btn:active {
             transform: translateY(-50%) scale(0.9);
         }
+
+        /* Адаптивное поведение блока вебинаров */
+        @media (max-width: 600px) {
+            #webinars .card-header-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #webinars .event-info {
+                width: 100%;
+            }
+        }
         
         /* Стили для кнопки копирования ссылки события */
         .event-copy-btn {
@@ -304,6 +317,7 @@
           <nav>
             <div id="mobileCityFilterWrapper" class="city-filter-wrapper"></div>
             <a href="#top" class="mobile-menu-link">События</a>
+            <a href="#webinars" class="mobile-menu-link">Прямой эфир</a>
             <a href="#public-calendars" class="mobile-menu-link">Календари</a>
             <a href="#about" class="mobile-menu-link">О проекте</a>
             <a href="https://onevents.ru/rss/rss.xml" class="mobile-menu-link">RSS</a>
@@ -321,13 +335,19 @@
     {{ events }}
   </div>
 
+  <!-- Блок прямой эфир -->
+  <section id="webinars">
+    <h2>📺 Прямой эфир</h2>
+    {{ webinars }}
+    </section>
+
+
   <!-- Блок публичных календарей -->
   <section id="public-calendars">
     {{ public_calendars }}
   </section>
 
-  <!-- Блок О проекте -->
-   
+  <!-- Блок О проекте -->   
   <section id="about">
     <h2>О проекте</h2>
 

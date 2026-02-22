@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:15fc3a95b4740b178a6093d56d665082@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260320T100000
+DTEND;TZID=Europe/Moscow:20260320T180000
+SUMMARY:Жёлтый митап №2 (20 марта)
+DESCRIPTION:Разработка на 1С в 2026 году: нейросети\, интеграция\, тренды. Практические кейсы и инструменты от экспертов: как использовать ИИ\, интеграции и современные методы разработки в проектах на 1С.\n\nСсылка: https://cors.su/zhyoltyj-mitap/\n\nВремя: 10:00-18:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,54 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Владивосток - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-владивосток.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260301T050334Z
+DTSTAMP:20260301T050334Z
+BEGIN:VEVENT
+UID:1a329ff80fafbc420d90ca8f38ff7984@onevents.ru
+DTSTART:20251029T190000
+DTEND:20251029T210000
+SUMMARY:Встреча 1С специалистов во Владивостоке Октябрь 2025 (29 октября)
+DESCRIPTION:Четвертый митап Желтого клуба во Владивостоке. В программе встречи: два доклада\, пицца\, общение с единомышленниками.\n\nСсылка: https://zheltyy-klub-vladivostok.timepad.ru/event/3629179\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3PnJ7M
+LOCATION:Владивосток, ул. Светланская 33, 3 этаж — коворкинг Дом
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:d973d324bf548e50cbc0b8523e938d49@onevents.ru
+DTSTART:20251204T170000
+DTEND:20251204T211500
+SUMMARY:PGMeetup.VLD 2025 (4 декабря)
+DESCRIPTION:Уникальная возможность послушать выступления экспертов по СУБД PostgreSQL во Владивостоке\, задать вопросы и пообщаться в неформальной обстановке. Мероприятие проводится для IT-специалистов и всех желающих прикоснуться к Вселенной Postgres.\n\nСсылка: https://pgconf.ru/pgvld\n\nВремя: 17:00-21:15\n\nПоказать на карте: https://clck.ru/3QKiZh
+LOCATION:Владивосток, Набережная ул, зд. 13 стр. 1
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:7eca8788ad800599e88b29b8f025fffe@onevents.ru
+DTSTART:20251224T190000
+DTEND:20251224T210000
+SUMMARY:Желтый клуб Владивосток (24 декабря)
+DESCRIPTION:24 декабря 2025 года пройдет пятый митап Желтого клуба во Владивостоке. В программе встречи: два доклада\, пицца\, общение с единомышленниками.\n\nСсылка: https://zheltyy-klub-vladivostok.timepad.ru/event/3727903\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3PnJ7M
+LOCATION:Владивосток, ул. Светланская 33, 3 этаж — коворкинг Дом
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:1266bbad6e7be2b1f85400a9f4a2d0cf@onevents.ru
+DTSTART:20260321T100000
+DTEND:20260321T140000
+SUMMARY:MeetUp 1C (21 марта)
+DESCRIPTION:Неформальная встреча для программистов 1С разного уровня\, в рамках которой участники смогут погрузиться в атмосферу комьюнити 1С\, познакомиться с высококвалифицированными специалистами и пообщаться с единомышленниками. (Регистрация откроется 4 марта)\n\nСсылка: https://dns-tech.timepad.ru/event/3828473\n\nВремя: 10:00-14:00\n\nПоказать на карте: https://clck.ru/3RbwD6
+LOCATION:Владивосток, Набережная улица, 20
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

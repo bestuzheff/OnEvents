@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:b8539b3a32ba520ba156d408beb6a943@onevents.ru
+DTSTART;VALUE=DATE:20260319
+SUMMARY:PG BootCamp Russia 2026
+DESCRIPTION:Мероприятия PG BootCamp Russia направлены на приобретение участниками практических навыков при работе с СУБД PostgreSQL. Программа рассчитана на всех\, кто увлечен освоением тонкостей работы с базами данных PostgreSQL — как начинающих специалистов\, так и опытных разработчиков\, желающих углубить свои знания ядра и экосистемы и применить их на практике.\n\nСсылка: https://pgbootcamp.ru/ru/2026-moscow\n\nПоказать на карте: https://clck.ru/3S7R5x
+LOCATION:Москва, Ленинградский проспект, 36 стр. 33, Отель «Hyatt Regency Moscow Petrovsky Park»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,33 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Иркутск - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-иркутск.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260301T050340Z
+DTSTAMP:20260301T050340Z
+BEGIN:VEVENT
+UID:2c6870e1a2b58ae17a822cf99b889c52@onevents.ru
+DTSTART;VALUE=DATE:20250828
+SUMMARY:Кунг-фу конфа
+DESCRIPTION:«Кунг-фу конфа» — это место\, где 1С-специалисты могут расширить свои знания\, обменяться опытом и завести новые знакомства. На конференции вы получите ценные теоретические и практические навыки\, которые сможете использовать в своих повседневных задача.\n\nСсылка: https://kotovdima.timepad.ru/event/3489863/\n\nПоказать на карте: https://clck.ru/3PTX6N
+LOCATION:Иркутск, ул. ​Рабочая улица, 2а/4, БЦ Премьер, Коворкинг Мой бизнес
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:31a66d934fc75b64de36948118fece8d@onevents.ru
+DTSTART;TZID=Asia/Irkutsk:20251127T190000
+DTEND;TZID=Asia/Irkutsk:20251127T213000
+SUMMARY:Желтый клуб - Иркутск (27 ноября)
+DESCRIPTION:ИИ в 1С: применение на практике — встреча для специалистов\, которые хотят понять\, как искусственный интеллект применяется в реальных задачах 1С и бизнеса. Формат включает два практических доклада\, обсуждение кейсов участников и неформальную часть с ароматной пиццей.\n\nСсылка: https://kotovdima.timepad.ru/event/3680992\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3QQ6p5
+LOCATION:Иркутск, ул. Рабочая, 2а/4, 1 этаж, БЦ «Премьер», коворкинг «Мой бизнес»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

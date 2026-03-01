@@ -1,0 +1,21 @@
+{
+  "name": "OnEvents",
+  "short_name": "OnEvents",
+  "icons": [
+    {
+      "src": "/icons/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#1f2428",
+  "background_color": "#1f2428",
+  "display": "standalone"
+}

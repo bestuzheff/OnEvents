@@ -1,0 +1,44 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Новосибирск - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-новосибирск.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260301T050406Z
+DTSTAMP:20260301T050406Z
+BEGIN:VEVENT
+UID:f1a1526eb4749073177e64557385bb97@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20251204T190000
+DTEND;TZID=Asia/Novosibirsk:20251204T213000
+SUMMARY:1C Meetup (4 декабря)
+DESCRIPTION:Приглашаем 1С-разработчиков\, тестировщиков и аналитиков на бесплатный митап! В программе полезные доклады\, общение с экспертами и возможность перенять полезные практики. А ещё — мини-квиз! Правила простые: собери команду и приходи на митап со своими коллегами-друзьями\, отвечайте вместе на вопросы из области 1С и выигрывайте призы :)\n\nСсылка: https://koronatech.ru/events/241\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3QAcpq
+LOCATION:Новосибирск, Академгородок, ул. Ильича, 8 (бар 'Red Rabbit')
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:b61a11cf806b58b09f25d5ef50c10148@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20251216T190000
+DTEND;TZID=Asia/Novosibirsk:20251216T213000
+SUMMARY:Project Meetup (16 декабря)
+DESCRIPTION:Приглашаем на бесплатный митап менеджеров проектов\, менеджеров продуктов\, бизнес-аналитиков\, аналитиков данных и тимлидов!\n\nСсылка: https://koronatech.ru/events/242/\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3QHTm4
+LOCATION:Новосибирск, Красный проспект, 17/1, 9 этаж, ресторан 'Большие Пузырики'
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:07f976dd57261744d82ec98582da2a15@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20260203T183000
+DTEND;TZID=Asia/Novosibirsk:20260203T213000
+SUMMARY:PGMeetupNSK - Разговоры вокруг QA (3 февраля)
+DESCRIPTION:PGMeetup — традиционное мероприятие от компании Postgres Professional\, где в рамках камерной атмосферы мы не выбираем одну конкретную тему для обсуждения\, а просто берём направление\, которое нам кажется интересным.\n\nСсылка: https://pgconf.ru/030226\n\nВремя: 18:30-21:30\n\nПоказать на карте: https://clck.ru/3RFnwM
+LOCATION:Новосибирск, ул. Инженерная, д. 7, БЦ Port i7
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

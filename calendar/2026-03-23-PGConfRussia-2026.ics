@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:4b71341b1fa3543e2b89037d4f9144e0@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260323T100000
+DTEND;TZID=Europe/Moscow:20260323T180000
+SUMMARY:PGConf.Russia 2026 (23 марта)
+DESCRIPTION:PGConf.Russia — крупнейшая конференция по PostgreSQL в России и СНГ. Технические доклады\, демонстрации решений для работы с СУБД\, мастер-классы\, а также нетворкинг и обмен опытом с сообществом.\n\nСсылка: https://pgconf.ru/260323\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3R379R
+LOCATION:Москва, Краснопресненская наб., 12, вход №4, БИЗНЕС-ЦЕНТР WORLD TRADE CENTR
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:2cc7409990646f06762714bc8bcb737d@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260323T100000
+DTEND;TZID=Europe/Moscow:20260323T180000
+SUMMARY:PGConf.Russia 2026 (23 марта)
+DESCRIPTION:PGConf.Russia — крупнейшая конференция по PostgreSQL в России и СНГ. Технические доклады\, демонстрации решений для работы с СУБД\, мастер-классы\, а также нетворкинг и обмен опытом с сообществом.\n\nСсылка: https://pgconf.ru/260323\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3R379R
+LOCATION:Москва, Краснопресненская наб., 12, вход №4, БИЗНЕС-ЦЕНТР WORLD TRADE CENTR
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:28d0253de3b7d1f5c1995f73518a34cf@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260320T100000
+DTEND;TZID=Europe/Moscow:20260320T190000
+SUMMARY:Конференция по документообороту (20 марта)
+DESCRIPTION:Конференция посвящена актуальным решениям 1С в области электронного документооборота. Вы получите информацию о современных тенденциях\, узнаете о лучших практиках внедрения и использования систем электронного документооборота\, сможете задать вопросы экспертам и специалистам фирмы 1С и установить полезные деловые контакты.\n\nСсылка: https://docs.1cnw.ru/\n\nВремя: 10:00-19:00\n\nПоказать на карте: https://clck.ru/3RduNb
+LOCATION:Санкт-Петербург, Лермонтовский проспект, д. 43/1, AZIMUT Сити отель Санкт-Петербург 4*
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:232af3ad71e98e4a05bd0c0ee5968938@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260321T100000
+DTEND;TZID=Europe/Moscow:20260321T190000
+SUMMARY:Конференция по документообороту (21 марта)
+DESCRIPTION:Конференция посвящена актуальным решениям 1С в области электронного документооборота. Вы получите информацию о современных тенденциях\, узнаете о лучших практиках внедрения и использования систем электронного документооборота\, сможете задать вопросы экспертам и специалистам фирмы 1С и установить полезные деловые контакты.\n\nСсылка: https://docs.1cnw.ru/\n\nВремя: 10:00-19:00\n\nПоказать на карте: https://clck.ru/3RduNb
+LOCATION:Санкт-Петербург, Лермонтовский проспект, д. 43/1, AZIMUT Сити отель Санкт-Петербург 4*
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

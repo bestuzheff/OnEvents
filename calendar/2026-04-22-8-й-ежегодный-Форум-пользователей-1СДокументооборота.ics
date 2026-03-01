@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:1c9be66a5219e631d41a86491f457fe8@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260422T100000
+DTEND;TZID=Europe/Moscow:20260422T170000
+SUMMARY:8-й ежегодный Форум пользователей '1С:Документооборота' (22 апреля)
+DESCRIPTION:Фирма «1С» приглашает 22 апреля 2026 года пользователей\, потенциальных клиентов и партнеров принять участие в 8-м ежегодном Форуме пользователей «1С:Документооборота»\, посвященном практике применения решений «1С» для автоматизации документооборота.\n\nСсылка: https://regevent.1c.ru/fdo\n\nВремя: 10:00-17:00\n\nПоказать на карте: https://clck.ru/3S5TM9
+LOCATION:Москва, Дмитровское ш., д.9, Новый Зал фирмы '1С'
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

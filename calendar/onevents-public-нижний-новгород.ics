@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Нижний Новгород - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-нижний-новгород.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260301T050405Z
+DTSTAMP:20260301T050405Z
+BEGIN:VEVENT
+UID:a1a56d2fe989b79ae338169d6ce6e977@onevents.ru
+DTSTART:20251014T190000
+DTEND:20251014T220000
+SUMMARY:Т1 ЛАМПА: 1С (14 октября)
+DESCRIPTION:Митап для аналитиков\, программистов и других специалистов из сферы 1С. Послушаем хардовые (и не только) доклады от экспертов по 1С-разработке и аналитике\, разберем реальные кейсы\, проведем уютный вечер в кругу коллег.\n\nСсылка: https://pro.t1.ru/event/PIWQNMBW\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3PTX66
+LOCATION:Нижний Новгород, Зеленский Съезд, 4 (пространство Forself)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

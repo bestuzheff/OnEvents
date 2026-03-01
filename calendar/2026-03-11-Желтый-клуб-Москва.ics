@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:0e44521d0bfd75c41da3f26389f899c8@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260311T190000
+DTEND;TZID=Europe/Moscow:20260311T210000
+SUMMARY:Желтый клуб Москва (11 марта)
+DESCRIPTION:Желтый клуб — сообщество 1С программистов. В программе встречи: доклады\, пицца\, общение с единомышленниками.\n\nСсылка: https://zheltyy-klub-moskva.timepad.ru/event/3828716\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3QDDRn
+LOCATION:Москва, м. Бауманская, ул. Малая Почтовая, д. 2/2, стр. 1
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

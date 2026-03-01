@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:4cd8bb60f136b8ecda80592541881d8c@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260312T190000
+DTEND;TZID=Europe/Moscow:20260312T220000
+SUMMARY:Желтый клуб Питер - Март 2026 (12 марта)
+DESCRIPTION:Желтый клуб — сообщество 1С программистов. Наша цель — расти профессионально вместе с единомышленниками из 1С сферы. Желтый клуб объединяет 1С разработчиков\, 1С аналитиков и пользователей платформы 1С Предприятие.\n\nСсылка: https://yellowspb.timepad.ru/event/3808242\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3PTX6R
+LOCATION:Санкт-Петербург, ул. Малая Посадская 7/4, 2 этаж, Эквиум Лофт
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

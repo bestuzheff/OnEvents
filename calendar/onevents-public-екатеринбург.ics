@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Екатеринбург - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-екатеринбург.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260301T050338Z
+DTSTAMP:20260301T050338Z
+BEGIN:VEVENT
+UID:73bb99cf733e99f1252f0f2c4d898097@onevents.ru
+DTSTART:20260516T090000
+DTEND:20260516T190000
+SUMMARY:Кунг-фу конфа Екатеринбург (16 мая)
+DESCRIPTION:Кунг-фу конфа - мероприятие с сильными спикерами из индустрии (архитекторами\, ведущими разработчиками и практиками)\, где в формате «без воды» вы получите применимые на практике знания и погрузитесь в атмосферу профессионального комьюнити. (Предварительная запись)\n\nСсылка: https://kungfu-conf.ru/ekb2026\n\nВремя: 09:00-19:00
+LOCATION:Екатеринбург
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

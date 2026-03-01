@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:eba7555cf7a2b3ae6df68ab463874b83@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260527T090000
+DTEND;TZID=Europe/Moscow:20260527T220000
+SUMMARY:ЕСТЬРЕСУРС ERP AI FORUM (27 мая)
+DESCRIPTION:Профессиональная конференция о практическом применении ИИ в автоматизации бизнеса на базе 1С и не только. Формат — не «про теорию»\, а про то\, что действительно работает в бизнесе.\n\nСсылка: https://esresforum.ru\n\nВремя: 09:00-22:00\n\nПоказать на карте: https://clck.ru/3RPxbZ
+LOCATION:Москва, Бригадирский переулок, 13, (Конгресс-центр МГТУ им. Н.Э. Баумана)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

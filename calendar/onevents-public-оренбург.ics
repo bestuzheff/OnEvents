@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Оренбург - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-оренбург.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260301T050408Z
+DTSTAMP:20260301T050408Z
+BEGIN:VEVENT
+UID:1cb00f4860c1dda21be18342c58240ef@onevents.ru
+DTSTART;VALUE=DATE:20250912
+SUMMARY:MERGE ORENBURG 2025
+DESCRIPTION:Merge⠀— крупнейшая межрегиональная IT-конференция. Это место\, где встречаются представители разных сфер мира IT: от разработки до маркетинга.\n\nСсылка: https://orenburg2025.mergeconf.ru/\n\nПоказать на карте: https://clck.ru/3PTX6U
+LOCATION:Оренбург, ул. Постникова, 30Б, парк «Тополя»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

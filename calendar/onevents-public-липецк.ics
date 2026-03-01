@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Липецк - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-липецк.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260301T050342Z
+DTSTAMP:20260301T050342Z
+BEGIN:VEVENT
+UID:a4f11763986a00427f8870198f4069e0@onevents.ru
+DTSTART:20251216T183000
+DTEND:20251216T203000
+SUMMARY:Встреча Желтого клуба Липецк (16 декабря)
+DESCRIPTION:Встречаемся в историческом здании 19 века\, в котором располагалось Липецкое реальное училище\, после первый корпус Липецкого политехнического института\, а после Липецкий Кампус «Школы 21». Вот в такой атмосфере с традиций образования и современных технологий поговорим о современных трендах разработки 1С: маркировке (но не только о ней\, но и о других кейсах современной торговли) и технологиях искусственного интеллекта\, которые можно применить к разработке 1С\n\nСсылка: https://soobshchestvo-razrabotchi.timepad.ru/event/3709999\n\nВремя: 18:30-20:30\n\nПоказать на карте: https://clck.ru/3Qg6sQ
+LOCATION:Липецк, ул. Зегеля, д. 1, Кампус «Школы 21» в Липецкe
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

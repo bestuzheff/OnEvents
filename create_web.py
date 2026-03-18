@@ -477,8 +477,12 @@ def render_event(e):
     safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
     ics_filename = f"{e['date']}-{safe_title}.ics"
     
-    # Добавляем UTM метки к ссылке регистрации
-    registration_url_with_utm = add_utm_marks(e['registration_url'])
+    # Кнопку "Регистрация" показываем только если ссылка реально задана
+    raw_registration_url = (e.get('registration_url') or "").strip()
+    registration_url_with_utm = add_utm_marks(raw_registration_url) if raw_registration_url else ""
+    registration_button_html = ""
+    if registration_url_with_utm:
+        registration_button_html = f'<a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>'
     
     # Генерируем уникальный ID для события
     event_id = generate_event_id(e, "event")
@@ -514,7 +518,7 @@ def render_event(e):
       </div>
       <p>{e['description']}</p>
       <div class="event-actions">
-        <a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>
+        {registration_button_html}
         <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
       </div>
     </article>

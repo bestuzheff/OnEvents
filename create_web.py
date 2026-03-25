@@ -378,6 +378,21 @@ def generate_public_calendars(all_events, calendar_dir):
     
     return public_calendars
 
+
+def generate_webinars_public_calendar(all_webinars, calendar_dir):
+    """Генерирует отдельный публичный календарь для раздела «Прямой эфир» и возвращает ссылку на него"""
+    
+    webinars_calendar_url = "https://onevents.ru/calendar/onevents-webinars.ics"
+    webinars_calendar_content = generate_public_calendar(
+        all_webinars,
+        calendar_name="Прямой эфир — OnEvents",
+        wr_url=webinars_calendar_url,
+    )
+    webinars_calendar_path = calendar_dir / "onevents-webinars.ics"
+    webinars_calendar_path.write_text(webinars_calendar_content, encoding="utf-8")
+    
+    return webinars_calendar_url
+
 # Функция генерации HTML блока публичных календарей
 def render_public_calendars(public_calendars: list[tuple[str, str, str]]):
     """Генерирует HTML блок с публичными календарями"""
@@ -403,6 +418,23 @@ def render_public_calendars(public_calendars: list[tuple[str, str, str]]):
             <li>В приложении календаря выберите "Добавить календарь подписки" (для Apple) или "Добавить календарь по URL" (для Google)</li>
         </ol>
         {''.join(calendars_html)}
+    </article>
+    """
+
+
+def render_webinars_calendar(webinars_calendar_url: str):
+    """Генерирует HTML блок подписки на календарь для Прямого эфира (вебинаров)"""
+    
+    return f"""
+    <article class="card">
+        <p>Подпишитесь на отдельный календарь с вебинарами из раздела «Прямой эфир».</p>
+        <div class="calendar-item" data-city="">
+            <div class="calendar-city-name">Прямой эфир</div>
+            <div class="calendar-input-group">
+                <input type="text" class="calendar-input" value="{webinars_calendar_url}" readonly>
+                <button class="calendar-copy-btn" title="Копировать ссылку">🔗</button>
+            </div>
+        </div>
     </article>
     """
 
@@ -445,8 +477,12 @@ def render_event(e):
     safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
     ics_filename = f"{e['date']}-{safe_title}.ics"
     
-    # Добавляем UTM метки к ссылке регистрации
-    registration_url_with_utm = add_utm_marks(e['registration_url'])
+    # Кнопку "Регистрация" показываем только если ссылка реально задана
+    raw_registration_url = (e.get('registration_url') or "").strip()
+    registration_url_with_utm = add_utm_marks(raw_registration_url) if raw_registration_url else ""
+    registration_button_html = ""
+    if registration_url_with_utm:
+        registration_button_html = f'<a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>'
     
     # Генерируем уникальный ID для события
     event_id = generate_event_id(e, "event")
@@ -482,7 +518,7 @@ def render_event(e):
       </div>
       <p>{e['description']}</p>
       <div class="event-actions">
-        <a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>
+        {registration_button_html}
         <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
       </div>
     </article>
@@ -605,6 +641,7 @@ calendar_dir.mkdir(exist_ok=True)
 generate_event_calendars(events, calendar_dir)
 generate_event_calendars(webinars, calendar_dir)
 public_calendars = generate_public_calendars(all_events, calendar_dir)
+webinars_public_calendar_url = generate_webinars_public_calendar(all_webinars, calendar_dir)
 
 # Генерируем RSS
 rss_dir = OUTPUT_DIR / "rss"
@@ -617,6 +654,7 @@ rss_file.write_text(rss_content, encoding="utf-8")
 events_html = "\n".join(render_event(e) for e in events)
 webinar_html = "\n".join(render_webinar(e) for e in webinars)
 public_calendars_html = render_public_calendars(public_calendars)
+webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)
 
 # Подставляем в шаблон
 today_date_str = format_date(date.today(), format="d MMMM y", locale="ru")
@@ -625,6 +663,7 @@ result_html = (
     .replace("{{ events }}", events_html)
     .replace("{{ webinars }}", webinar_html)
     .replace("{{ public_calendars }}", public_calendars_html)
+    .replace("{{ webinars_calendar }}", webinars_calendar_html)
     .replace("{{ builddate }}", today_date_str)
 )
 

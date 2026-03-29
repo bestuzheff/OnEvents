@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fbe1fe4f749b13f542be1be5cf9b8e87@onevents.ru
+DTSTART:20260331T200000
+DTEND:20260331T210000
+SUMMARY:Е.БУДНИ программиста 1С - Разбор заметок + ответы на вопросы по 1С (31 марта)
+DESCRIPTION:Содержание стрима:\n\n🔸 Разбираем мои новые заметки за месяц\, которые я сохраняю в отдельном канале Е.Б.LIST\n🔸 Стандартный формат ответы на вопросы по сфере 1С (технические\, по развитию и т.п.)\n\n➡️ Ссылка на трансляцию в VK Live\, а также в YouTube ⬅️\n\n🔴 Будет запись\, если что\, пишите вопросы под этим постом! \n\n\nСсылка: https://www.youtube.com/@e_budni_programmer_1C\n\nВремя: 20:00-21:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

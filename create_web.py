@@ -461,10 +461,24 @@ def generate_event_id(event, type):
     # Используем имя файла как основу для ID (оно уже содержит дату и краткое описание)
     return f"{type}-{event['filename']}"
 
+
+def get_days_word_ru(days: int) -> str:
+    n = abs(days) % 100
+    if 11 <= n <= 14:
+        return "дней"
+    return ("дней", "день", "дня", "дня", "дня", "дней", "дней", "дней", "дней", "дней")[n % 10]
+
+
 # Функция генерации карточки события
 def render_event(e):
     date_obj = datetime.strptime(e['date'], "%Y-%m-%d")
-    date_str = date_str = format_date(date_obj, format="d MMMM y", locale="ru")  # 15 сентября 2025
+    days_left = (date_obj.date() - datetime.today().date()).days
+    date_str = format_date(date_obj, format="d MMMM y", locale="ru")  # 15 сентября 2025
+    if days_left == 0:
+        days_left_html = '<span class="days-left">(сегодня)</span>'
+    else:
+        day_word = get_days_word_ru(days_left)
+        days_left_html = f'<span class="days-left">(через {days_left} {day_word})</span>'
     
     
     if len(e['address']) == 0:
@@ -504,7 +518,7 @@ def render_event(e):
             <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{e['title']}</h2>
             <div class="meta-item">
               <span class="icon">📅</span>
-              <time itemprop="startDate" datetime="{e['date']}">{date_str}</time>
+              <time itemprop="startDate" datetime="{e['date']}">{date_str} {days_left_html}</time>
             </div>
             <div class="meta-item">
               <span class="icon">📌</span>

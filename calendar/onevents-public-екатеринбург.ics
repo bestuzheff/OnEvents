@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Екатеринбург - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-екатеринбург.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260413T064855Z
+DTSTAMP:20260413T064855Z
+BEGIN:VEVENT
+UID:907427fc4f1b7bbedf4b59ede85d67eb@onevents.ru
+DTSTART:20260424T190000
+DTEND:20260424T220000
+SUMMARY:Т1 ЛАМПА: 1С (24 апреля)
+DESCRIPTION:Митап для программистов\, аналитиков и других специалистов из сферы 1С. Послушаем хардовые (и не только) доклады от экспертов по 1С-разработке и аналитике\, разберем реальные кейсы\, проведем уютный вечер в кругу коллег.\n\nСсылка: https://pro.t1.ru/event/AoOgLIEW\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3StCuf
+LOCATION:Екатеринбург, ул. Верх-Исетский бульвар, д. 15/4 (Синара Центр)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:73bb99cf733e99f1252f0f2c4d898097@onevents.ru
+DTSTART:20260516T090000
+DTEND:20260516T190000
+SUMMARY:Кунг-фу конфа Екатеринбург (16 мая)
+DESCRIPTION:Кунг-фу конфа - мероприятие с сильными спикерами из индустрии (архитекторами\, ведущими разработчиками и практиками)\, где в формате «без воды» вы получите применимые на практике знания и погрузитесь в атмосферу профессионального комьюнити. (Предварительная запись)\n\nСсылка: https://kungfu-conf.ru/ekb2026\n\nВремя: 09:00-19:00
+LOCATION:Екатеринбург
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

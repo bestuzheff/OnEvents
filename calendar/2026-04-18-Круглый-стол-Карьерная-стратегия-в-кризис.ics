@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:c26043396615f7fd61ebc59faac154ba@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260418T123000
+DTEND;TZID=Europe/Moscow:20260418T163000
+SUMMARY:Круглый стол 'Карьерная стратегия в кризис' (18 апреля)
+DESCRIPTION:Присоединяйтесь к круглому столу проекта «ИТ‑Бранчи 1Сников»: обсудим\, как расти и искать работу в кризис\, а также какие навыки стоит прокачивать!\n\nСсылка: https://yellownote.timepad.ru/event/3903313\n\nВремя: 12:30-16:30\n\nПоказать на карте: https://clck.ru/3StC2e
+LOCATION:Санкт-Петербург, Ул. Чехова, 18
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

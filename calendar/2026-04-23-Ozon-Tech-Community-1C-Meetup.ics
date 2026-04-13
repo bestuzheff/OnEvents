@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:5d62fe3a912bfa8d0809bda102bd4696@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260423T190000
+DTEND;TZID=Europe/Moscow:20260423T230000
+SUMMARY:Ozon Tech Community 1C Meetup (23 апреля)
+DESCRIPTION:Приглашаем на встречу комьюнити для аналитиков и разработчиков — обсудим сложные и высоконагруженные проекты на 1С. Познакомимся с кейсами Ozon\, поговорим о производительности\, стресс‑тестировании и анализе процессов. Ждём вас — будет экспертно и практично!\n\nСсылка: https://ozon.tech/events/253-ozon-tech-community-1c-meetup\n\nВремя: 19:00-23:00\n\nПоказать на карте: https://clck.ru/3T5E2i
+LOCATION:Москва, ул. Бауманская 11, стр.8, лофт Casa Picassa (Кандинский и Шиле)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

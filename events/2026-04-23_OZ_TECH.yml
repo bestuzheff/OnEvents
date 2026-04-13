@@ -1,0 +1,11 @@
+title: "Ozon Tech Community 1C Meetup"
+date: "2026-04-23"
+city: "Москва"
+address: "ул. Бауманская 11, стр.8, лофт Casa Picassa (Кандинский и Шиле)"
+icon: "ozontech.png"
+description: "Приглашаем на встречу комьюнити для аналитиков и разработчиков — обсудим сложные и высоконагруженные проекты на 1С. Познакомимся с кейсами Ozon, поговорим о производительности, стресс‑тестировании и анализе процессов. Ждём вас — будет экспертно и практично!"
+registration_url: "https://ozon.tech/events/253-ozon-tech-community-1c-meetup"
+sessions:
+  - date: "2026-04-23"
+    start_time: "19:00"
+    end_time: "23:00"

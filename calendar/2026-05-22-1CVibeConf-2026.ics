@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:80b6dcc2a69eb02f110ec7c12cc01116@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260522T120000
+DTEND;TZID=Europe/Moscow:20260522T180000
+SUMMARY:1CVibeConf 2026 (22 мая)
+DESCRIPTION:Практическая конференция по ИИ для 1С. Доклады и мастер-классы от людей\, которые работают с ИИ и 1С каждый день. Каждый доклад — разбор реальных задач от постановки и до результата с живой демонстрацией.\n\nСсылка: https://vibecoding1c.ru/conference-2\n\nВремя: 12:00-18:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:40a8a1c7bb8e3947e8dbff0ec28ea2c5@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260523T120000
+DTEND;TZID=Europe/Moscow:20260523T180000
+SUMMARY:1CVibeConf 2026 (23 мая)
+DESCRIPTION:Практическая конференция по ИИ для 1С. Доклады и мастер-классы от людей\, которые работают с ИИ и 1С каждый день. Каждый доклад — разбор реальных задач от постановки и до результата с живой демонстрацией.\n\nСсылка: https://vibecoding1c.ru/conference-2\n\nВремя: 12:00-18:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:ea925472eb49305513f895d377d30948@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260716T090000
+DTEND;TZID=Europe/Moscow:20260716T210000
+SUMMARY:1C-RarusTechDay 2026 (16 июля)
+DESCRIPTION:1C‑RarusTechDay 2026 — девятая открытая техническая конференция для специалистов по технологиям фирмы «1С»\, организованная компанией «1С‑Рарус»: участники смогут послушать экспертные доклады\, познакомиться с реальными кейсами разработки\, обменяться опытом и получить ценные практические советы от ведущих разработчиков платформы.\n\nСсылка: https://rarus.ru/events/20260716-1c-rarustechday-2026-812895\n\nВремя: 09:00-21:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

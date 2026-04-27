@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:d9af2503bb3ae761a12393a12ad459cd@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260918T090000
+DTEND;TZID=Europe/Moscow:20260918T190000
+SUMMARY:Жёлтая конфа (18 сентября)
+DESCRIPTION:Конференция для специалистов 1С и IT-руководителей. Мы объединили специалистов 1С\, чтобы поговорить об успешных кейсах и методиках внедрения\, новинках платформы и карьерных перспективах в сфере 1С.\n\nСсылка: https://cors.su/zhyoltaya-konfa\n\nВремя: 09:00-19:00\n\nПоказать на карте: https://clck.ru/3PTX6B
+LOCATION:Москва, Ленинградский пр-т., 37 к. 9
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

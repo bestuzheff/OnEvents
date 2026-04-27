@@ -1,0 +1,54 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Ульяновск - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-ульяновск.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260427T061236Z
+DTSTAMP:20260427T061236Z
+BEGIN:VEVENT
+UID:7aea2ec9f550fa1ec1cf92be38d3aa40@onevents.ru
+DTSTART:20260325T093000
+DTEND:20260325T190000
+SUMMARY:Решения 1С для цифровизации бизнеса (25 марта)
+DESCRIPTION:Конференция «Решения 1С для цифровизации бизнеса» посвящена возможностям платформы «1С:Предприятие 8»\, обмену опытом внедрения «1С:ERP» и других решений «1С» в разных отраслях\, а также вопросам импортозамещения зарубежных систем.\n\nСсылка: https://uly.regconf.1c.ru/\n\nВремя: 09:30-19:00\n\nПоказать на карте: https://clck.ru/3SiVQL
+LOCATION:Ульяновск, ул. Гончарова, 25, Конгресс-холл «Кошелев»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:65db9f13a626a7d2f07c881cb1c6a19d@onevents.ru
+DTSTART:20260409T190000
+DTEND:20260409T210000
+SUMMARY:Желтый клуб Ульяновск (9 апреля)
+DESCRIPTION:Галина Носкова приглашает собраться в Ульяновске на встречу 1-специалистов. В программе встречи: два доклада\, кофе-брейк\, общение с единомышленниками\, актуальные темы и отличное настроение!\n\nСсылка: https://yellowclub73.timepad.ru/event/3902663\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3SsDvL
+LOCATION:Ульяновск, ул. Кирова, 79 (конференц-зал отеля Ракурс)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:8ab82b1583d15d349904ff2a4babfb7a@onevents.ru
+DTSTART:20260410T090000
+DTEND:20260410T180000
+SUMMARY:XV МЕЖДУНАРОДНАЯ IT-КОНФЕРЕНЦИЯ (10 апреля)
+DESCRIPTION:«Стачка» — крупнейшая региональная IT-конференция России. Проводится с 2012 года и ориентирована на профессиональную аудиторию.\n\nСсылка: https://ul.nastachku.ru/\n\nВремя: 09:00-18:00
+LOCATION:Ульяновск
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:dd9563bfd8aa296a010a2aa5e50c7ce1@onevents.ru
+DTSTART:20260411T090000
+DTEND:20260411T183000
+SUMMARY:XV МЕЖДУНАРОДНАЯ IT-КОНФЕРЕНЦИЯ (11 апреля)
+DESCRIPTION:«Стачка» — крупнейшая региональная IT-конференция России. Проводится с 2012 года и ориентирована на профессиональную аудиторию.\n\nСсылка: https://ul.nastachku.ru/\n\nВремя: 09:00-18:30
+LOCATION:Ульяновск
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

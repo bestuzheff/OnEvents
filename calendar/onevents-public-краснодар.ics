@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Краснодар - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-краснодар.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260427T061122Z
+DTSTAMP:20260427T061122Z
+BEGIN:VEVENT
+UID:69abab1969c80cb821be15f51aee759e@onevents.ru
+DTSTART:20251002T190000
+DTEND:20251002T210000
+SUMMARY:Желтый клуб Краснодар (2 октября)
+DESCRIPTION:Краснодар\, ждем вас на второй митап Желтого клуба в 2025 году! В этот раз у нас 2 прекрасные докладчицы с очень крутыми материалами\, которые пригодятся каждому 1С специалисту.\n\nСсылка: https://yclub-krd.timepad.ru/event/3560808/\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3PTX5q
+LOCATION:Краснодар, ул. Северная, д. 405, Инновационный центр Аквариум
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:9bcb6207b1d315fffd9b9eb177fb6b0e@onevents.ru
+DTSTART:20260326T190000
+DTEND:20260326T210000
+SUMMARY:Встреча 1С Специалистов в Краснодаре #3 (26 марта)
+DESCRIPTION:Собираемся в Краснодаре на двухчасовую встречу 1С программистов. В программе встречи: два доклада\, пицца\, общение с единомышленниками\n\nСсылка: https://yclub-krd.timepad.ru/event/3860282\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3SMWei
+LOCATION:Краснодар, ул. Северная, д. 405
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

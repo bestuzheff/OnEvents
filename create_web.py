@@ -462,17 +462,22 @@ def generate_event_id(event, type):
     return f"{type}-{event['filename']}"
 
 
-def get_days_word_ru(days: int) -> str:
-    n = abs(days) % 100
-    if 11 <= n <= 14:
-        return "дней"
-    return ("дней", "день", "дня", "дня", "дня", "дней", "дней", "дней", "дней", "дней")[n % 10]
+def russian_count_form(value: int | float, forms: tuple[str, str, str]) -> str:
+    """
+    Возвращает правильную форму существительного для русского языка по числу.
 
-def get_months_word_ru(months: int) -> str:
-    n = abs(months) % 100
-    if 11 <= n <= 14:
-        return "месяцев"
-    return ("месяцев", "месяц", "месяца", "месяца", "месяца", "месяцев", "месяцев", "месяцев", "месяцев", "месяцев")[n % 10]
+    forms = (1, 2-4, 5-0) например: ("день", "дня", "дней")
+    """
+    n = abs(int(value))
+    n_mod100 = n % 100
+    if 11 <= n_mod100 <= 14:
+        return forms[2]
+    n_mod10 = n % 10
+    if n_mod10 == 1:
+        return forms[0]
+    if 2 <= n_mod10 <= 4:
+        return forms[1]
+    return forms[2]
 
 
 def format_months_ru(today_date, target_date) -> tuple[str, str]:
@@ -502,12 +507,11 @@ def format_months_ru(today_date, target_date) -> tuple[str, str]:
 
     if float(months_rounded).is_integer():
         m = int(months_rounded)
-        return str(m), get_months_word_ru(m)
+        return str(m), russian_count_form(m, ("месяц", "месяца", "месяцев"))
 
     months_str = f"{months_rounded:.1f}".rstrip("0").rstrip(".")
-    if months_rounded >= 5.5:
-        return months_str, "месяцев"
-    return months_str, "месяца"
+    form_hint = int(months_rounded + 0.5)
+    return months_str, russian_count_form(form_hint, ("месяц", "месяца", "месяцев"))
 
 def format_time_until_ru(today_date, target_date) -> str:
     """
@@ -529,7 +533,7 @@ def format_time_until_ru(today_date, target_date) -> str:
     if days_left == 1:
         return "(завтра)"
     if days_left < 0:
-        day_word = get_days_word_ru(days_left)
+        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
         return f"(было {days_left} {day_word} назад)"
 
     rd = relativedelta(target_date, today_date)
@@ -537,12 +541,12 @@ def format_time_until_ru(today_date, target_date) -> str:
 
     # Меньше 1 календарного месяца — показываем дни
     if total_months < 1:
-        day_word = get_days_word_ru(days_left)
+        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
         return f"(через {days_left} {day_word})"
 
     months_str, month_word = format_months_ru(today_date, target_date)
     if months_str == "0":
-        day_word = get_days_word_ru(days_left)
+        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
         return f"(через {days_left} {day_word})"
     return f"(через {months_str} {month_word})"
 

@@ -532,9 +532,6 @@ def format_time_until_ru(today_date, target_date) -> str:
         return "(сегодня)"
     if days_left == 1:
         return "(завтра)"
-    if days_left < 0:
-        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
-        return f"(было {days_left} {day_word} назад)"
 
     rd = relativedelta(target_date, today_date)
     total_months = rd.years * 12 + rd.months

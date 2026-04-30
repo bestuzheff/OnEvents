@@ -72,6 +72,7 @@ docker run --rm -p 8080:80 onevents
 
 Пример события (`.yml`):  
 ```yaml
+id: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # Уникальный идентификатор события (можно сгенерировать на сайте https://guidgenerator.ru/)
 title: "Название события" # Название события
 date: "2025-09-15" # Дата начала события, формат YYYY-MM-DD
 city: "Москва" # Город, где будет проходить событие (либо Online)

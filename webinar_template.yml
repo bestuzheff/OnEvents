@@ -1,3 +1,4 @@
+id: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # Уникальный идентификатор вебинара
 title: "Название вебинара" # Название вебинара
 date: "2026-12-31" # Дата начала вебинара, формат YYYY-MM-DD
 pic: "default.jpg" # Файл с картинкой (если нет то default.jpg)

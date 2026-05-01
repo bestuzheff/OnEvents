@@ -485,8 +485,9 @@ def format_months_ru(today_date, target_date) -> tuple[str, str]:
     Форматирует разницу дат в "месяцах" на основе календарных месяцев.
 
     Правила:
-    - В диапазоне 1..6 месяцев: допускаем шаг 0.5 месяца (1.5, 2.0, 2.5, ...)
-    - Свыше 6 месяцев: только целые месяцы
+    - Показываем только целые месяцы
+    - Округление: до половины месяца (включая ровно половину) — вниз,
+      больше половины — вверх
     """
     from dateutil.relativedelta import relativedelta
 
@@ -500,18 +501,11 @@ def format_months_ru(today_date, target_date) -> tuple[str, str]:
     month_len = (anchor + relativedelta(months=1) - anchor).days or 30
     months_float = months_int + (remainder_days / month_len)
 
-    if months_float <= 6:
-        months_rounded = round(months_float * 2) / 2
-    else:
-        months_rounded = round(months_float)
+    m_floor = int(months_float)
+    frac = months_float - m_floor
+    m_rounded = m_floor if frac <= 0.5 else (m_floor + 1)
 
-    if float(months_rounded).is_integer():
-        m = int(months_rounded)
-        return str(m), russian_count_form(m, ("месяц", "месяца", "месяцев"))
-
-    months_str = f"{months_rounded:.1f}".rstrip("0").rstrip(".")
-    form_hint = int(months_rounded + 0.5)
-    return months_str, russian_count_form(form_hint, ("месяц", "месяца", "месяцев"))
+    return str(m_rounded), russian_count_form(m_rounded, ("месяц", "месяца", "месяцев"))
 
 def format_time_until_ru(today_date, target_date) -> str:
     """
@@ -520,10 +514,8 @@ def format_time_until_ru(today_date, target_date) -> str:
     Правила:
     - сегодня / завтра
     - если до события меньше календарного месяца -> в днях
-    - если больше календарного месяца:
-      - 1..6 месяцев: допускаем шаг 0.5 месяца
-      - >6 месяцев: только целые месяцы
-      - если в результате округления получилось 0 месяцев -> в днях
+    - если больше календарного месяца, то в месяцах округляя
+    - если в результате округления получилось 0 месяцев -> в днях
     """
     from dateutil.relativedelta import relativedelta
 

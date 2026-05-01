@@ -537,7 +537,7 @@ def format_time_until_ru(today_date, target_date) -> str:
     if months_str == "0":
         day_word = russian_count_form(days_left, ("день", "дня", "дней"))
         return f"(через {days_left} {day_word})"
-    return f"(через {months_str} {month_word})"
+    return f"(через ~{months_str} {month_word})"
 
 
 # Функция генерации карточки события

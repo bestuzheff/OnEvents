@@ -462,23 +462,92 @@ def generate_event_id(event, type):
     return f"{type}-{event['filename']}"
 
 
-def get_days_word_ru(days: int) -> str:
-    n = abs(days) % 100
-    if 11 <= n <= 14:
-        return "дней"
-    return ("дней", "день", "дня", "дня", "дня", "дней", "дней", "дней", "дней", "дней")[n % 10]
+def russian_count_form(value: int | float, forms: tuple[str, str, str]) -> str:
+    """
+    Возвращает правильную форму существительного для русского языка по числу.
+
+    forms = (1, 2-4, 5-0) например: ("день", "дня", "дней")
+    """
+    n = abs(int(value))
+    n_mod100 = n % 100
+    if 11 <= n_mod100 <= 14:
+        return forms[2]
+    n_mod10 = n % 10
+    if n_mod10 == 1:
+        return forms[0]
+    if 2 <= n_mod10 <= 4:
+        return forms[1]
+    return forms[2]
+
+
+def format_months_ru(today_date, target_date) -> tuple[str, str]:
+    """
+    Форматирует разницу дат в "месяцах" на основе календарных месяцев.
+
+    Правила:
+    - Показываем только целые месяцы
+    - Округление: до половины месяца (включая ровно половину) — вниз,
+      больше половины — вверх
+    """
+    from dateutil.relativedelta import relativedelta
+
+    rd = relativedelta(target_date, today_date)
+    months_int = rd.years * 12 + rd.months
+    if months_int <= 0:
+        return "0", "месяцев"
+
+    anchor = today_date + relativedelta(months=months_int)
+    remainder_days = (target_date - anchor).days
+    month_len = (anchor + relativedelta(months=1) - anchor).days or 30
+    months_float = months_int + (remainder_days / month_len)
+
+    m_floor = int(months_float)
+    frac = months_float - m_floor
+    m_rounded = m_floor if frac <= 0.5 else (m_floor + 1)
+
+    return str(m_rounded), russian_count_form(m_rounded, ("месяц", "месяца", "месяцев"))
+
+def format_time_until_ru(today_date, target_date) -> str:
+    """
+    Возвращает строку для разницы между датами.
+
+    Правила:
+    - сегодня / завтра
+    - если до события меньше календарного месяца -> в днях
+    - если больше календарного месяца, то в месяцах округляя
+    - если в результате округления получилось 0 месяцев -> в днях
+    """
+    from dateutil.relativedelta import relativedelta
+
+    days_left = (target_date - today_date).days
+    if days_left == 0:
+        return "(сегодня)"
+    if days_left == 1:
+        return "(завтра)"
+
+    rd = relativedelta(target_date, today_date)
+    total_months = rd.years * 12 + rd.months
+
+    # Меньше 1 календарного месяца — показываем дни
+    if total_months < 1:
+        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
+        return f"(через {days_left} {day_word})"
+
+    months_str, month_word = format_months_ru(today_date, target_date)
+    if months_str == "0":
+        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
+        return f"(через {days_left} {day_word})"
+    return f"(через ~{months_str} {month_word})"
 
 
 # Функция генерации карточки события
 def render_event(e):
     date_obj = datetime.strptime(e['date'], "%Y-%m-%d")
-    days_left = (date_obj.date() - datetime.today().date()).days
+    today_date = datetime.today().date()
+    target_date = date_obj.date()
     date_str = format_date(date_obj, format="d MMMM y", locale="ru")  # 15 сентября 2025
-    if days_left == 0:
-        days_left_html = '<span class="days-left">(сегодня)</span>'
-    else:
-        day_word = get_days_word_ru(days_left)
-        days_left_html = f'<span class="days-left">(через {days_left} {day_word})</span>'
+    days_left_text = format_time_until_ru(today_date, target_date)
+    days_left_html = f'<span class="days-left">{days_left_text}</span>'
     
     
     if len(e['address']) == 0:

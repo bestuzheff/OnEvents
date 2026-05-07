@@ -2,7 +2,6 @@
 Модуль генерации ICS календарей.
 Содержит функции для создания VEVENT событий и полного ICS календаря.
 """
-import hashlib
 from datetime import datetime
 from babel.dates import format_date
 
@@ -23,28 +22,17 @@ def generate_event_vevent(event: dict, session: dict | None = None, session_inde
 
     Особенности:
         - Для многосессионных событий создает отдельный VEVENT на каждую сессию
-        - Использует MD5 хеш для генерации уникального UID
+        - Использует UID из YAML файла (поле 'id'), для сессий добавляется индекс
         - Добавляет ссылку на Яндекс.Карты если есть адрес
     """
-    # Создаем уникальный идентификатор на основе характеристик события
-    uid_components = [
-        event['title'],
-        event['date'],
-        event.get('city', ''),
-        event.get('address', ''),
-        event.get('url', ''),
-        event.get('registration_url', '')
-    ]
+    # Используем ID из YAML файла события
+    base_uid = event.get('id', '')
 
-    # Для сессий добавляем дополнительную информацию
+    # Для сессий добавляем индекс, чтобы сделать UID уникальным
     if session_index is not None:
-        session_info = f"{session['date']}-{session['start_time']}-{session['end_time']}"
-        uid_components.append(session_info)
-        uid_components.append(str(session_index))
-
-    # Генерируем UID через MD5 хеш
-    uid_string = '-'.join(str(comp).strip() for comp in uid_components if comp)
-    uid = hashlib.md5(uid_string.encode('utf-8')).hexdigest()
+        uid = f"{base_uid}-session-{session_index}"
+    else:
+        uid = base_uid
 
     # Формируем местоположение (город + адрес)
     location = event.get('city', '')

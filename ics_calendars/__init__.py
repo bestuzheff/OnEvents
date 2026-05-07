@@ -14,7 +14,7 @@ from url_utils import get_timezone_for_event, shorten_url, map_link
 import uuid
 
 
-def generate_event_vevent(event: dict, session: dict | None = None, session_index: int | None = None) -> str:
+def generate_event_vevent(event: dict, session: dict | None = None) -> str:
     """Генерирует VEVENT (событие календаря) в текстовом формате iCalendar.
 
     Args:
@@ -50,7 +50,7 @@ def generate_event_vevent(event: dict, session: dict | None = None, session_inde
     if session:
         return _generate_session_vevent(
             event, session, uid, location, title, description,
-            tz_param, tzid
+            tz_param
         )
     else:
         return _generate_simple_vevent(
@@ -58,7 +58,7 @@ def generate_event_vevent(event: dict, session: dict | None = None, session_inde
         )
 
 
-def _generate_session_vevent(event, session, uid, location, title, description, tz_param, tzid) -> str:
+def _generate_session_vevent(event, session, uid, location, title, description, tz_param) -> str:
     """Генерирует VEVENT для сессии события (с конкретным временем).
 
     Args:
@@ -97,15 +97,15 @@ def _generate_session_vevent(event, session, uid, location, title, description, 
     )
 
     return f"""BEGIN:VEVENT
- UID:{uid}@onevents.ru
- DTSTART{tz_param}:{start_datetime}
- DTEND{tz_param}:{end_datetime}
- SUMMARY:{session_title}
- DESCRIPTION:{description_text}
- LOCATION:{location}
- STATUS:CONFIRMED
- TRANSP:OPAQUE
- END:VEVENT"""
+UID:{uid}@onevents.ru
+DTSTART{tz_param}:{start_datetime}
+DTEND{tz_param}:{end_datetime}
+SUMMARY:{session_title}
+DESCRIPTION:{description_text}
+LOCATION:{location}
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT"""
 
 
 def _generate_simple_vevent(event, uid, location, title, description) -> str:
@@ -133,14 +133,14 @@ def _generate_simple_vevent(event, uid, location, title, description) -> str:
     description_text = f"{description}\\n\\nСсылка: {registration_link}{map_text}"
 
     return f"""BEGIN:VEVENT
- UID:{uid}@onevents.ru
- DTSTART;VALUE=DATE:{event_date.strftime('%Y%m%d')}
- SUMMARY:{title}
- DESCRIPTION:{description_text}
- LOCATION:{location}
- STATUS:CONFIRMED
- TRANSP:OPAQUE
- END:VEVENT"""
+UID:{uid}@onevents.ru
+DTSTART;VALUE=DATE:{event_date.strftime('%Y%m%d')}
+SUMMARY:{title}
+DESCRIPTION:{description_text}
+LOCATION:{location}
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT"""
 
 
 def generate_public_calendar(
@@ -169,18 +169,18 @@ def generate_public_calendar(
 
     # Шапка календаря с метаданными
     ics_content = f"""BEGIN:VCALENDAR
- VERSION:2.0
- PRODID:-//OnEvents//OnEvents Calendar//RU
- CALSCALE:GREGORIAN
- METHOD:PUBLISH
- X-WR-CALNAME:{cal_name}
- X-WR-CALDESC:Календарь 1С событий от OnEvents
- X-WR-TIMEZONE:Europe/Moscow
- X-WR-URL:{cal_url}
- REFRESH-INTERVAL;VALUE=DURATION:PT1H
- X-PUBLISHED-TTL:PT1H
- LAST-MODIFIED:{now_str}
- DTSTAMP:{now_str}"""
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:{cal_name}
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:{cal_url}
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:{now_str}
+DTSTAMP:{now_str}"""
 
     # Добавляем все события в календарь
     for event in events:
@@ -192,7 +192,7 @@ def generate_public_calendar(
 
             # Создаем отдельный VEVENT для каждой сессии
             for i, session in enumerate(sessions):
-                vevent = generate_event_vevent(event, session, i + 1)
+                vevent = generate_event_vevent(event, session)
                 ics_content += f"\n{vevent}"
         else:
             # Обычное однодневное событие
@@ -217,10 +217,10 @@ def generate_ics_content(event: dict) -> str:
     """
     # Начало ICS файла
     ics_content = """BEGIN:VCALENDAR
- VERSION:2.0
- PRODID:-//OnEvents//OnEvents Calendar//RU
- CALSCALE:GREGORIAN
- METHOD:PUBLISH"""
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH"""
 
     # Добавляем временную зону если определена
     tzid = get_timezone_for_event(event)
@@ -234,7 +234,7 @@ X-WR-TIMEZONE:{tzid}"""
         sessions.sort(key=lambda x: x['date'])
 
         for i, session in enumerate(sessions):
-            vevent = generate_event_vevent(event, session, i + 1)
+            vevent = generate_event_vevent(event, session)
             ics_content += f"\n{vevent}"
     else:
         vevent = generate_event_vevent(event)

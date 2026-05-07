@@ -25,7 +25,7 @@ def generate_event_id(event: dict, event_type: str) -> str:
         Использует имя файла (filename) как основу, так как оно уже содержит
         дату и краткое описание события.
     """
-    return f"{type}-{event['filename']}"
+    return f"{event_type}-{event['filename']}"
 
 
 def render_event(event: dict) -> str:

@@ -11,6 +11,8 @@ from babel.dates import format_date
 from utils.text import clean_text, to_hhmmss
 from url_utils import get_timezone_for_event, shorten_url, map_link
 
+import uuid
+
 
 def generate_event_vevent(event: dict, session: dict | None = None, session_index: int | None = None) -> str:
     """Генерирует VEVENT (событие календаря) в текстовом формате iCalendar.
@@ -23,20 +25,9 @@ def generate_event_vevent(event: dict, session: dict | None = None, session_inde
     Returns:
         Строка с текстовым представлением VEVENT для ICS файла.
 
-    Особенности:
-        - Для многосессионных событий создает отдельный VEVENT на каждую сессию
-        - Использует UID из YAML файла (поле 'id'), дефисы удаляются
-        - Для сессий к UID добавляется индекс сессии
-        - Добавляет ссылку на Яндекс.Карты если есть адрес
     """
-    # Используем ID из YAML файла, убираем дефисы для совместимости
-    base_uid = event.get('id', '').replace('-', '')
-
-    # Для сессий добавляем индекс, чтобы сделать UID уникальным
-    if session_index is not None:
-        uid = f"{base_uid}ses{session_index}"
-    else:
-        uid = base_uid
+    # Создаем строку для хеширования, убирая лишние пробелы и нормализуя
+    uid = str(uuid.uuid4())
 
     # Формируем местоположение (город + адрес)
     location = event.get('city', '')

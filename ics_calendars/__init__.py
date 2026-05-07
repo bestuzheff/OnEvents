@@ -34,7 +34,7 @@ def generate_event_vevent(event: dict, session: dict | None = None, session_inde
 
     # Для сессий добавляем индекс, чтобы сделать UID уникальным
     if session_index is not None:
-        uid = f"{base_uid}session{session_index}"
+        uid = f"{base_uid}ses{session_index}"
     else:
         uid = base_uid
 
@@ -132,9 +132,7 @@ def _generate_simple_vevent(event, uid, location, title, description) -> str:
     """
     # Парсим дату события
     event_date = datetime.strptime(event['date'], "%Y-%m-%d")
-    # DTEND для события на весь день - следующий день (по RFC 5545)
-    end_date = event_date + relativedelta(days=1)
-
+  
     # Добавляем ссылку на карту
     map_url = shorten_url(map_link(event['city'], event.get('address', '')))
     map_text = f"\\n\\nПоказать на карте: {map_url}" if map_url else ""
@@ -146,7 +144,6 @@ def _generate_simple_vevent(event, uid, location, title, description) -> str:
     return f"""BEGIN:VEVENT
  UID:{uid}@onevents.ru
  DTSTART;VALUE=DATE:{event_date.strftime('%Y%m%d')}
- DTEND;VALUE=DATE:{end_date.strftime('%Y%m%d')}
  SUMMARY:{title}
  DESCRIPTION:{description_text}
  LOCATION:{location}

@@ -6,6 +6,7 @@ on:
 
 jobs:
   SonarQualityGate:
+    if: github.event.repository.fork == false
     name: 'Проверка Sonar'
     runs-on: ubuntu-latest
     steps:

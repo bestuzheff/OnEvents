@@ -2,7 +2,6 @@ import yaml
 from datetime import datetime, date, timezone
 from email.utils import format_datetime
 import xml.sax.saxutils as saxutils
-from collections import Counter
 from pathlib import Path
 from babel.dates import format_date
 import shutil
@@ -11,6 +10,7 @@ import requests
 import pytz
 
 from utils.text import clean_text, make_slug, to_hhmmss, SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
+from utils.statistics import render_statistics_section
 
 # Пути
 EVENTS_DIR = Path("events")
@@ -648,157 +648,9 @@ def render_webinar(e):
     """    
 
 
-def is_online_event(event: dict) -> bool:
-    return str(event.get("city", "")).strip().lower() in ("online", "онлайн")
-
-
-def unique_offline_cities(items: list[dict]) -> list[str]:
-    return sorted({
-        str(event.get("city", "")).strip()
-        for event in items
-        if event.get("city") and not is_online_event(event)
-    }, key=lambda city: city.lower())
-
-
-def event_date_value(event: dict):
-    return datetime.strptime(event["date"], "%Y-%m-%d").date()
-
-
-def render_metric_card(value, label: str, note: str = "") -> str:
-    note_html = f"<small>{saxutils.escape(note)}</small>" if note else ""
-    return f"""
-      <article class="metric-card">
-        <strong>{value}</strong>
-        <span>{saxutils.escape(label)}</span>
-        {note_html}
-      </article>"""
-
-
-def render_bar_rows(rows: list[tuple[str, int]], max_value: int | None = None) -> str:
-    max_count = max_value or max((value for _, value in rows), default=1)
-    html = []
-    for name, value in rows:
-        width = max(4, round((value / max_count) * 100)) if max_count else 0
-        html.append(f"""
-          <div class="bar-row">
-            <span>{saxutils.escape(str(name))}</span>
-            <i aria-hidden="true"><b style="width:{width}%"></b></i>
-            <strong>{value}</strong>
-          </div>""")
-    return "".join(html)
-
-
-def render_month_heatmap(all_items: list[dict]) -> str:
-    month_counter = Counter(event_date_value(event).month for event in all_items)
-    max_count = max(month_counter.values(), default=1)
-    cells = []
-    for month in range(1, 13):
-        value = month_counter.get(month, 0)
-        intensity = 0.14 + (value / max_count) * 0.86 if value else 0.08
-        month_name = format_date(date(2026, month, 1), format="LLL", locale="ru")
-        cells.append(f"""
-          <div class="month-cell" style="--heat:{intensity:.2f}">
-            <span>{month_name}</span>
-            <strong>{value}</strong>
-          </div>""")
-    return "".join(cells)
-
-
-def render_recent_months(all_items: list[dict], today_date) -> str:
-    from dateutil.relativedelta import relativedelta
-
-    month_counter = Counter(event_date_value(event).strftime("%Y-%m") for event in all_items)
-    months = []
-    first_month = today_date.replace(day=1) - relativedelta(months=11)
-    for offset in range(12):
-        month_date = first_month + relativedelta(months=offset)
-        key = month_date.strftime("%Y-%m")
-        label = format_date(month_date, format="LLL y", locale="ru")
-        months.append((label, month_counter.get(key, 0)))
-    return render_bar_rows(months)
-
-
-def render_analytics_section(all_events: list[dict], future_events: list[dict], all_webinars: list[dict], today_date) -> str:
-    from dateutil.relativedelta import relativedelta
-
-    last_year_start = today_date - relativedelta(years=1)
-    past_events = [event for event in all_events if event_date_value(event) < today_date]
-    last_year_events = [event for event in past_events if event_date_value(event) >= last_year_start]
-    past_offline_events = [event for event in past_events if not is_online_event(event)]
-    past_online_events = [event for event in past_events if is_online_event(event)]
-
-    total_cities = unique_offline_cities(all_events)
-    last_year_cities = unique_offline_cities(last_year_events)
-    future_cities = unique_offline_cities(future_events)
-    past_cities = unique_offline_cities(past_events)
-    city_counter = Counter(str(event.get("city", "")).strip() for event in past_offline_events)
-    city_rows = render_bar_rows(city_counter.most_common(10))
-
-    year_counter = Counter(event_date_value(event).year for event in past_events)
-    year_rows = render_bar_rows([(str(year), count) for year, count in sorted(year_counter.items())])
-
-    format_rows = render_bar_rows([
-        ("Офлайн", len(past_offline_events)),
-        ("Онлайн", len(past_online_events)),
-        ("Прямой эфир", len(all_webinars)),
-    ], max_value=max(len(past_offline_events), len(past_online_events), len(all_webinars), 1))
-
-    recent_events = sorted(past_events, key=lambda event: event["date"], reverse=True)[:10]
-    recent_html = []
-    for event in recent_events:
-        event_date = event_date_value(event)
-        recent_html.append(f"""
-          <li>
-            <time datetime="{event['date']}">{format_date(event_date, format="d MMM", locale="ru")}</time>
-            <div>
-              <span>{saxutils.escape(event['title'])}</span>
-              <small>{saxutils.escape(str(event.get('city', '')).strip())}</small>
-            </div>
-          </li>""")
-
-    return f"""
-  <section id="analytics" class="analytics-section">
-    <h2>Статистика</h2>
-    <div class="analytics-metrics">
-    {render_metric_card(len(past_events), "уже проведено", f"{len(past_cities)} {russian_count_form(len(past_cities), ('город', 'города', 'городов'))}")}
-    {render_metric_card(len(all_events), "всего событий", "прошедшие и будущие")}
-    {render_metric_card(len(past_online_events), "онлайн-события", "без учета вебинаров")}
-    {render_metric_card(len(future_events), "в будущей афише", f"{len(future_cities)} {russian_count_form(len(future_cities), ('город', 'города', 'городов'))}")}
-    {render_metric_card(len(last_year_events), "за последний год", f"{len(last_year_cities)} {russian_count_form(len(last_year_cities), ('город', 'города', 'городов'))}")}
-    {render_metric_card(len(all_webinars), "вебинаров", "раздел Прямой эфир")}
-    </div>
-
-    <div class="analytics-layout">
-    <div>
-      <article class="analytics-panel">
-        <h2>Самые активные города</h2>
-        {city_rows}
-      </article>
-      <article class="analytics-panel">
-        <h2>Сезонность по месяцам</h2>
-        <div class="month-grid">{render_month_heatmap(all_events)}</div>
-      </article>
-      <article class="analytics-panel">
-        <h2>Последние 12 месяцев</h2>
-        {render_recent_months(all_events, today_date)}
-      </article>
-    </div>
-    <aside>
-      <article class="analytics-panel">
-        <h2>Форматы</h2>
-        {format_rows}
-      </article>
-      <article class="analytics-panel">
-        <h2>По годам</h2>
-        {year_rows}
-      </article>
-      <article class="analytics-panel">
-        <h2>Последние прошедшие</h2>
-        <ul class="recent-list">{''.join(recent_html)}</ul>
-      </article>
-    </aside>
-    </div>
-  </section>"""
+#
+# Статистика вынесена в `utils/statistics.py` по аналогии с другими блоками,
+# чтобы `create_web.py` оставался сборщиком.
 
 
 # Функция генерации RSS ленты
@@ -892,7 +744,13 @@ events_html = "\n".join(render_event(e) for e in events)
 webinar_html = "\n".join(render_webinar(e) for e in webinars)
 public_calendars_html = render_public_calendars(public_calendars)
 webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)
-analytics_html = render_analytics_section(all_events, events, all_webinars, date.today())
+statistics_html = render_statistics_section(
+    all_events,
+    events,
+    all_webinars,
+    date.today(),
+    russian_count_form=russian_count_form,
+)
 
 # Подставляем в шаблон
 today_date_str = format_date(date.today(), format="d MMMM y", locale="ru")
@@ -902,7 +760,7 @@ result_html = (
     .replace("{{ webinars }}", webinar_html)
     .replace("{{ public_calendars }}", public_calendars_html)
     .replace("{{ webinars_calendar }}", webinars_calendar_html)
-    .replace("{{ analytics }}", analytics_html)
+    .replace("{{ statistics }}", statistics_html)
     .replace("{{ builddate }}", today_date_str)
 )
 

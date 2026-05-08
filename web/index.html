@@ -161,19 +161,16 @@
 
         .container {max-width:1000px;margin:2em auto;padding:0 1em;}
         article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
-        .template-warning {display:none;background:var(--card-bg);border:1px solid #e6a700;border-radius:8px;padding:1rem;margin-bottom:1.5rem;box-shadow:var(--shadow);color:var(--text);}
-        .template-warning.is-visible {display:block;}
-        .template-warning code {color:var(--link);}
-        .analytics-section {scroll-margin-top:80px;margin-top:2rem;}
-        .analytics-metrics {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-bottom:1rem;}
-        .metric-card,.analytics-panel {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);}
+        .statistics-section {scroll-margin-top:80px;margin-top:2rem;}
+        .statistics-metrics {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-bottom:1rem;}
+        .metric-card,.statistics-panel {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);}
         .metric-card {padding:1rem;min-height:104px;}
         .metric-card strong {display:block;font-size:2.25rem;line-height:1;color:var(--text);}
         .metric-card span {display:block;margin-top:.45rem;color:var(--muted);}
         .metric-card small {display:block;margin-top:.45rem;color:var(--link);}
-        .analytics-layout {display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.72fr);gap:1rem;align-items:start;}
-        .analytics-panel {padding:1rem;margin-bottom:1rem;}
-        .analytics-panel h2 {margin-top:0;}
+        .statistics-layout {display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.72fr);gap:1rem;align-items:start;}
+        .statistics-panel {padding:1rem;margin-bottom:1rem;}
+        .statistics-panel h2 {margin-top:0;}
         .bar-row {display:grid;grid-template-columns:minmax(120px,1fr) minmax(120px,1.5fr) 44px;gap:.75rem;align-items:center;margin:.65rem 0;}
         .bar-row span {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
         .bar-row i {height:10px;background:var(--border);border-radius:99px;overflow:hidden;}
@@ -268,8 +265,8 @@
 
         /* Адаптивное поведение блока вебинаров */
         @media (max-width: 600px) {
-            .analytics-metrics {grid-template-columns:repeat(2,minmax(0,1fr));}
-            .analytics-layout {grid-template-columns:1fr;}
+            .statistics-metrics {grid-template-columns:repeat(2,minmax(0,1fr));}
+            .statistics-layout {grid-template-columns:1fr;}
             .month-grid {grid-template-columns:repeat(3,1fr);}
             .bar-row {grid-template-columns:minmax(96px,1fr) minmax(92px,1.1fr) 36px;}
             #webinars .card-header-main {
@@ -352,7 +349,7 @@
             <a href="#webinars" class="mobile-menu-link">Прямой эфир</a>
             <a href="#public-calendars" class="mobile-menu-link">Календари</a>
             <a href="#about" class="mobile-menu-link">О проекте</a>
-            <a href="#analytics" class="mobile-menu-link">Статистика</a>
+            <a href="#statistics" class="mobile-menu-link">Статистика</a>
             <a href="https://onevents.ru/rss/rss.xml" class="mobile-menu-link">RSS</a>
           </nav>
         </div>
@@ -373,7 +370,7 @@
     <h2>📺 Прямой эфир</h2>
     {{ webinars }}
     {{ webinars_calendar }}
-    </section>
+  </section>
 
 
   <!-- Блок публичных календарей -->
@@ -420,9 +417,9 @@
         <li><a href="https://t.me/bestuzheff" target="_blank">@bestuzheff</a></li>
       </ul>
     </article>
-	  </section>
+  </section>
 
-  {{ analytics }}
+  {{ statistics }}
 </main>
 
 <footer role="contentinfo"><small>© OnEvents, 2026. Дата актуальности: {{ builddate }}</small></footer>

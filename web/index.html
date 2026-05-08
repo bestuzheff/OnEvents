@@ -161,6 +161,33 @@
 
         .container {max-width:1000px;margin:2em auto;padding:0 1em;}
         article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
+        .template-warning {display:none;background:var(--card-bg);border:1px solid #e6a700;border-radius:8px;padding:1rem;margin-bottom:1.5rem;box-shadow:var(--shadow);color:var(--text);}
+        .template-warning.is-visible {display:block;}
+        .template-warning code {color:var(--link);}
+        .analytics-section {scroll-margin-top:80px;margin-top:2rem;}
+        .analytics-metrics {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-bottom:1rem;}
+        .metric-card,.analytics-panel {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);}
+        .metric-card {padding:1rem;min-height:104px;}
+        .metric-card strong {display:block;font-size:2.25rem;line-height:1;color:var(--text);}
+        .metric-card span {display:block;margin-top:.45rem;color:var(--muted);}
+        .metric-card small {display:block;margin-top:.45rem;color:var(--link);}
+        .analytics-layout {display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.72fr);gap:1rem;align-items:start;}
+        .analytics-panel {padding:1rem;margin-bottom:1rem;}
+        .analytics-panel h2 {margin-top:0;}
+        .bar-row {display:grid;grid-template-columns:minmax(120px,1fr) minmax(120px,1.5fr) 44px;gap:.75rem;align-items:center;margin:.65rem 0;}
+        .bar-row span {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+        .bar-row i {height:10px;background:var(--border);border-radius:99px;overflow:hidden;}
+        .bar-row b {display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#78b777,var(--link));}
+        .bar-row strong {text-align:right;}
+        .month-grid {display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;}
+        .month-cell {background:color-mix(in srgb,var(--link),transparent calc((1 - var(--heat))*100%));border:1px solid var(--border);border-radius:8px;padding:.75rem;min-height:72px;}
+        .month-cell span {display:block;color:var(--muted);font-size:.85rem;}
+        .month-cell strong {display:block;margin-top:.5rem;font-size:1.45rem;}
+        .recent-list {list-style:none;padding:0;margin:0;display:grid;gap:.7rem;}
+        .recent-list li {display:grid;grid-template-columns:58px minmax(0,1fr);column-gap:.75rem;align-items:start;}
+        .recent-list time {color:var(--link);}
+        .recent-list span {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+        .recent-list small {display:block;margin-top:.15rem;color:var(--muted);}
         .card-header {display:flex;align-items:flex-start;gap:.75em;margin-bottom:.75em;flex-wrap:wrap;}
         .card-header-main {display:flex;align-items:flex-start;gap:.75em;flex:1;min-width:0;}
         .event-info {display:flex;flex-direction:column;gap:.35em;flex:1;min-width:0;}
@@ -241,6 +268,10 @@
 
         /* Адаптивное поведение блока вебинаров */
         @media (max-width: 600px) {
+            .analytics-metrics {grid-template-columns:repeat(2,minmax(0,1fr));}
+            .analytics-layout {grid-template-columns:1fr;}
+            .month-grid {grid-template-columns:repeat(3,1fr);}
+            .bar-row {grid-template-columns:minmax(96px,1fr) minmax(92px,1.1fr) 36px;}
             #webinars .card-header-main {
                 flex-direction: column;
                 align-items: flex-start;
@@ -321,6 +352,7 @@
             <a href="#webinars" class="mobile-menu-link">Прямой эфир</a>
             <a href="#public-calendars" class="mobile-menu-link">Календари</a>
             <a href="#about" class="mobile-menu-link">О проекте</a>
+            <a href="#analytics" class="mobile-menu-link">Статистика</a>
             <a href="https://onevents.ru/rss/rss.xml" class="mobile-menu-link">RSS</a>
           </nav>
         </div>
@@ -388,7 +420,9 @@
         <li><a href="https://t.me/bestuzheff" target="_blank">@bestuzheff</a></li>
       </ul>
     </article>
-  </section>
+	  </section>
+
+  {{ analytics }}
 </main>
 
 <footer role="contentinfo"><small>© OnEvents, 2026. Дата актуальности: {{ builddate }}</small></footer>

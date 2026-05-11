@@ -34,10 +34,16 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-cov
 
+    # Очистка coverage
+    - name: Очистка coverage
+      run: |
+        rm -f coverage.xml
+
     # Запуск тестов и генерация покрытия
     - name: Запуск тестов
       run: |
-        pytest --cov=. --cov-report=xml
+        pytest --cov=. --cov-config=.coveragerc --cov-report=xml:coverage.xml
+
     # Анализ проекта в SonarQube (ветка)
     - name: Анализ в SonarQube (${{ github.ref_name }})
       if: github.event_name == 'push'

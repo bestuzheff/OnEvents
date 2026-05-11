@@ -1,36 +1,82 @@
-import pytest
-from utils.dates import russian_count_form, format_months_ru, format_time_until_ru
-from datetime import date, datetime
-from dateutil.relativedelta import relativedelta
+import unittest
+from datetime import date
+
+from utils.dates import (
+    russian_count_form,
+    format_months_ru,
+    format_time_until_ru,
+)
 
 
-def test_russian_count_form():
-    """Тестирует склонение русских существительных."""
-    # Тест для форм ("день", "дня", "дней")
-    assert russian_count_form(1, ("день", "дня", "дней")) == "день"
-    assert russian_count_form(2, ("день", "дня", "дней")) == "дня"
-    assert russian_count_form(3, ("день", "дня", "дней")) == "дня"
-    assert russian_count_form(4, ("день", "дня", "дней")) == "дня"
-    assert russian_count_form(5, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(6, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(10, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(11, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(12, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(13, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(14, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(15, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(16, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(17, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(18, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(19, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(20, ("день", "дня", "дней")) == "дней"
-    assert russian_count_form(21, ("день", "дня", "дней")) == "день"
-    assert russian_count_form(22, ("день", "дня", "дней")) == "дня"
-    assert russian_count_form(23, ("день", "дня", "дней")) == "дня"
-    assert russian_count_form(24, ("день", "дня", "дней")) == "дня"
-    assert russian_count_form(25, ("день", "дня", "дней")) == "дней"
-    
-    # Тест для других форм
-    assert russian_count_form(1, ("год", "года", "лет")) == "год"
-    assert russian_count_form(2, ("год", "года", "лет")) == "года"
-    assert russian_count_form(5, ("год", "года", "лет")) == "лет"
+class TestDateUtils(unittest.TestCase):
+    def test_russian_count_form_days(self):
+        """Тестирует склонение для слова 'день'."""
+        test_cases = [
+            (1, "день"),
+            (2, "дня"),
+            (3, "дня"),
+            (4, "дня"),
+            (5, "дней"),
+            (6, "дней"),
+            (10, "дней"),
+            (11, "дней"),
+            (12, "дней"),
+            (13, "дней"),
+            (14, "дней"),
+            (15, "дней"),
+            (16, "дней"),
+            (17, "дней"),
+            (18, "дней"),
+            (19, "дней"),
+            (20, "дней"),
+            (21, "день"),
+            (22, "дня"),
+            (23, "дня"),
+            (24, "дня"),
+            (25, "дней"),
+        ]
+
+        for number, expected in test_cases:
+            with self.subTest(number=number):
+                self.assertEqual(
+                    russian_count_form(number, ("день", "дня", "дней")),
+                    expected
+                )
+
+    def test_russian_count_form_years(self):
+        """Тестирует склонение для слова 'год'."""
+        self.assertEqual(
+            russian_count_form(1, ("год", "года", "лет")),
+            "год"
+        )
+        self.assertEqual(
+            russian_count_form(2, ("год", "года", "лет")),
+            "года"
+        )
+        self.assertEqual(
+            russian_count_form(5, ("год", "года", "лет")),
+            "лет"
+        )
+
+    def test_format_months_ru(self):
+        self.assertEqual(
+            format_months_ru(date(2026, 5, 1), date(2026, 5, 20)),
+            ("0", "месяцев")
+        )
+        self.assertEqual(
+            format_months_ru(date(2026, 5, 1), date(2026, 6, 25)),
+            ("2", "месяца")
+        )
+        self.assertEqual(
+            format_months_ru(date(2026, 5, 1), date(2026, 6, 10)),
+            ("1", "месяц")
+        )
+
+    def test_format_time_until_ru(self):
+        self.assertIn(
+            "через",
+            format_time_until_ru(
+                date(2026, 5, 11),
+                date(2026, 5, 21)
+            )
+        )

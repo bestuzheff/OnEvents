@@ -42,11 +42,17 @@ jobs:
     - name: Запуск тестов
       run: |
         pytest --cov=. --cov-config=.coveragerc --cov-report=xml:coverage.xml
+  
+    - name: Проверка coverage
+      run: |
+        pwd
+        ls -la
+        find . -name "coverage.xml" -type f
 
     # Анализ проекта в SonarQube (ветка)
     - name: Анализ в SonarQube (${{ github.ref_name }})
       if: github.event_name == 'push'
-      uses: sonarsource/sonarqube-scan-action@v2.3.0
+      uses: sonarsource/sonarqube-scan-action@v5
       env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           LC_ALL: "ru_RU.UTF-8"

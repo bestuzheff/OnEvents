@@ -2,7 +2,7 @@ name: Проверка Sonar
 
 on: 
   - push
-  - pull_request_target
+  - pull_request
 
 jobs:
   SonarQualityGate:
@@ -14,7 +14,6 @@ jobs:
       if: github.event_name == 'pull_request_target' || github.event_name == 'pull_request'
       uses: actions/checkout@v4
       with:
-        ref: refs/pull/${{ github.event.number }}/merge # Для поддержки pull_request и pull_request_target
         fetch-depth: 0 # Получение полной истории (все тэги и ветки)
       
     - name: Извлечение исходников ветки ${{ github.ref_name }}

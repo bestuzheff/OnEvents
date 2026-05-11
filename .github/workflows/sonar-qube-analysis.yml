@@ -48,7 +48,19 @@ jobs:
         pwd
         ls -la
         find . -name "coverage.xml" -type f
+    - name: Debug workspace
+      run: |
+        echo "PWD:"
+        pwd
 
+        echo "ROOT FILES:"
+        ls -lah
+
+        echo "FIND COVERAGE:"
+        find /home/runner/work -name "coverage.xml" 2>/dev/null
+
+        echo "CAT COVERAGE:"
+        cat coverage.xml | head -20
     # Анализ проекта в SonarQube (ветка)
     - name: Анализ в SonarQube (${{ github.ref_name }})
       if: github.event_name == 'push'

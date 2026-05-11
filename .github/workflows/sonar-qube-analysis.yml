@@ -32,38 +32,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Очистка coverage
-    - name: Очистка coverage
-      run: |
-        rm -f coverage.xml
-
     # Запуск тестов и генерация покрытия
     - name: Запуск тестов
       run: |
         pytest --cov=. --cov-config=.coveragerc --cov-report=xml:coverage.xml
   
-    - name: Проверка coverage
-      run: |
-        pwd
-        ls -la
-        find . -name "coverage.xml" -type f
-    - name: Debug workspace
-      run: |
-        echo "PWD:"
-        pwd
-
-        echo "ROOT FILES:"
-        ls -lah
-
-        echo "FIND COVERAGE:"
-        find /home/runner/work -name "coverage.xml" 2>/dev/null
-
-        echo "CAT COVERAGE:"
-        cat coverage.xml | head -20
     # Анализ проекта в SonarQube (ветка)
     - name: Анализ в SonarQube (${{ github.ref_name }})
       if: github.event_name == 'push'
-      uses: sonarsource/sonarqube-scan-action@v5
+      uses: sonarsource/sonarqube-scan-action@v2.3.0
       env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           LC_ALL: "ru_RU.UTF-8"
@@ -80,7 +57,7 @@ jobs:
     # https://docs.sonarqube.org/latest/analysis/pull-request/
     - name: Анализ в SonarQube (pull-request ${{ github.event.number }})
       if: github.event_name == 'pull_request_target' || github.event_name == 'pull_request'
-      uses: sonarsource/sonarqube-scan-action@v5
+      uses: sonarsource/sonarqube-scan-action@v2.3.0
       env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           LC_ALL: "ru_RU.UTF-8"

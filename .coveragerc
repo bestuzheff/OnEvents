@@ -3,6 +3,7 @@ omit =
     tests/*
     venv/*
     */__init__.py
+relative_files = True
 
 [report]
 exclude_lines =

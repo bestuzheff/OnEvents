@@ -35,109 +35,115 @@ TEMPLATE_FILE = Path("web/index.html")  # HTML шаблон сайта
 OUTPUT_DIR = Path("site")            # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / "index.html"  # Итоговый HTML файл
 
-# Читаем HTML шаблон
-template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
-# Списки для хранения событий
-all_events = []    # Все события (включая прошедшие)
-events = []        # Только предстоящие события для карточек
-all_webinars = []  # Все вебинары (включая прошедшие)
-webinars = []      # Только предстоящие вебинары для карточек
+def main() -> None:
+    # Читаем HTML шаблон
+    template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
-# Читаем события из YAML файлов
-for file in EVENTS_DIR.glob("*.yml"):
-    try:
-        with open(file, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f)
+    # Списки для хранения событий
+    all_events = []    # Все события (включая прошедшие)
+    events = []        # Только предстоящие события для карточек
+    all_webinars = []  # Все вебинары (включая прошедшие)
+    webinars = []      # Только предстоящие вебинары для карточек
 
-        # Добавляем имя файла для формирования ID события
-        data['filename'] = file.stem
+    # Читаем события из YAML файлов
+    for file in EVENTS_DIR.glob("*.yml"):
+        try:
+            with open(file, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
 
-        # Парсим дату события
-        event_date = datetime.strptime(data["date"], "%Y-%m-%d").date()
+            # Добавляем имя файла для формирования ID события
+            data['filename'] = file.stem
 
-        # Добавляем в соответствующие списки
-        all_events.append(data)
-        if event_date >= datetime.today().date():
-            events.append(data)
-    except Exception as e:
-        print(f"Ошибка при чтении файла {file.name}: {e}")
+            # Парсим дату события
+            event_date = datetime.strptime(data["date"], "%Y-%m-%d").date()
 
-# Сортируем события по дате
-all_events.sort(key=lambda e: e["date"])
-events.sort(key=lambda e: e["date"])
+            # Добавляем в соответствующие списки
+            all_events.append(data)
+            if event_date >= datetime.today().date():
+                events.append(data)
+        except Exception as e:
+            print(f"Ошибка при чтении файла {file.name}: {e}")
 
-# Читаем вебинары из YAML файлов
-for file in WEBINARS_DIR.glob("*.yml"):
-    try:
-        with open(file, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f)
+    # Сортируем события по дате
+    all_events.sort(key=lambda e: e["date"])
+    events.sort(key=lambda e: e["date"])
 
-        data['filename'] = file.stem
+    # Читаем вебинары из YAML файлов
+    for file in WEBINARS_DIR.glob("*.yml"):
+        try:
+            with open(file, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
 
-        webinar_date = datetime.strptime(data["date"], "%Y-%m-%d").date()
-        all_webinars.append(data)
-        if webinar_date >= datetime.today().date():
-            webinars.append(data)
-    except Exception as e:
-        print(f"Ошибка при чтении файла {file.name}: {e}")
+            data['filename'] = file.stem
 
-# Сортируем вебинары по дате
-all_webinars.sort(key=lambda e: e["date"])
-webinars.sort(key=lambda e: e["date"])
+            webinar_date = datetime.strptime(data["date"], "%Y-%m-%d").date()
+            all_webinars.append(data)
+            if webinar_date >= datetime.today().date():
+                webinars.append(data)
+        except Exception as e:
+            print(f"Ошибка при чтении файла {file.name}: {e}")
 
-# Создаем директорию для сайта
-OUTPUT_DIR.mkdir(exist_ok=True)
+    # Сортируем вебинары по дате
+    all_webinars.sort(key=lambda e: e["date"])
+    webinars.sort(key=lambda e: e["date"])
 
-# Копируем статические файлы (картинки и иконки)
-shutil.copytree("img", "site/img", dirs_exist_ok=True)
-shutil.copytree("icons", "site/icons", dirs_exist_ok=True)
+    # Создаем директорию для сайта
+    OUTPUT_DIR.mkdir(exist_ok=True)
 
-# Генерируем ICS календари
-calendar_dir = OUTPUT_DIR / "calendar"
-calendar_dir.mkdir(exist_ok=True)
+    # Копируем статические файлы (картинки и иконки)
+    shutil.copytree("img", "site/img", dirs_exist_ok=True)
+    shutil.copytree("icons", "site/icons", dirs_exist_ok=True)
 
-# Создаем индивидуальные календари для событий и вебинаров
-generate_event_calendars(events, calendar_dir)
-generate_event_calendars(webinars, calendar_dir)
+    # Генерируем ICS календари
+    calendar_dir = OUTPUT_DIR / "calendar"
+    calendar_dir.mkdir(exist_ok=True)
 
-# Создаем публичные календари (общий и по городам)
-public_calendars = generate_public_calendars(all_events, calendar_dir)
-webinars_public_calendar_url = generate_webinars_public_calendar(all_webinars, calendar_dir)
+    # Создаем индивидуальные календари для событий и вебинаров
+    generate_event_calendars(events, calendar_dir)
+    generate_event_calendars(webinars, calendar_dir)
 
-# Генерируем RSS ленту
-rss_dir = OUTPUT_DIR / "rss"
-rss_dir.mkdir(exist_ok=True)
-rss_content = generate_rss(all_events)
-rss_file = rss_dir / "rss.xml"
-rss_file.write_text(rss_content, encoding="utf-8")
+    # Создаем публичные календари (общий и по городам)
+    public_calendars = generate_public_calendars(all_events, calendar_dir)
+    webinars_public_calendar_url = generate_webinars_public_calendar(all_webinars, calendar_dir)
 
-# Генерируем JSON файлы для импорта
-json_dir = OUTPUT_DIR / "json"
-json_dir.mkdir(exist_ok=True)
-export_events_to_json(all_events, json_dir)              # Все события
-export_upcoming_events_to_json(events, json_dir)        # Предстоящие события
-export_webinars_to_json(all_webinars, json_dir)         # Все вебинары
-export_upcoming_webinars_to_json(webinars, json_dir)    # Предстоящие вебинары
+    # Генерируем RSS ленту
+    rss_dir = OUTPUT_DIR / "rss"
+    rss_dir.mkdir(exist_ok=True)
+    rss_content = generate_rss(all_events)
+    rss_file = rss_dir / "rss.xml"
+    rss_file.write_text(rss_content, encoding="utf-8")
 
-# Генерируем HTML карточки событий и вебинаров
-events_html = "\n".join(render_event(e) for e in events)
-webinar_html = "\n".join(render_webinar(e) for e in webinars)
-public_calendars_html = render_public_calendars(public_calendars)
-webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)
+    # Генерируем JSON файлы для импорта
+    json_dir = OUTPUT_DIR / "json"
+    json_dir.mkdir(exist_ok=True)
+    export_events_to_json(all_events, json_dir)              # Все события
+    export_upcoming_events_to_json(events, json_dir)        # Предстоящие события
+    export_webinars_to_json(all_webinars, json_dir)         # Все вебинары
+    export_upcoming_webinars_to_json(webinars, json_dir)    # Предстоящие вебинары
 
-# Форматируем дату сборки сайта
-today_date_str = format_date(date.today(), format="d MMMM y", locale="ru")
+    # Генерируем HTML карточки событий и вебинаров
+    events_html = "\n".join(render_event(e) for e in events)
+    webinar_html = "\n".join(render_webinar(e) for e in webinars)
+    public_calendars_html = render_public_calendars(public_calendars)
+    webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)
 
-# Заменяем плейсхолдеры в шаблоне на сгенерированный контент
-result_html = (
-    template
-    .replace("{{ events }}", events_html)
-    .replace("{{ webinars }}", webinar_html)
-    .replace("{{ public_calendars }}", public_calendars_html)
-    .replace("{{ webinars_calendar }}", webinars_calendar_html)
-    .replace("{{ builddate }}", today_date_str)
-)
+    # Форматируем дату сборки сайта
+    today_date_str = format_date(date.today(), format="d MMMM y", locale="ru")
 
-# Сохраняем готовый HTML файл
-OUTPUT_FILE.write_text(result_html, encoding="utf-8")
+    # Заменяем плейсхолдеры в шаблоне на сгенерированный контент
+    result_html = (
+        template
+        .replace("{{ events }}", events_html)
+        .replace("{{ webinars }}", webinar_html)
+        .replace("{{ public_calendars }}", public_calendars_html)
+        .replace("{{ webinars_calendar }}", webinars_calendar_html)
+        .replace("{{ builddate }}", today_date_str)
+    )
+
+    # Сохраняем готовый HTML файл
+    OUTPUT_FILE.write_text(result_html, encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

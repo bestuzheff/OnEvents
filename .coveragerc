@@ -1,0 +1,11 @@
+[run]
+omit =
+    tests/*
+    venv/*
+    */__init__.py
+relative_files = True
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:

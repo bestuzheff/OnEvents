@@ -1,6 +1,7 @@
 [run]
 omit =
     tests/*
+    */tests/*
     venv/*
     */__init__.py
 relative_files = True

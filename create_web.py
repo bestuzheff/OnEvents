@@ -10,7 +10,7 @@ import shutil
 
 # Импорты из собственных модулей
 from utils.text import SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
-from utils.dates import format_time_until_ru
+from utils.dates import format_time_until_ru, russian_count_form
 from url_utils import add_utm_marks, map_link
 from ics_calendars.generators import (
     generate_event_calendars,
@@ -114,19 +114,27 @@ def main() -> None:
     rss_content = generate_rss(all_events)
     rss_file = rss_dir / "rss.xml"
     rss_file.write_text(rss_content, encoding="utf-8")
-
-# Генерируем HTML
-events_html = "\n".join(render_event(e) for e in events)
-webinar_html = "\n".join(render_webinar(e) for e in webinars)
-public_calendars_html = render_public_calendars(public_calendars)
-webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)
-statistics_html = render_statistics_section(
-    all_events,
-    events,
-    all_webinars,
-    date.today(),
-    russian_count_form=russian_count_form,
-)
+    
+    # Генерируем JSON файлы для импорта
+    json_dir = OUTPUT_DIR / "json"
+    json_dir.mkdir(exist_ok=True)
+    export_events_to_json(all_events, json_dir)              # Все события
+    export_upcoming_events_to_json(events, json_dir)        # Предстоящие события
+    export_webinars_to_json(all_webinars, json_dir)         # Все вебинары
+    export_upcoming_webinars_to_json(webinars, json_dir)    # Предстоящие вебинары
+    
+    # Генерируем HTML
+    events_html = "\n".join(render_event(e) for e in events)
+    webinar_html = "\n".join(render_webinar(e) for e in webinars)
+    public_calendars_html = render_public_calendars(public_calendars)
+    webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)
+    statistics_html = render_statistics_section(
+        all_events,
+        events,
+        all_webinars,
+        date.today(),
+        russian_count_form=russian_count_form,
+    )
 
     # Форматируем дату сборки сайта
     today_date_str = format_date(date.today(), format="d MMMM y", locale="ru")

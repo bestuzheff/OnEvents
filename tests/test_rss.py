@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import patch
 
-from rss import generate_rss
+from rss.rss import generate_rss
 
 
 class TestRSSGeneration(unittest.TestCase):
-    @patch("rss.generate_event_id")
-    @patch("rss.get_timezone_for_event")
+    @patch("rss.rss.generate_event_id")
+    @patch("rss.rss.get_timezone_for_event")
     def test_generate_rss_single_event(
         self,
         mock_get_timezone,
@@ -61,8 +61,8 @@ class TestRSSGeneration(unittest.TestCase):
             result
         )
 
-    @patch("rss.generate_event_id")
-    @patch("rss.get_timezone_for_event")
+    @patch("rss.rss.generate_event_id")
+    @patch("rss.rss.get_timezone_for_event")
     def test_generate_rss_without_registration_url(
         self,
         mock_get_timezone,
@@ -91,8 +91,8 @@ class TestRSSGeneration(unittest.TestCase):
             result
         )
 
-    @patch("rss.generate_event_id")
-    @patch("rss.get_timezone_for_event")
+    @patch("rss.rss.generate_event_id")
+    @patch("rss.rss.get_timezone_for_event")
     def test_generate_rss_escapes_html(
         self,
         mock_get_timezone,
@@ -124,8 +124,8 @@ class TestRSSGeneration(unittest.TestCase):
             result
         )
 
-    @patch("rss.generate_event_id")
-    @patch("rss.get_timezone_for_event")
+    @patch("rss.rss.generate_event_id")
+    @patch("rss.rss.get_timezone_for_event")
     def test_generate_rss_sorting(
         self,
         mock_get_timezone,
@@ -159,8 +159,8 @@ class TestRSSGeneration(unittest.TestCase):
 
         self.assertLess(new_pos, old_pos)
 
-    @patch("rss.generate_event_id")
-    @patch("rss.get_timezone_for_event")
+    @patch("rss.rss.generate_event_id")
+    @patch("rss.rss.get_timezone_for_event")
     def test_generate_rss_default_timezone(
         self,
         mock_get_timezone,

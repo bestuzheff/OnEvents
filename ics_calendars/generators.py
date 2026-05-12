@@ -2,6 +2,7 @@
 Генераторы публичных календарей.
 Создают ICS файлы для скачивания и подписки.
 """
+
 from pathlib import Path
 from utils.text import make_slug, SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
 from ics_calendars.vevents import (
@@ -10,7 +11,9 @@ from ics_calendars.vevents import (
 )
 
 
-def generate_public_calendars(all_events: list[dict], calendar_dir: Path) -> list[tuple[str, str, str]]:
+def generate_public_calendars(
+    all_events: list[dict], calendar_dir: Path
+) -> list[tuple[str, str, str]]:
     """Генерирует публичные календари (общий и по городам).
 
     Args:
@@ -32,29 +35,31 @@ def generate_public_calendars(all_events: list[dict], calendar_dir: Path) -> lis
     public_calendars = []
 
     # Создаем общий календарь со всеми событиями
-    public_calendar_url = "https://onevents.ru/calendar/onevents-public.ics"
+    public_calendar_url = 'https://onevents.ru/calendar/onevents-public.ics'
     public_calendar_content = generate_public_calendar(
         all_events,
-        calendar_name="События 1С - OnEvents",
+        calendar_name='События 1С - OnEvents',
         wr_url=public_calendar_url,
     )
-    public_calendar_path = calendar_dir / "onevents-public.ics"
-    public_calendar_path.write_text(public_calendar_content, encoding="utf-8")
+    public_calendar_path = calendar_dir / 'onevents-public.ics'
+    public_calendar_path.write_text(public_calendar_content, encoding='utf-8')
 
     # Добавляем общий календарь в список (для всех городов)
-    public_calendars.append(("Все города", public_calendar_url, ""))
+    public_calendars.append(('Все города', public_calendar_url, ''))
 
     # Создаем отдельные календари по городам
-    unique_cities = sorted({e.get('city', '').strip() for e in all_events if e.get('city')})
+    unique_cities = sorted(
+        {e.get('city', '').strip() for e in all_events if e.get('city')}
+    )
     for city in unique_cities:
         # Фильтруем события города
         city_events = [e for e in all_events if e.get('city') == city]
 
         # Создаем слаг для имени файла
         city_slug = make_slug(city)
-        city_filename = f"onevents-public-{city_slug}.ics"
-        city_url = f"https://onevents.ru/calendar/{city_filename}"
-        city_calendar_name = f"События 1С. {city} - OnEvents"
+        city_filename = f'onevents-public-{city_slug}.ics'
+        city_url = f'https://onevents.ru/calendar/{city_filename}'
+        city_calendar_name = f'События 1С. {city} - OnEvents'
 
         # Генерируем календарь для города
         city_calendar_content = generate_public_calendar(
@@ -62,7 +67,9 @@ def generate_public_calendars(all_events: list[dict], calendar_dir: Path) -> lis
             calendar_name=city_calendar_name,
             wr_url=city_url,
         )
-        (calendar_dir / city_filename).write_text(city_calendar_content, encoding="utf-8")
+        (calendar_dir / city_filename).write_text(
+            city_calendar_content, encoding='utf-8'
+        )
 
         # Добавляем в список
         public_calendars.append((city, city_url, city))
@@ -70,7 +77,9 @@ def generate_public_calendars(all_events: list[dict], calendar_dir: Path) -> lis
     return public_calendars
 
 
-def generate_webinars_public_calendar(all_webinars: list[dict], calendar_dir: Path) -> str:
+def generate_webinars_public_calendar(
+    all_webinars: list[dict], calendar_dir: Path
+) -> str:
     """Генерирует отдельный публичный календарь для вебинаров.
 
     Args:
@@ -83,14 +92,14 @@ def generate_webinars_public_calendar(all_webinars: list[dict], calendar_dir: Pa
     Note:
         Вебинары хранятся в отдельном календаре, так как они не привязаны к городам.
     """
-    webinars_calendar_url = "https://onevents.ru/calendar/onevents-webinars.ics"
+    webinars_calendar_url = 'https://onevents.ru/calendar/onevents-webinars.ics'
     webinars_calendar_content = generate_public_calendar(
         all_webinars,
-        calendar_name="Прямой эфир — OnEvents",
+        calendar_name='Прямой эфир — OnEvents',
         wr_url=webinars_calendar_url,
     )
-    webinars_calendar_path = calendar_dir / "onevents-webinars.ics"
-    webinars_calendar_path.write_text(webinars_calendar_content, encoding="utf-8")
+    webinars_calendar_path = calendar_dir / 'onevents-webinars.ics'
+    webinars_calendar_path.write_text(webinars_calendar_content, encoding='utf-8')
 
     return webinars_calendar_url
 
@@ -114,11 +123,11 @@ def generate_event_calendars(events: list[dict], calendar_dir: Path) -> None:
         # Генерируем безопасное имя файла из названия
         safe_title = SAFE_CHARS_PATTERN.sub('', event['title']).strip()
         safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
-        ics_filename = f"{event['date']}-{safe_title}.ics"
+        ics_filename = f'{event["date"]}-{safe_title}.ics'
 
         # Генерируем содержимое
         ics_content = generate_ics_content(event)
 
         # Сохраняем файл
         ics_file_path = calendar_dir / ics_filename
-        ics_file_path.write_text(ics_content, encoding="utf-8")
+        ics_file_path.write_text(ics_content, encoding='utf-8')

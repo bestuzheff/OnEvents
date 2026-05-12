@@ -6,12 +6,12 @@ from .json import (
     export_events_to_json,
     export_upcoming_events_to_json,
     export_webinars_to_json,
-    export_upcoming_webinars_to_json
+    export_upcoming_webinars_to_json,
 )
 
 __all__ = [
-    "export_events_to_json",
-    "export_upcoming_events_to_json",
-    "export_webinars_to_json",
-    "export_upcoming_webinars_to_json"
+    'export_events_to_json',
+    'export_upcoming_events_to_json',
+    'export_webinars_to_json',
+    'export_upcoming_webinars_to_json',
 ]

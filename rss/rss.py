@@ -2,6 +2,7 @@
 Генерация RSS ленты событий.
 Создает RSS 2.0 фид для агрегаторов и подкастов.
 """
+
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from babel.dates import format_date
@@ -33,42 +34,42 @@ def generate_rss(all_events: list[dict]) -> str:
         - Каждый item содержит: title, link, guid, pubDate, description
         - Дата публикации устанавливается по дате события
     """
-    site_url = "https://onevents.ru"
-    rss_url = f"{site_url}/rss/rss.xml"
+    site_url = 'https://onevents.ru'
+    rss_url = f'{site_url}/rss/rss.xml'
     rss_items = []
     now = datetime.now(timezone.utc)
 
     # Сортируем события от новых к старым (для RSS это важно)
-    all_events = sorted(all_events, key=lambda e: e["date"], reverse=True)
+    all_events = sorted(all_events, key=lambda e: e['date'], reverse=True)
 
     for event in all_events:
         # Определяем временную зону для корректной даты
-        tz_name = get_timezone_for_event(event) or "Europe/Moscow"
+        tz_name = get_timezone_for_event(event) or 'Europe/Moscow'
         tz = pytz.timezone(tz_name)
-        event_date = datetime.strptime(event["date"], "%Y-%m-%d")
+        event_date = datetime.strptime(event['date'], '%Y-%m-%d')
         event_date = event_date.replace(tzinfo=tz)
         pub_date = format_datetime(event_date)
 
         # Генерируем ID и ссылку на событие
-        event_id = generate_event_id(event, "event")
-        event_link = f"{site_url}/#{event_id}"
+        event_id = generate_event_id(event, 'event')
+        event_link = f'{site_url}/#{event_id}'
 
         # Экранируем HTML в заголовке
-        title = saxutils.escape(event["title"])
+        title = saxutils.escape(event['title'])
 
         # Формируем описание события
         description_text = (
-            f"{event['description']}\n\n"
-            f"Дата: {format_date(event_date.date(), format='d MMMM y', locale='ru')}\n"
-            f"Место: {event['city']}"
+            f'{event["description"]}\n\n'
+            f'Дата: {format_date(event_date.date(), format="d MMMM y", locale="ru")}\n'
+            f'Место: {event["city"]}'
         )
 
         # Добавляем ссылку на регистрацию если есть
-        if event.get("registration_url"):
-            description_text += f"\nРегистрация: {event['registration_url']}"
+        if event.get('registration_url'):
+            description_text += f'\nРегистрация: {event["registration_url"]}'
 
         # GUID - уникальный идентификатор (не permalink)
-        guid = f"onevents-{event['filename']}"
+        guid = f'onevents-{event["filename"]}'
 
         # Добавляем item в список
         rss_items.append(f"""

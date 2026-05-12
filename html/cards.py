@@ -2,6 +2,7 @@
 Генерация HTML карточек событий и вебинаров.
 Содержит функции для рендеринга HTML представления событий.
 """
+
 from datetime import datetime
 from babel.dates import format_date
 from utils.text import SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
@@ -24,7 +25,7 @@ def generate_event_id(event: dict, event_type: str) -> str:
         Использует имя файла (filename) как основу, так как оно уже содержит
         дату и краткое описание события.
     """
-    return f"{event_type}-{event['filename']}"
+    return f'{event_type}-{event["filename"]}'
 
 
 def render_event(event: dict) -> str:
@@ -44,10 +45,10 @@ def render_event(event: dict) -> str:
         - Добавляет кнопку для скачивания ICS календаря
     """
     # Форматируем дату
-    date_obj = datetime.strptime(event['date'], "%Y-%m-%d")
+    date_obj = datetime.strptime(event['date'], '%Y-%m-%d')
     today_date = datetime.today().date()
     target_date = date_obj.date()
-    date_str = format_date(date_obj, format="d MMMM y", locale="ru")
+    date_str = format_date(date_obj, format='d MMMM y', locale='ru')
 
     # Формируем текст "через сколько"
     days_left_text = format_time_until_ru(today_date, target_date)
@@ -58,26 +59,28 @@ def render_event(event: dict) -> str:
     if not address:
         address_str = event['city']
     else:
-        address_str = f"{event['city']}, {address}"
+        address_str = f'{event["city"]}, {address}'
 
     # Генерируем имя файла для ICS
     safe_title = SAFE_CHARS_PATTERN.sub('', event['title']).strip()
     safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
-    ics_filename = f"{event['date']}-{safe_title}.ics"
+    ics_filename = f'{event["date"]}-{safe_title}.ics'
 
     # Обрабатываем ссылку регистрации (добавляем UTM метки)
-    raw_registration_url = (event.get('registration_url') or "").strip()
-    registration_url_with_utm = add_utm_marks(raw_registration_url) if raw_registration_url else ""
-    registration_button_html = ""
+    raw_registration_url = (event.get('registration_url') or '').strip()
+    registration_url_with_utm = (
+        add_utm_marks(raw_registration_url) if raw_registration_url else ''
+    )
+    registration_button_html = ''
     if registration_url_with_utm:
         registration_button_html = f'<a href="{registration_url_with_utm}" role="button" target="_blank">Регистрация</a>'
 
     # Генерируем ID события
-    event_id = generate_event_id(event, "event")
+    event_id = generate_event_id(event, 'event')
 
     # Ссылка на карту
     map_url = map_link(event['city'], event.get('address', ''))
-    map_link_html = ""
+    map_link_html = ''
     if map_url:
         map_link_html = f' <a href="{map_url}" target="_blank" class="map-link" title="Показать на карте">Показать на карте</a>'
 
@@ -128,19 +131,19 @@ def render_webinar(webinar: dict) -> str:
         - Добавляет кнопку для скачивания ICS календаря
     """
     # Форматируем дату
-    date_obj = datetime.strptime(webinar['date'], "%Y-%m-%d")
-    date_str = format_date(date_obj, format="d MMMM y", locale="ru")
+    date_obj = datetime.strptime(webinar['date'], '%Y-%m-%d')
+    date_str = format_date(date_obj, format='d MMMM y', locale='ru')
 
     # Генерируем имя файла для ICS
     safe_title = SAFE_CHARS_PATTERN.sub('', webinar['title']).strip()
     safe_title = DASHES_SPACES_PATTERN.sub('-', safe_title)
-    ics_filename = f"{webinar['date']}-{safe_title}.ics"
+    ics_filename = f'{webinar["date"]}-{safe_title}.ics'
 
     # Ссылка на трансляцию
     translation_url = webinar['url']
 
     # ID вебинара
-    webinar_id = generate_event_id(webinar, "webinar")
+    webinar_id = generate_event_id(webinar, 'webinar')
 
     return f"""
     <article class="card" itemscope itemtype="https://schema.org/Event" id="{webinar_id}">

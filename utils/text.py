@@ -2,6 +2,7 @@
 Утилиты для работы с текстом.
 Содержит функции для очистки текста, формирования URL-слагов и преобразования времени.
 """
+
 import re
 
 # Регулярные выражения для обработки текста
@@ -24,9 +25,9 @@ def clean_text(text: str) -> str:
     text = re.sub(r'<[^>]+>', '', text)
     # Экранируем специальные символы для ICS файлов
     text = text.replace('\\', '\\\\')  # Обратный слеш
-    text = text.replace(',', '\\,')     # Запятая
-    text = text.replace(';', '\\;')     # Точка с запятой
-    text = text.replace('\n', '\\n')     # Перенос строки
+    text = text.replace(',', '\\,')  # Запятая
+    text = text.replace(';', '\\;')  # Точка с запятой
+    text = text.replace('\n', '\\n')  # Перенос строки
     return text
 
 
@@ -71,4 +72,4 @@ def to_hhmmss(time_str: str) -> str:
     # Дополняем до двух цифр
     hour = hour.zfill(2)
     minute = minute.zfill(2)
-    return f"{hour}{minute}00"
+    return f'{hour}{minute}00'

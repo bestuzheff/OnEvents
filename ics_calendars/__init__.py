@@ -9,7 +9,7 @@ from .vevents import (
 )
 
 __all__ = [
-    "generate_event_vevent",
-    "generate_public_calendar",
-    "generate_ics_content",
+    'generate_event_vevent',
+    'generate_public_calendar',
+    'generate_ics_content',
 ]

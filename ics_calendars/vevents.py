@@ -8,6 +8,7 @@ from utils.url import get_timezone_for_event, shorten_url, map_link
 
 import uuid
 
+
 def generate_event_vevent(event: dict, session: dict | None = None) -> str:
     """Генерирует VEVENT (событие календаря) в текстовом формате iCalendar.
 
@@ -52,7 +53,9 @@ def generate_event_vevent(event: dict, session: dict | None = None) -> str:
         )
 
 
-def _generate_session_vevent(event, session, uid, location, title, description, tz_param) -> str:
+def _generate_session_vevent(
+    event, session, uid, location, title, description, tz_param
+) -> str:
     """Генерирует VEVENT для сессии события (с конкретным временем).
 
     Args:
@@ -138,9 +141,7 @@ END:VEVENT"""
 
 
 def generate_public_calendar(
-    events: list[dict],
-    calendar_name: str | None = None,
-    wr_url: str | None = None
+    events: list[dict], calendar_name: str | None = None, wr_url: str | None = None
 ) -> str:
     """Генерирует полный ICS календарь со всеми событиями.
 
@@ -154,7 +155,7 @@ def generate_public_calendar(
     """
     # Текущее время для метаданных календаря
     now = datetime.now()
-    now_str = now.strftime('%Y%m%dT%H%M%SZ')
+    now_str = now.strftime("%Y%m%dT%H%M%SZ")
 
     # Название календаря по умолчанию
     default_name = "Cобытия 1C - OnEvents"
@@ -179,10 +180,10 @@ DTSTAMP:{now_str}"""
     # Добавляем все события в календарь
     for event in events:
         # Проверяем есть ли сессии у события
-        if 'sessions' in event and event['sessions']:
-            sessions = event['sessions']
+        if "sessions" in event and event["sessions"]:
+            sessions = event["sessions"]
             # Сортируем сессии по дате
-            sessions.sort(key=lambda x: x['date'])
+            sessions.sort(key=lambda x: x["date"])
 
             # Создаем отдельный VEVENT для каждой сессии
             for i, session in enumerate(sessions):
@@ -223,9 +224,9 @@ METHOD:PUBLISH"""
 X-WR-TIMEZONE:{tzid}"""
 
     # Добавляем событие или сессии
-    if 'sessions' in event and event['sessions']:
-        sessions = event['sessions']
-        sessions.sort(key=lambda x: x['date'])
+    if "sessions" in event and event["sessions"]:
+        sessions = event["sessions"]
+        sessions.sort(key=lambda x: x["date"])
 
         for i, session in enumerate(sessions):
             vevent = generate_event_vevent(event, session)

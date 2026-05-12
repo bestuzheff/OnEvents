@@ -3,8 +3,8 @@
 Используется для импорта данных на сторонние ресурсы.
 """
 
-from pathlib import Path
 import json
+from pathlib import Path
 
 
 def serialize_event(event: dict) -> dict:

@@ -4,8 +4,8 @@
 
 from .vevents import (
     generate_event_vevent,
-    generate_public_calendar,
     generate_ics_content,
+    generate_public_calendar,
 )
 
 __all__ = [

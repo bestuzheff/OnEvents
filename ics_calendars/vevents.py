@@ -1,12 +1,12 @@
 # Импорт стандартных модулей
+import uuid
 from datetime import datetime
+
 from babel.dates import format_date
 
 # Импорт собственных утилит
 from utils.text import clean_text, to_hhmmss
-from utils.url import get_timezone_for_event, shorten_url, map_link
-
-import uuid
+from utils.url import get_timezone_for_event, map_link, shorten_url
 
 
 def generate_event_vevent(event: dict, session: dict | None = None) -> str:

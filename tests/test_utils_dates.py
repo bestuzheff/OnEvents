@@ -2,9 +2,9 @@ import unittest
 from datetime import date
 
 from utils.dates import (
-    russian_count_form,
     format_months_ru,
     format_time_until_ru,
+    russian_count_form,
 )
 
 

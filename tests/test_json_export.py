@@ -1,5 +1,4 @@
 import unittest
-import json
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
@@ -98,7 +97,7 @@ class TestJsonExport(unittest.TestCase):
         self.assertNotIn('sessions', result)
         self.assertEqual(result['pic'], '')
 
-    @patch('json.dump')
+    @patch('json_export.json.json.dump')
     @patch('builtins.open', new_callable=mock_open)
     def test_export_to_json(
         self,

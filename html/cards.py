@@ -4,9 +4,11 @@
 """
 
 from datetime import datetime
+
 from babel.dates import format_date
-from utils.text import SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
+
 from utils.dates import format_time_until_ru
+from utils.text import DASHES_SPACES_PATTERN, SAFE_CHARS_PATTERN
 from utils.url import add_utm_marks, map_link
 
 

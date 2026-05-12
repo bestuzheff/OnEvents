@@ -4,11 +4,12 @@
 """
 
 from pathlib import Path
-from utils.text import make_slug, SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
+
 from ics_calendars.vevents import (
-    generate_public_calendar,
     generate_ics_content,
+    generate_public_calendar,
 )
+from utils.text import DASHES_SPACES_PATTERN, SAFE_CHARS_PATTERN, make_slug
 
 
 def generate_public_calendars(

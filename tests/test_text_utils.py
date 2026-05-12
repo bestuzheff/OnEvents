@@ -1,6 +1,6 @@
 import unittest
 
-from utils.text import clean_text, to_hhmmss, make_slug
+from utils.text import clean_text, make_slug, to_hhmmss
 
 
 class TestTextUtils(unittest.TestCase):

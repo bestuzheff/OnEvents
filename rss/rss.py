@@ -3,13 +3,14 @@
 Создает RSS 2.0 фид для агрегаторов и подкастов.
 """
 
+import xml.sax.saxutils as saxutils
 from datetime import datetime, timezone
 from email.utils import format_datetime
-from babel.dates import format_date
-import pytz
-import xml.sax.saxutils as saxutils
-
 from html import generate_event_id
+
+import pytz
+from babel.dates import format_date
+
 from utils.url import get_timezone_for_event
 
 

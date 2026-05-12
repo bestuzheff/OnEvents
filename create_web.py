@@ -3,11 +3,14 @@
 Собирает YAML файлы событий и вебинаров, генерирует HTML, календари, RSS и JSON.
 """
 
-import yaml
-from datetime import datetime, date
-from pathlib import Path
-from babel.dates import format_date
 import shutil
+from datetime import date, datetime
+from html import render_event, render_webinar
+from html.calendars import render_public_calendars, render_webinars_calendar
+from pathlib import Path
+
+import yaml
+from babel.dates import format_date
 
 # Импорты из собственных модулей
 from ics_calendars.generators import (
@@ -15,16 +18,13 @@ from ics_calendars.generators import (
     generate_public_calendars,
     generate_webinars_public_calendar,
 )
-from html import render_event, render_webinar
-from html.calendars import render_public_calendars, render_webinars_calendar
-from rss import generate_rss
 from json_export import (
     export_events_to_json,
     export_upcoming_events_to_json,
-    export_webinars_to_json,
     export_upcoming_webinars_to_json,
+    export_webinars_to_json,
 )
-
+from rss import generate_rss
 
 # Пути к директориям и файлам
 EVENTS_DIR = Path('events')  # Папка с YAML файлами событий
@@ -47,7 +47,7 @@ def main() -> None:
     # Читаем события из YAML файлов
     for file in EVENTS_DIR.glob('*.yml'):
         try:
-            with open(file, 'r', encoding='utf-8') as f:
+            with open(file, encoding='utf-8') as f:
                 data = yaml.safe_load(f)
 
             # Добавляем имя файла для формирования ID события
@@ -70,7 +70,7 @@ def main() -> None:
     # Читаем вебинары из YAML файлов
     for file in WEBINARS_DIR.glob('*.yml'):
         try:
-            with open(file, 'r', encoding='utf-8') as f:
+            with open(file, encoding='utf-8') as f:
                 data = yaml.safe_load(f)
 
             data['filename'] = file.stem

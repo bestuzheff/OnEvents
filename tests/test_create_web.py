@@ -1,31 +1,31 @@
 import unittest
-from unittest.mock import patch, mock_open, MagicMock
 from pathlib import Path
+from unittest.mock import mock_open, patch
 
 import create_web
 
 
 class TestCreateWeb(unittest.TestCase):
-    @patch("create_web.render_webinars_calendar")
-    @patch("create_web.render_public_calendars")
-    @patch("create_web.render_webinar")
-    @patch("create_web.render_event")
-    @patch("create_web.export_upcoming_webinars_to_json")
-    @patch("create_web.export_webinars_to_json")
-    @patch("create_web.export_upcoming_events_to_json")
-    @patch("create_web.export_events_to_json")
-    @patch("create_web.generate_rss")
-    @patch("create_web.generate_webinars_public_calendar")
-    @patch("create_web.generate_public_calendars")
-    @patch("create_web.generate_event_calendars")
-    @patch("create_web.shutil.copytree")
-    @patch("create_web.format_date")
-    @patch("create_web.yaml.safe_load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("pathlib.Path.mkdir")
-    @patch("pathlib.Path.write_text")
-    @patch("pathlib.Path.read_text")
-    @patch("pathlib.Path.glob")
+    @patch('create_web.render_webinars_calendar')
+    @patch('create_web.render_public_calendars')
+    @patch('create_web.render_webinar')
+    @patch('create_web.render_event')
+    @patch('create_web.export_upcoming_webinars_to_json')
+    @patch('create_web.export_webinars_to_json')
+    @patch('create_web.export_upcoming_events_to_json')
+    @patch('create_web.export_events_to_json')
+    @patch('create_web.generate_rss')
+    @patch('create_web.generate_webinars_public_calendar')
+    @patch('create_web.generate_public_calendars')
+    @patch('create_web.generate_event_calendars')
+    @patch('create_web.shutil.copytree')
+    @patch('create_web.format_date')
+    @patch('create_web.yaml.safe_load')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('pathlib.Path.mkdir')
+    @patch('pathlib.Path.write_text')
+    @patch('pathlib.Path.read_text')
+    @patch('pathlib.Path.glob')
     def test_main_generates_site(
         self,
         mock_glob,
@@ -51,8 +51,8 @@ class TestCreateWeb(unittest.TestCase):
     ):
         """Тестирует полный цикл генерации сайта."""
 
-        event_file = Path("events/event1.yml")
-        webinar_file = Path("webinars/webinar1.yml")
+        event_file = Path('events/event1.yml')
+        webinar_file = Path('webinars/webinar1.yml')
 
         mock_glob.side_effect = [
             [event_file],
@@ -61,66 +61,60 @@ class TestCreateWeb(unittest.TestCase):
 
         mock_yaml_load.side_effect = [
             {
-                "title": "Конференция",
-                "date": "2099-01-01",
-                "city": "Москва",
-                "description": "Описание события",
-                "icon": "event.png",
+                'title': 'Конференция',
+                'date': '2099-01-01',
+                'city': 'Москва',
+                'description': 'Описание события',
+                'icon': 'event.png',
             },
             {
-                "title": "Вебинар",
-                "date": "2099-02-01",
-                "description": "Описание вебинара",
-                "pic": "webinar.png",
-                "url": "https://youtube.com/test",
+                'title': 'Вебинар',
+                'date': '2099-02-01',
+                'description': 'Описание вебинара',
+                'pic': 'webinar.png',
+                'url': 'https://youtube.com/test',
             },
         ]
 
         mock_read_text.return_value = (
-            "{{ events }}\n"
-            "{{ webinars }}\n"
-            "{{ public_calendars }}\n"
-            "{{ webinars_calendar }}\n"
-            "{{ builddate }}"
+            '{{ events }}\n'
+            '{{ webinars }}\n'
+            '{{ public_calendars }}\n'
+            '{{ webinars_calendar }}\n'
+            '{{ builddate }}'
         )
 
-        mock_render_event.return_value = "<div>EVENT</div>"
-        mock_render_webinar.return_value = "<div>WEBINAR</div>"
-        mock_render_public_calendars.return_value = "<div>CALENDARS</div>"
-        mock_render_webinars_calendar.return_value = "<div>WEBINARS_CALENDAR</div>"
+        mock_render_event.return_value = '<div>EVENT</div>'
+        mock_render_webinar.return_value = '<div>WEBINAR</div>'
+        mock_render_public_calendars.return_value = '<div>CALENDARS</div>'
+        mock_render_webinars_calendar.return_value = '<div>WEBINARS_CALENDAR</div>'
 
-        mock_generate_public_calendars.return_value = [
-            "calendar.ics"
-        ]
+        mock_generate_public_calendars.return_value = ['calendar.ics']
 
-        mock_generate_webinars_public_calendar.return_value = (
-            "webinars.ics"
-        )
+        mock_generate_webinars_public_calendar.return_value = 'webinars.ics'
 
-        mock_generate_rss.return_value = "<rss></rss>"
+        mock_generate_rss.return_value = '<rss></rss>'
 
-        mock_format_date.return_value = "11 мая 2026"
+        mock_format_date.return_value = '11 мая 2026'
 
         create_web.main()
 
         # Проверяем чтение шаблона
-        mock_read_text.assert_called_once_with(
-            encoding="utf-8"
-        )
+        mock_read_text.assert_called_once_with(encoding='utf-8')
 
         # Проверяем создание директорий
         self.assertTrue(mock_mkdir.called)
 
         # Проверяем копирование ресурсов
         mock_copytree.assert_any_call(
-            "img",
-            "site/img",
+            'img',
+            'site/img',
             dirs_exist_ok=True,
         )
 
         mock_copytree.assert_any_call(
-            "icons",
-            "site/icons",
+            'icons',
+            'site/icons',
             dirs_exist_ok=True,
         )
 
@@ -149,25 +143,25 @@ class TestCreateWeb(unittest.TestCase):
         final_html = mock_write_text.call_args_list[-1][0][0]
 
         self.assertIn(
-            "<div>EVENT</div>",
+            '<div>EVENT</div>',
             final_html,
         )
 
         self.assertIn(
-            "<div>WEBINAR</div>",
+            '<div>WEBINAR</div>',
             final_html,
         )
 
         self.assertIn(
-            "11 мая 2026",
+            '11 мая 2026',
             final_html,
         )
 
-    @patch("builtins.print")
-    @patch("create_web.yaml.safe_load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("pathlib.Path.read_text")
-    @patch("pathlib.Path.glob")
+    @patch('builtins.print')
+    @patch('create_web.yaml.safe_load')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('pathlib.Path.read_text')
+    @patch('pathlib.Path.glob')
     def test_main_handles_invalid_yaml(
         self,
         mock_glob,
@@ -178,39 +172,36 @@ class TestCreateWeb(unittest.TestCase):
     ):
         """Тестирует обработку ошибки чтения YAML файла."""
 
-        broken_file = Path("events/broken.yml")
+        broken_file = Path('events/broken.yml')
 
         mock_glob.side_effect = [
             [broken_file],
             [],
         ]
 
-        mock_read_text.return_value = "{{ events }}"
+        mock_read_text.return_value = '{{ events }}'
 
-        mock_yaml_load.side_effect = Exception(
-            "Ошибка YAML"
-        )
+        mock_yaml_load.side_effect = Exception('Ошибка YAML')
 
-        with patch("create_web.shutil.copytree"), \
-             patch("create_web.generate_event_calendars"), \
-             patch("create_web.generate_public_calendars"), \
-             patch("create_web.generate_webinars_public_calendar"), \
-             patch("create_web.generate_rss", return_value="rss"), \
-             patch("create_web.export_events_to_json"), \
-             patch("create_web.export_upcoming_events_to_json"), \
-             patch("create_web.export_webinars_to_json"), \
-             patch("create_web.export_upcoming_webinars_to_json"), \
-             patch("create_web.render_public_calendars", return_value=""), \
-             patch("create_web.render_webinars_calendar", return_value=""), \
-             patch("pathlib.Path.mkdir"), \
-             patch("pathlib.Path.write_text"):
-
+        with (
+            patch('create_web.shutil.copytree'),
+            patch('create_web.generate_event_calendars'),
+            patch('create_web.generate_public_calendars'),
+            patch('create_web.generate_webinars_public_calendar'),
+            patch('create_web.generate_rss', return_value='rss'),
+            patch('create_web.export_events_to_json'),
+            patch('create_web.export_upcoming_events_to_json'),
+            patch('create_web.export_webinars_to_json'),
+            patch('create_web.export_upcoming_webinars_to_json'),
+            patch('create_web.render_public_calendars', return_value=''),
+            patch('create_web.render_webinars_calendar', return_value=''),
+            patch('pathlib.Path.mkdir'),
+            patch('pathlib.Path.write_text'),
+        ):
             create_web.main()
 
-        mock_print.assert_any_call(
-            "Ошибка при чтении файла broken.yml: Ошибка YAML"
-        )
+        mock_print.assert_any_call('Ошибка при чтении файла broken.yml: Ошибка YAML')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

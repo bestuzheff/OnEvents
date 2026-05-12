@@ -2,7 +2,9 @@
 Утилиты для работы с URL.
 Содержит функции для сокращения ссылок, создания ссылок на карты, добавления UTM-меток.
 """
+
 import urllib.parse
+
 import requests
 
 
@@ -45,21 +47,21 @@ def get_timezone_for_event(event: dict) -> str | None:
         - Новосибирск -> Asia/Novosibirsk
         - Иркутск -> Asia/Irkutsk
     """
-    tz_moscow = "Europe/Moscow"
+    tz_moscow = 'Europe/Moscow'
     timezones = {
-        "online": tz_moscow,
-        "онлайн": tz_moscow,
-        "санкт-петербург": tz_moscow,
-        "москва": tz_moscow,
-        "новосибирск": "Asia/Novosibirsk",
-        "иркутск": "Asia/Irkutsk",
+        'online': tz_moscow,
+        'онлайн': tz_moscow,
+        'санкт-петербург': tz_moscow,
+        'москва': tz_moscow,
+        'новосибирск': 'Asia/Novosibirsk',
+        'иркутск': 'Asia/Irkutsk',
     }
 
     city = str(event.get('city', '')).strip().lower()
     return timezones.get(city)
 
 
-def map_link(city: str, address: str = "") -> str:
+def map_link(city: str, address: str = '') -> str:
     """Создает ссылку на Яндекс.Карты с адресом события.
 
     Args:
@@ -76,23 +78,31 @@ def map_link(city: str, address: str = "") -> str:
     """
     # Не показываем карту если адрес пустой
     if not address:
-        return ""
+        return ''
 
     # Не показываем для онлайн событий
     if city.lower() in ['online', 'онлайн']:
-        return ""
+        return ''
 
     # Проверяем на слова неопределенности в адресе
-    uncertain_words = ['уточняется', 'придумано', 'объявлено', 'уточнить', 'tbd', 'tba', 'todo']
+    uncertain_words = [
+        'уточняется',
+        'придумано',
+        'объявлено',
+        'уточнить',
+        'tbd',
+        'tba',
+        'todo',
+    ]
     if any(word in address.lower() for word in uncertain_words):
-        return ""
+        return ''
 
     # Формируем полный адрес
-    full_address = f"{city}, {address}"
+    full_address = f'{city}, {address}'
     # URL-кодируем адрес для безопасной вставки в URL
     encoded_address = urllib.parse.quote(full_address)
 
-    return f"https://yandex.ru/maps/?text={encoded_address}"
+    return f'https://yandex.ru/maps/?text={encoded_address}'
 
 
 def add_utm_marks(url: str) -> str:
@@ -132,10 +142,10 @@ def add_utm_marks(url: str) -> str:
     utm_campaign = 'news'
     utm_content = 'link'
 
-    utm_params = f"utm_source={utm_source}&utm_medium={utm_medium}&utm_campaign={utm_campaign}&utm_content={utm_content}"
+    utm_params = f'utm_source={utm_source}&utm_medium={utm_medium}&utm_campaign={utm_campaign}&utm_content={utm_content}'
 
     # Добавляем к существующим параметрам запроса
-    new_query = f"{parsed.query}&{utm_params}" if parsed.query else utm_params
+    new_query = f'{parsed.query}&{utm_params}' if parsed.query else utm_params
     new_parsed = parsed._replace(query=new_query)
 
     return urllib.parse.urlunparse(new_parsed)

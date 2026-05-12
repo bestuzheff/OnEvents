@@ -54,7 +54,8 @@ OnEvents/
 ├── webinars/                  # YAML файлы вебинаров (входные данные)
 ├── img/                       # Изображения событий
 ├── icons/                     # Иконки сайта (favicon, манифест)
-└── test_create_web.py         # Тесты
+└── tests/                     # Тесты
+│   └── test_html.py           # Тесты конкретных модулей
 ```
 
 ### Как это работает?
@@ -190,7 +191,7 @@ sessions:
 Запустить тесты:
 
 ```bash
-pytest test_create_web.py -v
+pytest
 ```
 
 Тесты проверяют:

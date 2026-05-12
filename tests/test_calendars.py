@@ -1,18 +1,13 @@
 import unittest
 from unittest.mock import patch
 
-from ics_calendars import (
-    generate_event_vevent,
-    generate_public_calendar,
-    generate_ics_content,
-)
-
+from ics_calendars.vevents import generate_event_vevent, generate_ics_content, generate_public_calendar
 
 class TestICSCalendars(unittest.TestCase):
-    @patch("ics_calendars.uuid.uuid4")
-    @patch("ics_calendars.shorten_url")
-    @patch("ics_calendars.map_link")
-    @patch("ics_calendars.get_timezone_for_event")
+    @patch("ics_calendars.vevents.uuid.uuid4")
+    @patch("ics_calendars.vevents.shorten_url")
+    @patch("ics_calendars.vevents.map_link")
+    @patch("ics_calendars.vevents.get_timezone_for_event")
     def test_generate_simple_event_vevent(
         self,
         mock_timezone,
@@ -43,10 +38,10 @@ class TestICSCalendars(unittest.TestCase):
         self.assertIn("UID:test-uuid@onevents.ru", result)
         self.assertIn("DTSTART;VALUE=DATE:20260511", result)
 
-    @patch("ics_calendars.uuid.uuid4")
-    @patch("ics_calendars.shorten_url")
-    @patch("ics_calendars.map_link")
-    @patch("ics_calendars.get_timezone_for_event")
+    @patch("ics_calendars.vevents.uuid.uuid4")
+    @patch("ics_calendars.vevents.shorten_url")
+    @patch("ics_calendars.vevents.map_link")
+    @patch("ics_calendars.vevents.get_timezone_for_event")
     def test_generate_session_vevent(
         self,
         mock_timezone,
@@ -81,7 +76,7 @@ class TestICSCalendars(unittest.TestCase):
         self.assertIn("DTEND;TZID=Europe/Moscow:20260511T180000", result)
         self.assertIn("SUMMARY:Конференция", result)
 
-    @patch("ics_calendars.generate_event_vevent")
+    @patch("ics_calendars.vevents.generate_event_vevent")
     def test_generate_public_calendar(self, mock_generate_event):
         """Тестирует генерацию полного календаря."""
         mock_generate_event.return_value = "VEVENT_CONTENT"
@@ -99,8 +94,8 @@ class TestICSCalendars(unittest.TestCase):
         self.assertIn("END:VCALENDAR", result)
         self.assertIn("VEVENT_CONTENT", result)
 
-    @patch("ics_calendars.generate_event_vevent")
-    @patch("ics_calendars.get_timezone_for_event")
+    @patch("ics_calendars.vevents.generate_event_vevent")
+    @patch("ics_calendars.vevents.get_timezone_for_event")
     def test_generate_ics_content(
         self,
         mock_timezone,

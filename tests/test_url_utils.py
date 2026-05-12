@@ -3,8 +3,6 @@ import unittest
 from url_utils import (
     shorten_url,
     get_timezone_for_event,
-    map_link,
-    add_utm_marks,
 )
 
 

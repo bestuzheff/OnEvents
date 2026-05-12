@@ -4,7 +4,10 @@
 """
 from pathlib import Path
 from utils.text import make_slug, SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
-from ics_calendars import generate_public_calendar, generate_ics_content
+from ics_calendars.vevents import (
+    generate_public_calendar,
+    generate_ics_content,
+)
 
 
 def generate_public_calendars(all_events: list[dict], calendar_dir: Path) -> list[tuple[str, str, str]]:

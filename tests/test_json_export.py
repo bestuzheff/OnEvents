@@ -1,200 +1,216 @@
-import json
 import unittest
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from unittest.mock import mock_open, patch
 
-from json_export import (
-    serialize_event,
+from json_export.json import (
     export_events_to_json,
+    export_to_json,
     export_upcoming_events_to_json,
-    export_webinars_to_json,
     export_upcoming_webinars_to_json,
+    export_webinars_to_json,
+    serialize_event,
+    serialize_webinar,
 )
 
 
 class TestJsonExport(unittest.TestCase):
-    def test_serialize_event_full(self):
-        """Тестирует сериализацию события со всеми полями."""
+    def setUp(self):
+        self.event = {
+            'id': 'event-1',
+            'title': 'Conference',
+            'date': '2026-05-01',
+            'city': 'Moscow',
+            'address': 'Red Square',
+            'icon': 'event.png',
+            'description': 'Event description',
+            'registration_url': 'https://register.example.com',
+            'url': 'https://event.example.com',
+            'sessions': [{'title': 'Session 1'}],
+        }
+
+        self.webinar = {
+            'id': 'webinar-1',
+            'title': 'Python Webinar',
+            'date': '2026-05-10',
+            'pic': 'webinar.png',
+            'description': 'Webinar description',
+            'url': 'https://webinar.example.com',
+            'sessions': [{'title': 'Intro'}],
+        }
+
+        self.output_dir = Path('/tmp')
+
+    def test_serialize_event(self):
+        result = serialize_event(self.event)
+
+        self.assertEqual(result['id'], 'event-1')
+        self.assertEqual(result['title'], 'Conference')
+        self.assertEqual(result['icon'], 'img/events/event.png')
+        self.assertEqual(
+            result['registration_url'],
+            'https://register.example.com',
+        )
+        self.assertEqual(
+            result['url'],
+            'https://event.example.com',
+        )
+        self.assertEqual(result['sessions'], [{'title': 'Session 1'}])
+
+    def test_serialize_event_without_optional_fields(self):
         event = {
-            "id": 1,
-            "title": "Конференция",
-            "date": "2026-05-11",
-            "city": "Москва",
-            "address": "Красная площадь",
-            "icon": "conf.png",
-            "description": "Описание",
-            "registration_url": "https://register.com",
-            "url": "https://event.com",
-            "sessions": [
-                {
-                    "title": "Доклад",
-                }
-            ],
-            "filename": "internal.yml",
+            'id': 'event-2',
+            'title': 'Simple Event',
+            'date': '2026-05-01',
+            'description': 'Description',
         }
 
         result = serialize_event(event)
 
-        self.assertEqual(result["id"], 1)
-        self.assertEqual(result["title"], "Конференция")
+        self.assertNotIn('registration_url', result)
+        self.assertNotIn('url', result)
+        self.assertNotIn('sessions', result)
+        self.assertEqual(result['icon'], '')
+
+    def test_serialize_webinar(self):
+        result = serialize_webinar(self.webinar)
+
+        self.assertEqual(result['id'], 'webinar-1')
+        self.assertEqual(result['title'], 'Python Webinar')
+        self.assertEqual(result['pic'], 'img/webinars/webinar.png')
         self.assertEqual(
-            result["icon"],
-            "img/events/conf.png"
+            result['url'],
+            'https://webinar.example.com',
         )
+        self.assertEqual(result['sessions'], [{'title': 'Intro'}])
 
-        self.assertIn("registration_url", result)
-        self.assertIn("url", result)
-        self.assertIn("sessions", result)
-
-        # filename не должен попасть в JSON
-        self.assertNotIn("filename", result)
-
-    def test_serialize_event_minimal(self):
-        """Тестирует сериализацию минимального события."""
-        event = {
-            "title": "Минимальное событие",
+    def test_serialize_webinar_without_optional_fields(self):
+        webinar = {
+            'id': 'webinar-2',
+            'title': 'Simple Webinar',
+            'date': '2026-05-11',
+            'description': 'Description',
         }
 
-        result = serialize_event(event)
+        result = serialize_webinar(webinar)
 
-        self.assertEqual(
-            result["title"],
-            "Минимальное событие"
+        self.assertNotIn('url', result)
+        self.assertNotIn('sessions', result)
+        self.assertEqual(result['pic'], '')
+
+    @patch('json_export.json.json.dump')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_export_to_json(
+        self,
+        mock_file,
+        mock_json_dump,
+    ):
+        items = [self.event]
+
+        result = export_to_json(
+            items=items,
+            output_dir=self.output_dir,
+            filename='events.json',
+            serializer=serialize_event,
         )
 
-        self.assertEqual(result["icon"], "")
+        expected_path = self.output_dir / 'events.json'
 
-        self.assertNotIn("url", result)
-        self.assertNotIn("registration_url", result)
-        self.assertNotIn("sessions", result)
+        self.assertEqual(result, expected_path)
 
-    def test_export_events_to_json(self):
-        """Тестирует экспорт событий в JSON."""
-        events = [
-            {
-                "id": 1,
-                "title": "Событие",
-                "date": "2026-05-11",
-            }
-        ]
+        mock_file.assert_called_once_with(
+            expected_path,
+            'w',
+            encoding='utf-8',
+        )
 
-        with TemporaryDirectory() as temp_dir:
-            output_dir = Path(temp_dir)
+        mock_json_dump.assert_called_once()
 
-            output_path = export_events_to_json(
-                events,
-                output_dir
-            )
+        dumped_data = mock_json_dump.call_args[0][0]
 
-            self.assertTrue(output_path.exists())
-            self.assertEqual(
-                output_path.name,
-                "events.json"
-            )
+        self.assertEqual(dumped_data[0]['id'], 'event-1')
+        self.assertEqual(
+            dumped_data[0]['icon'],
+            'img/events/event.png',
+        )
 
-            data = json.loads(
-                output_path.read_text(encoding="utf-8")
-            )
+    @patch('json_export.json.export_to_json')
+    def test_export_events_to_json(self, mock_export):
+        mock_export.return_value = self.output_dir / 'events.json'
 
-            self.assertEqual(len(data), 1)
-            self.assertEqual(
-                data[0]["title"],
-                "Событие"
-            )
+        result = export_events_to_json(
+            [self.event],
+            self.output_dir,
+        )
 
-    def test_export_upcoming_events_to_json(self):
-        """Тестирует экспорт будущих событий."""
-        events = [
-            {
-                "id": 2,
-                "title": "Будущее событие",
-                "date": "2026-06-01",
-            }
-        ]
+        self.assertEqual(result, self.output_dir / 'events.json')
 
-        with TemporaryDirectory() as temp_dir:
-            output_dir = Path(temp_dir)
+        mock_export.assert_called_once_with(
+            items=[self.event],
+            output_dir=self.output_dir,
+            filename='events.json',
+            serializer=serialize_event,
+        )
 
-            output_path = export_upcoming_events_to_json(
-                events,
-                output_dir
-            )
+    @patch('json_export.json.export_to_json')
+    def test_export_upcoming_events_to_json(self, mock_export):
+        mock_export.return_value = (
+            self.output_dir / 'events_upcoming.json'
+        )
 
-            self.assertTrue(output_path.exists())
-            self.assertEqual(
-                output_path.name,
-                "events_upcoming.json"
-            )
+        result = export_upcoming_events_to_json(
+            [self.event],
+            self.output_dir,
+        )
 
-    def test_export_webinars_to_json(self):
-        """Тестирует экспорт вебинаров."""
-        webinars = [
-            {
-                "id": 1,
-                "title": "Вебинар",
-                "date": "2026-05-11",
-                "pic": "webinar.png",
-                "description": "Описание",
-                "url": "https://webinar.com",
-                "sessions": [
-                    {
-                        "title": "Сессия",
-                    }
-                ],
-            }
-        ]
+        self.assertEqual(
+            result,
+            self.output_dir / 'events_upcoming.json',
+        )
 
-        with TemporaryDirectory() as temp_dir:
-            output_dir = Path(temp_dir)
+        mock_export.assert_called_once_with(
+            items=[self.event],
+            output_dir=self.output_dir,
+            filename='events_upcoming.json',
+            serializer=serialize_event,
+        )
 
-            output_path = export_webinars_to_json(
-                webinars,
-                output_dir
-            )
+    @patch('json_export.json.export_to_json')
+    def test_export_webinars_to_json(self, mock_export):
+        mock_export.return_value = self.output_dir / 'webinars.json'
 
-            self.assertTrue(output_path.exists())
-            self.assertEqual(
-                output_path.name,
-                "webinars.json"
-            )
+        result = export_webinars_to_json(
+            [self.webinar],
+            self.output_dir,
+        )
 
-            data = json.loads(
-                output_path.read_text(encoding="utf-8")
-            )
+        self.assertEqual(result, self.output_dir / 'webinars.json')
 
-            self.assertEqual(len(data), 1)
+        mock_export.assert_called_once_with(
+            items=[self.webinar],
+            output_dir=self.output_dir,
+            filename='webinars.json',
+            serializer=serialize_webinar,
+        )
 
-            self.assertEqual(
-                data[0]["pic"],
-                "img/webinars/webinar.png"
-            )
+    @patch('json_export.json.export_to_json')
+    def test_export_upcoming_webinars_to_json(self, mock_export):
+        mock_export.return_value = (
+            self.output_dir / 'webinars_upcoming.json'
+        )
 
-            self.assertIn("url", data[0])
-            self.assertIn("sessions", data[0])
+        result = export_upcoming_webinars_to_json(
+            [self.webinar],
+            self.output_dir,
+        )
 
-    def test_export_upcoming_webinars_to_json(self):
-        """Тестирует экспорт будущих вебинаров."""
-        webinars = [
-            {
-                "id": 2,
-                "title": "Будущий вебинар",
-                "date": "2026-06-01",
-            }
-        ]
+        self.assertEqual(
+            result,
+            self.output_dir / 'webinars_upcoming.json',
+        )
 
-        with TemporaryDirectory() as temp_dir:
-            output_dir = Path(temp_dir)
-
-            output_path = (
-                export_upcoming_webinars_to_json(
-                    webinars,
-                    output_dir
-                )
-            )
-
-            self.assertTrue(output_path.exists())
-
-            self.assertEqual(
-                output_path.name,
-                "webinars_upcoming.json"
-            )
+        mock_export.assert_called_once_with(
+            items=[self.webinar],
+            output_dir=self.output_dir,
+            filename='webinars_upcoming.json',
+            serializer=serialize_webinar,
+        )

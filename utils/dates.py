@@ -2,6 +2,7 @@
 Утилиты для работы с датами.
 Содержит функции для склонения существительных и форматирования временных интервалов.
 """
+
 from dateutil.relativedelta import relativedelta
 
 
@@ -63,7 +64,7 @@ def format_months_ru(today_date, target_date) -> tuple[str, str]:
 
     # Если прошло меньше месяца
     if months_int <= 0:
-        return "0", "месяцев"
+        return '0', 'месяцев'
 
     # Вычисляем остаток дней для более точного округления
     anchor = today_date + relativedelta(months=months_int)
@@ -79,7 +80,7 @@ def format_months_ru(today_date, target_date) -> tuple[str, str]:
     frac = months_float - m_floor
     m_rounded = m_floor if frac <= 0.5 else (m_floor + 1)
 
-    return str(m_rounded), russian_count_form(m_rounded, ("месяц", "месяца", "месяцев"))
+    return str(m_rounded), russian_count_form(m_rounded, ('месяц', 'месяца', 'месяцев'))
 
 
 def format_time_until_ru(today_date, target_date) -> str:
@@ -103,9 +104,9 @@ def format_time_until_ru(today_date, target_date) -> str:
 
     # Событие сегодня или завтра
     if days_left == 0:
-        return "(сегодня)"
+        return '(сегодня)'
     if days_left == 1:
-        return "(завтра)"
+        return '(завтра)'
 
     # Вычисляем общее количество месяцев
     rd = relativedelta(target_date, today_date)
@@ -113,15 +114,15 @@ def format_time_until_ru(today_date, target_date) -> str:
 
     # Меньше 1 календарного месяца - показываем дни
     if total_months < 1:
-        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
-        return f"(через {days_left} {day_word})"
+        day_word = russian_count_form(days_left, ('день', 'дня', 'дней'))
+        return f'(через {days_left} {day_word})'
 
     # Вычисляем месяцы с округлением
     months_str, month_word = format_months_ru(today_date, target_date)
 
     # Если получилось 0 месяцев - показываем дни
-    if months_str == "0":
-        day_word = russian_count_form(days_left, ("день", "дня", "дней"))
-        return f"(через {days_left} {day_word})"
+    if months_str == '0':
+        day_word = russian_count_form(days_left, ('день', 'дня', 'дней'))
+        return f'(через {days_left} {day_word})'
 
-    return f"(через ~{months_str} {month_word})"
+    return f'(через ~{months_str} {month_word})'

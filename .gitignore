@@ -3,3 +3,7 @@
 .vscode
 __pycache__
 .coverage
+coverage.xml
+.ruff_cache
+.pytest_cache
+.idea

@@ -55,138 +55,117 @@ def serialize_event(event: dict) -> dict:
     return result
 
 
-def export_events_to_json(all_events: list[dict], output_dir: Path) -> Path:
-    """Экспортирует все события (включая прошедшие) в JSON файл.
+def serialize_webinar(webinar: dict) -> dict:
+    """Сериализует вебинар для JSON экспорта.
 
     Args:
-        all_events: Список всех событий.
-        output_dir: Директория для сохранения файла.
+        webinar: Словарь с данными вебинара.
 
     Returns:
-        Путь к созданному файлу.
+        Очищенный словарь для JSON экспорта.
 
-    Output файл:
-        events.json - содержит все события отсортированные по дате
-    """
-    events_data = [serialize_event(e) for e in all_events]
-
-    output_path = output_dir / 'events.json'
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(events_data, f, ensure_ascii=False, indent=2)
-
-    return output_path
-
-
-def export_upcoming_events_to_json(events: list[dict], output_dir: Path) -> Path:
-    """Экспортирует только предстоящие события в JSON файл.
-
-    Args:
-        events: Список предстоящих событий.
-        output_dir: Директория для сохранения файла.
-
-    Returns:
-        Путь к созданному файлу.
-
-    Output файл:
-        events_upcoming.json - содержит только будущие события
-    """
-    events_data = [serialize_event(e) for e in events]
-
-    output_path = output_dir / 'events_upcoming.json'
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(events_data, f, ensure_ascii=False, indent=2)
-
-    return output_path
-
-
-def export_webinars_to_json(all_webinars: list[dict], output_dir: Path) -> Path:
-    """Экспортирует все вебинары в JSON файл.
-
-    Args:
-        all_webinars: Список всех вебинаров.
-        output_dir: Директория для сохранения файла.
-
-    Returns:
-        Путь к созданному файлу.
-
-    Output файл:
-        webinars.json - содержит все вебинары
+    Преобразуемые поля:
+        - pic: добавляется путь "img/webinars/" перед именем файла
 
     Note:
-        Для вебинаров поле 'pic' преобразуется в полный путь 'img/webinars/...'
+        Поля url и sessions включаются только если существуют.
     """
-    webinars_data = []
+    pic_filename = webinar.get('pic', '')
+    pic_path = f'img/webinars/{pic_filename}' if pic_filename else ''
 
-    for w in all_webinars:
-        pic_filename = w.get('pic', '')
-        pic_path = f'img/webinars/{pic_filename}' if pic_filename else ''
+    result = {
+        'id': webinar.get('id'),
+        'title': webinar.get('title'),
+        'date': webinar.get('date'),
+        'pic': pic_path,
+        'description': webinar.get('description'),
+    }
 
-        item = {
-            'id': w.get('id'),
-            'title': w.get('title'),
-            'date': w.get('date'),
-            'pic': pic_path,
-            'description': w.get('description'),
-        }
+    url = webinar.get('url')
+    if url:
+        result['url'] = url
 
-        # Добавляем url только если есть
-        url = w.get('url')
-        if url:
-            item['url'] = url
+    sessions = webinar.get('sessions')
+    if sessions:
+        result['sessions'] = sessions
 
-        # Добавляем sessions только если есть
-        sessions = w.get('sessions')
-        if sessions:
-            item['sessions'] = sessions
-
-        webinars_data.append(item)
-
-    output_path = output_dir / 'webinars.json'
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(webinars_data, f, ensure_ascii=False, indent=2)
-
-    return output_path
+    return result
 
 
-def export_upcoming_webinars_to_json(webinars: list[dict], output_dir: Path) -> Path:
-    """Экспортирует только предстоящие вебинары в JSON файл.
+def export_to_json(
+    items: list[dict],
+    output_dir: Path,
+    filename: str,
+    serializer,
+) -> Path:
+    """Экспортирует список объектов в JSON файл.
 
     Args:
-        webinars: Список предстоящих вебинаров.
+        items: Список объектов для экспорта.
         output_dir: Директория для сохранения файла.
+        filename: Имя выходного JSON файла.
+        serializer: Функция сериализации объекта.
 
     Returns:
-        Путь к созданному файлу.
-
-    Output файл:
-        webinars_upcoming.json - содержит только будущие вебинары
+        Путь к созданному JSON файлу.
     """
-    webinars_data = []
+    data = [serializer(item) for item in items]
 
-    for w in webinars:
-        pic_filename = w.get('pic', '')
-        pic_path = f'img/webinars/{pic_filename}' if pic_filename else ''
+    output_path = output_dir / filename
 
-        item = {
-            'id': w.get('id'),
-            'title': w.get('title'),
-            'date': w.get('date'),
-            'pic': pic_path,
-            'description': w.get('description'),
-        }
-
-        url = w.get('url')
-        if url:
-            item['url'] = url
-
-        sessions = w.get('sessions')
-        if sessions:
-            item['sessions'] = sessions
-
-        webinars_data.append(item)
-
-    output_path = output_dir / 'webinars_upcoming.json'
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(webinars_data, f, ensure_ascii=False, indent=2)
+    with open(output_path, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=2)
 
     return output_path
+
+
+def export_events_to_json(
+    all_events: list[dict],
+    output_dir: Path,
+) -> Path:
+    """Экспортирует все события в JSON файл."""
+    return export_to_json(
+        items=all_events,
+        output_dir=output_dir,
+        filename='events.json',
+        serializer=serialize_event,
+    )
+
+
+def export_upcoming_events_to_json(
+    events: list[dict],
+    output_dir: Path,
+) -> Path:
+    """Экспортирует предстоящие события в JSON файл."""
+    return export_to_json(
+        items=events,
+        output_dir=output_dir,
+        filename='events_upcoming.json',
+        serializer=serialize_event,
+    )
+
+
+def export_webinars_to_json(
+    all_webinars: list[dict],
+    output_dir: Path,
+) -> Path:
+    """Экспортирует все вебинары в JSON файл."""
+    return export_to_json(
+        items=all_webinars,
+        output_dir=output_dir,
+        filename='webinars.json',
+        serializer=serialize_webinar,
+    )
+
+
+def export_upcoming_webinars_to_json(
+    webinars: list[dict],
+    output_dir: Path,
+) -> Path:
+    """Экспортирует предстоящие вебинары в JSON файл."""
+    return export_to_json(
+        items=webinars,
+        output_dir=output_dir,
+        filename='webinars_upcoming.json',
+        serializer=serialize_webinar,
+    )

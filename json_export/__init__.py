@@ -3,6 +3,9 @@
 """
 
 from .json import (
+    serialize_event,
+    serialize_webinar,
+    export_to_json,
     export_events_to_json,
     export_upcoming_events_to_json,
     export_webinars_to_json,
@@ -10,6 +13,9 @@ from .json import (
 )
 
 __all__ = [
+    'serialize_event',
+    'serialize_webinar',
+    'export_to_json',
     'export_events_to_json',
     'export_upcoming_events_to_json',
     'export_webinars_to_json',

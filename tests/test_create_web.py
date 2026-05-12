@@ -32,6 +32,7 @@ class TestCreateWeb(unittest.TestCase):
         mock_read_text,
         mock_write_text,
         mock_mkdir,
+        mock_open_file,
         mock_yaml_load,
         mock_format_date,
         mock_copytree,
@@ -165,6 +166,7 @@ class TestCreateWeb(unittest.TestCase):
         self,
         mock_glob,
         mock_read_text,
+        mock_open_file,
         mock_yaml_load,
         mock_print,
     ):

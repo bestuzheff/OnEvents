@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from json_export import (
+from json_export.json import (
     serialize_event,
     export_events_to_json,
     export_upcoming_events_to_json,

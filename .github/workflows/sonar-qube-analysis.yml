@@ -1,4 +1,4 @@
-name: Проверка Sonar
+name: Проверки Pytest, Ruff и Sonar
 
 on: 
   - push
@@ -7,7 +7,7 @@ on:
 jobs:
   SonarQualityGate:
     if: github.event.repository.fork == false
-    name: 'Проверка Sonar'
+    name: 'Проверка Pytest, Ruff и SonarQube'
     runs-on: ubuntu-latest
     steps:
     - name: Извлечение исходников PR
@@ -37,8 +37,26 @@ jobs:
     - name: Запуск тестов
       continue-on-error: true
       run: |
-        pytest --cov=. --cov-config=.coveragerc --cov-report=xml:coverage.xml || true
-  
+        pytest --cov=. --cov-config=.coveragerc --cov-report=xml:coverage.xml
+    
+    # Установка и запуск Ruff для проверки стиля кода
+    - name: Установка Ruff
+      run: pip install ruff
+
+    - name: Проверка Ruff
+      continue-on-error: true
+      uses: reviewdog/action-ruff@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: github-pr-review
+        fail_on_error: true
+        level: warning
+
+    - name: Проверка форматирования Ruff
+      continue-on-error: true
+      run: |
+        ruff format --check .
+
     # Анализ проекта в SonarQube (ветка)
     - name: Анализ в SonarQube (${{ github.ref_name }})
       if: github.event_name == 'push'

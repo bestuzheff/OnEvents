@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from html import (
+from html.cards import (
     generate_event_id,
     render_event,
     render_webinar,
@@ -22,9 +22,9 @@ class TestHtmlRendering(unittest.TestCase):
             "event-2026-05-11_conf"
         )
 
-    @patch("html.map_link")
-    @patch("html.add_utm_marks")
-    @patch("html.format_time_until_ru")
+    @patch("html.cards.map_link")
+    @patch("html.cards.add_utm_marks")
+    @patch("html.cards.format_time_until_ru")
     def test_render_event_full(
         self,
         mock_format_time,
@@ -93,9 +93,9 @@ class TestHtmlRendering(unittest.TestCase):
             result
         )
 
-    @patch("html.map_link")
-    @patch("html.add_utm_marks")
-    @patch("html.format_time_until_ru")
+    @patch("html.cards.map_link")
+    @patch("html.cards.add_utm_marks")
+    @patch("html.cards.format_time_until_ru")
     def test_render_event_without_optional_fields(
         self,
         mock_format_time,
@@ -201,9 +201,9 @@ class TestHtmlRendering(unittest.TestCase):
             result
         )
 
-    @patch("html.map_link")
-    @patch("html.add_utm_marks")
-    @patch("html.format_time_until_ru")
+    @patch("html.cards.map_link")
+    @patch("html.cards.add_utm_marks")
+    @patch("html.cards.format_time_until_ru")
     def test_render_event_without_address(
         self,
         mock_format_time,

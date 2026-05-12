@@ -42,15 +42,12 @@ jobs:
     # Установка и запуск Ruff для проверки стиля кода
     - name: Установка Ruff
       run: pip install ruff
-
+    
+    # Проверка Ruff
     - name: Проверка Ruff
       continue-on-error: true
-      uses: reviewdog/action-ruff@v1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: github-pr-review
-        fail_on_error: true
-        level: warning
+      run: |
+        ruff check .
 
     - name: Проверка форматирования Ruff
       continue-on-error: true

@@ -9,15 +9,12 @@ from babel.dates import format_date
 import shutil
 
 # Импорты из собственных модулей
-from utils.text import SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
-from utils.dates import format_time_until_ru
-from url_utils import add_utm_marks, map_link
 from ics_calendars.generators import (
     generate_event_calendars,
     generate_public_calendars,
     generate_webinars_public_calendar
 )
-from html import render_event, render_webinar, generate_event_id
+from html import render_event, render_webinar
 from html.calendars import render_public_calendars, render_webinars_calendar
 from rss import generate_rss
 from json_export import (

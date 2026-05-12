@@ -1,6 +1,6 @@
 import unittest
 
-from url_utils import (
+from utils.url import (
     shorten_url,
     get_timezone_for_event,
 )

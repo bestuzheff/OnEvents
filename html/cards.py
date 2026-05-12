@@ -6,8 +6,7 @@ from datetime import datetime
 from babel.dates import format_date
 from utils.text import SAFE_CHARS_PATTERN, DASHES_SPACES_PATTERN
 from utils.dates import format_time_until_ru
-from url_utils import add_utm_marks, map_link
-from ics_calendars import generate_ics_content
+from utils.url import add_utm_marks, map_link
 
 
 def generate_event_id(event: dict, event_type: str) -> str:

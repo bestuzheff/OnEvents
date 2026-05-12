@@ -9,7 +9,7 @@ import pytz
 import xml.sax.saxutils as saxutils
 
 from html import generate_event_id
-from url_utils import get_timezone_for_event
+from utils.url import get_timezone_for_event
 
 
 def generate_rss(all_events: list[dict]) -> str:

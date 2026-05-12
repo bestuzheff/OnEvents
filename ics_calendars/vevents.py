@@ -4,7 +4,7 @@ from babel.dates import format_date
 
 # Импорт собственных утилит
 from utils.text import clean_text, to_hhmmss
-from url_utils import get_timezone_for_event, shorten_url, map_link
+from utils.url import get_timezone_for_event, shorten_url, map_link
 
 import uuid
 

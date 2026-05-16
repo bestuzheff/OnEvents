@@ -1,7 +1,19 @@
+from datetime import date
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
 import create_web
+from create_web import generate_sitemap
+
+
+def test_generate_sitemap():
+    result = generate_sitemap()
+
+    assert '<?xml version="1.0" encoding="UTF-8"?>' in result
+    assert 'https://onevents.ru/' in result
+    assert 'https://onevents.ru/rss/rss.xml' in result
+    assert date.today().isoformat() in result
+    assert '<changefreq>daily</changefreq>' in result
 
 
 class TestCreateWeb:
@@ -17,6 +29,7 @@ class TestCreateWeb:
     @patch('create_web.generate_webinars_public_calendar')
     @patch('create_web.generate_public_calendars')
     @patch('create_web.generate_event_calendars')
+    @patch('create_web.shutil.copy')
     @patch('create_web.shutil.copytree')
     @patch('create_web.format_date')
     @patch('create_web.yaml.safe_load')
@@ -35,6 +48,7 @@ class TestCreateWeb:
         mock_yaml_load,
         mock_format_date,
         mock_copytree,
+        mock_copy,
         mock_generate_event_calendars,
         mock_generate_public_calendars,
         mock_generate_webinars_public_calendar,
@@ -98,6 +112,7 @@ class TestCreateWeb:
 
         mock_copytree.assert_any_call('img', 'site/img', dirs_exist_ok=True)
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
+        mock_copy.assert_called_once_with('web/sw.js', create_web.OUTPUT_DIR / 'sw.js')
 
         assert mock_generate_event_calendars.call_count == 2
 
@@ -145,6 +160,7 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
+            patch('create_web.shutil.copy'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),
@@ -189,6 +205,7 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
+            patch('create_web.shutil.copy'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),

@@ -86,12 +86,28 @@ def render_event(event: dict) -> str:
     if map_url:
         map_link_html = f' <a href="{map_url}" target="_blank" class="map-link" title="Показать на карте">Показать на карте</a>'
 
+    # Определяем статус мероприятия
+    event_status = 'https://schema.org/EventScheduled'
+    attendance_mode = 'https://schema.org/OfflineEventAttendanceMode'
+    if event.get('city', '').lower() == 'online':
+        attendance_mode = 'https://schema.org/OnlineEventAttendanceMode'
+
+    # Цена
+    price = event.get('price', '')
+    price_html = ''
+    if price:
+        price_html = f'<meta itemprop="price" content="{price}">'
+
     return f"""
     <article class="card" itemscope itemtype="https://schema.org/Event" data-city="{event['city']}" id="{event_id}">
+      <meta itemprop="eventStatus" content="{event_status}">
+      <meta itemprop="eventAttendanceMode" content="{attendance_mode}">
+      {price_html}
       <div class="card-header">
         <div class="card-header-main">
           <img class="logo-img" alt="Логотип «{event['title']}»"
                src="img/events/{event['icon']}" width="72" height="72"
+               loading="lazy"
                style="border-radius:15%; object-fit:cover;">
           <div class="event-info">
             <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{event['title']}</h2>
@@ -101,7 +117,7 @@ def render_event(event: dict) -> str:
             </div>
             <div class="meta-item">
               <span class="icon">📌</span>
-              <span itemprop="location" itemscope itemtype="https://schema.org.Place">
+              <span itemprop="location" itemscope itemtype="https://schema.org/Place">
                 <span itemprop="addressLocality">{address_str}</span>
               </span>
             </div>{map_link_html}
@@ -109,7 +125,7 @@ def render_event(event: dict) -> str:
         </div>
         <button class="event-copy-btn" data-event-id="{event_id}" title="Копировать ссылку на событие">🔗</button>
       </div>
-      <p>{event['description']}</p>
+      <p itemprop="description">{event['description']}</p>
       <div class="event-actions">
         {registration_button_html}
         <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
@@ -149,18 +165,21 @@ def render_webinar(webinar: dict) -> str:
 
     return f"""
     <article class="card" itemscope itemtype="https://schema.org/Event" id="{webinar_id}">
+      <meta itemprop="eventStatus" content="https://schema.org/EventScheduled">
+      <meta itemprop="eventAttendanceMode" content="https://schema.org/OnlineEventAttendanceMode">
       <div class="card-header">
         <div class="card-header-main">
-          <img class="logo-img" alt="Логотип «{webinar['title']}»" src="img/webinars/{webinar['pic']}" width="256">
+          <img class="logo-img" alt="Логотип «{webinar['title']}»" src="img/webinars/{webinar['pic']}" width="256"
+               loading="lazy">
           <div class="event-info">
             <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{webinar['title']}</h2>
             <div class="meta-item">
               <span class="icon">📅</span>
               <time itemprop="startDate" datetime="{webinar['date']}">{date_str}</time>
             </div>
-            {webinar['description']}
+            <div itemprop="description">{webinar['description']}</div>
             <div class="event-actions">
-              <a href="{translation_url}" role="button" target="_blank">Трансляция</a>
+              <a href="{translation_url}" role="button" target="_blank" itemprop="url">Трансляция</a>
               <a href="calendar/{ics_filename}" role="button" download="{ics_filename}">Добавить в календарь</a>
             </div>
           </div>

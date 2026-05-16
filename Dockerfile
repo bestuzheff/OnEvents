@@ -13,8 +13,6 @@ RUN pip install -r requirements.txt
 COPY create_web.py /app/create_web.py
 RUN mkdir -p /app/utils
 COPY utils/ /app/utils/
-RUN mkdir -p /app/url_utils
-COPY url_utils/ /app/url_utils/
 RUN mkdir -p /app/ics_calendars
 COPY ics_calendars/ /app/ics_calendars/
 RUN mkdir -p /app/html
@@ -25,6 +23,7 @@ RUN mkdir -p /app/json_export
 COPY json_export/ /app/json_export/
 RUN mkdir -p /app/web
 COPY web/index.html /app/web/index.html
+COPY web/sw.js /app/web/sw.js
 RUN mkdir -p /app/img
 COPY img/ /app/img/
 RUN mkdir -p /app/events

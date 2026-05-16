@@ -34,6 +34,25 @@ OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
 
 
+def generate_sitemap() -> str:
+    today_iso = date.today().isoformat()
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://onevents.ru/</loc>
+    <lastmod>{today_iso}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://onevents.ru/rss/rss.xml</loc>
+    <lastmod>{today_iso}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>"""
+
+
 def main() -> None:
     # Читаем HTML шаблон
     template = TEMPLATE_FILE.read_text(encoding='utf-8')
@@ -92,6 +111,7 @@ def main() -> None:
     # Копируем статические файлы (картинки и иконки)
     shutil.copytree('img', 'site/img', dirs_exist_ok=True)
     shutil.copytree('icons', 'site/icons', dirs_exist_ok=True)
+    shutil.copy('web/sw.js', OUTPUT_DIR / 'sw.js')
 
     # Генерируем ICS календари
     calendar_dir = OUTPUT_DIR / 'calendar'
@@ -121,6 +141,16 @@ def main() -> None:
     export_upcoming_events_to_json(events, json_dir)      # Предстоящие события
     export_webinars_to_json(all_webinars, json_dir)       # Все вебинары
     export_upcoming_webinars_to_json(webinars, json_dir)  # Предстоящие вебинары
+
+    # Генерируем sitemap.xml
+    sitemap_content = generate_sitemap()
+    sitemap_file = OUTPUT_DIR / 'sitemap.xml'
+    sitemap_file.write_text(sitemap_content, encoding='utf-8')
+
+    # Генерируем robots.txt
+    robots_content = 'User-agent: *\nAllow: /\nSitemap: https://onevents.ru/sitemap.xml\n'
+    robots_file = OUTPUT_DIR / 'robots.txt'
+    robots_file.write_text(robots_content, encoding='utf-8')
 
     # Генерируем HTML карточки событий и вебинаров
     events_html = '\n'.join(render_event(e) for e in events)

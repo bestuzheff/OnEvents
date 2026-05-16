@@ -88,11 +88,7 @@ class TestCreateWeb:
         ]
 
         mock_read_text.return_value = (
-            '{{ events }}\n'
-            '{{ webinars }}\n'
-            '{{ public_calendars }}\n'
-            '{{ webinars_calendar }}\n'
-            '{{ builddate }}'
+            '{{ events }}\n{{ webinars }}\n{{ public_calendars }}\n{{ webinars_calendar }}\n{{ builddate }}'
         )
 
         mock_render_event.return_value = '<div>EVENT</div>'

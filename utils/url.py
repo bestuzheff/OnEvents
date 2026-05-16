@@ -143,8 +143,7 @@ def add_utm_marks(url: str) -> str:
     utm_content = 'link'
 
     utm_params = (
-        f'utm_source={utm_source}&utm_medium={utm_medium}'
-        f'&utm_campaign={utm_campaign}&utm_content={utm_content}'
+        f'utm_source={utm_source}&utm_medium={utm_medium}&utm_campaign={utm_campaign}&utm_content={utm_content}'
     )
 
     # Добавляем к существующим параметрам запроса

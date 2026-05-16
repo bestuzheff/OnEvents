@@ -12,9 +12,7 @@ from ics_calendars.vevents import (
 from utils.text import DASHES_SPACES_PATTERN, SAFE_CHARS_PATTERN, make_slug
 
 
-def generate_public_calendars(
-    all_events: list[dict], calendar_dir: Path
-) -> list[tuple[str, str, str]]:
+def generate_public_calendars(all_events: list[dict], calendar_dir: Path) -> list[tuple[str, str, str]]:
     """Генерирует публичные календари (общий и по городам).
 
     Args:
@@ -49,9 +47,7 @@ def generate_public_calendars(
     public_calendars.append(('Все города', public_calendar_url, ''))
 
     # Создаем отдельные календари по городам
-    unique_cities = sorted(
-        {e.get('city', '').strip() for e in all_events if e.get('city')}
-    )
+    unique_cities = sorted({e.get('city', '').strip() for e in all_events if e.get('city')})
     for city in unique_cities:
         # Фильтруем события города
         city_events = [e for e in all_events if e.get('city') == city]
@@ -68,9 +64,7 @@ def generate_public_calendars(
             calendar_name=city_calendar_name,
             wr_url=city_url,
         )
-        (calendar_dir / city_filename).write_text(
-            city_calendar_content, encoding='utf-8'
-        )
+        (calendar_dir / city_filename).write_text(city_calendar_content, encoding='utf-8')
 
         # Добавляем в список
         public_calendars.append((city, city_url, city))
@@ -78,9 +72,7 @@ def generate_public_calendars(
     return public_calendars
 
 
-def generate_webinars_public_calendar(
-    all_webinars: list[dict], calendar_dir: Path
-) -> str:
+def generate_webinars_public_calendar(all_webinars: list[dict], calendar_dir: Path) -> str:
     """Генерирует отдельный публичный календарь для вебинаров.
 
     Args:

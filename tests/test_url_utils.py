@@ -10,19 +10,22 @@ from utils.url import (
 )
 
 
-@pytest.mark.parametrize('event_data,expected', [
-    ({'city': 'Москва'}, 'Europe/Moscow'),
-    ({'city': 'москва'}, 'Europe/Moscow'),
-    ({'city': 'Онлайн'}, 'Europe/Moscow'),
-    ({'city': 'онлайн'}, 'Europe/Moscow'),
-    ({'city': 'Санкт-Петербург'}, 'Europe/Moscow'),
-    ({'city': 'новосибирск'}, 'Asia/Novosibirsk'),
-    ({'city': 'Иркутск'}, 'Asia/Irkutsk'),
-    ({'city': 'Неизвестный город'}, None),
-    ({'city': ''}, None),
-    ({}, None),
-    ({'city': None}, None),
-])
+@pytest.mark.parametrize(
+    'event_data,expected',
+    [
+        ({'city': 'Москва'}, 'Europe/Moscow'),
+        ({'city': 'москва'}, 'Europe/Moscow'),
+        ({'city': 'Онлайн'}, 'Europe/Moscow'),
+        ({'city': 'онлайн'}, 'Europe/Moscow'),
+        ({'city': 'Санкт-Петербург'}, 'Europe/Moscow'),
+        ({'city': 'новосибирск'}, 'Asia/Novosibirsk'),
+        ({'city': 'Иркутск'}, 'Asia/Irkutsk'),
+        ({'city': 'Неизвестный город'}, None),
+        ({'city': ''}, None),
+        ({}, None),
+        ({'city': None}, None),
+    ],
+)
 def test_get_timezone_for_event(event_data, expected):
     assert get_timezone_for_event(event_data) == expected
 
@@ -84,13 +87,16 @@ def test_map_link_online_event():
     assert map_link('онлайн', 'Любой адрес') == ''
 
 
-@pytest.mark.parametrize('address', [
-    'Адрес уточняется',
-    'TBD',
-    'TODO later',
-    'Будет объявлено позже',
-    'Нужно уточнить',
-])
+@pytest.mark.parametrize(
+    'address',
+    [
+        'Адрес уточняется',
+        'TBD',
+        'TODO later',
+        'Будет объявлено позже',
+        'Нужно уточнить',
+    ],
+)
 def test_map_link_uncertain_address(address):
     assert map_link('Москва', address) == ''
 
@@ -117,10 +123,13 @@ def test_add_utm_marks_existing_utm():
     assert add_utm_marks(url) == url
 
 
-@pytest.mark.parametrize('url', [
-    'https://t.me/channel',
-    'https://telegram.org/blog',
-])
+@pytest.mark.parametrize(
+    'url',
+    [
+        'https://t.me/channel',
+        'https://telegram.org/blog',
+    ],
+)
 def test_add_utm_marks_telegram_urls(url):
     assert add_utm_marks(url) == url
 

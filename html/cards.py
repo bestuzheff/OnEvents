@@ -70,9 +70,7 @@ def render_event(event: dict) -> str:
 
     # Обрабатываем ссылку регистрации (добавляем UTM метки)
     raw_registration_url = (event.get('registration_url') or '').strip()
-    registration_url_with_utm = (
-        add_utm_marks(raw_registration_url) if raw_registration_url else ''
-    )
+    registration_url_with_utm = add_utm_marks(raw_registration_url) if raw_registration_url else ''
     registration_button_html = ''
     if registration_url_with_utm:
         registration_button_html = (
@@ -87,8 +85,7 @@ def render_event(event: dict) -> str:
     map_link_html = ''
     if map_url:
         map_link_html = (
-            f' <a href="{map_url}" target="_blank" class="map-link"'
-            ' title="Показать на карте">Показать на карте</a>'
+            f' <a href="{map_url}" target="_blank" class="map-link" title="Показать на карте">Показать на карте</a>'
         )
 
     # Определяем статус мероприятия

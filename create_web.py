@@ -58,10 +58,10 @@ def main() -> None:
     template = TEMPLATE_FILE.read_text(encoding='utf-8')
 
     # Списки для хранения событий
-    all_events = []      # Все события (включая прошедшие)
-    events = []          # Только предстоящие события для карточек
-    all_webinars = []    # Все вебинары (включая прошедшие)
-    webinars = []        # Только предстоящие вебинары для карточек
+    all_events = []  # Все события (включая прошедшие)
+    events = []  # Только предстоящие события для карточек
+    all_webinars = []  # Все вебинары (включая прошедшие)
+    webinars = []  # Только предстоящие вебинары для карточек
 
     # Читаем события из YAML файлов
     for file in EVENTS_DIR.glob('*.yml'):
@@ -123,9 +123,7 @@ def main() -> None:
 
     # Создаем публичные календари (общий и по городам)
     public_calendars = generate_public_calendars(all_events, calendar_dir)
-    webinars_public_calendar_url = generate_webinars_public_calendar(
-        all_webinars, calendar_dir
-    )
+    webinars_public_calendar_url = generate_webinars_public_calendar(all_webinars, calendar_dir)
 
     # Генерируем RSS ленту
     rss_dir = OUTPUT_DIR / 'rss'
@@ -137,9 +135,9 @@ def main() -> None:
     # Генерируем JSON файлы для импорта
     json_dir = OUTPUT_DIR / 'json'
     json_dir.mkdir(exist_ok=True)
-    export_events_to_json(all_events, json_dir)           # Все события
-    export_upcoming_events_to_json(events, json_dir)      # Предстоящие события
-    export_webinars_to_json(all_webinars, json_dir)       # Все вебинары
+    export_events_to_json(all_events, json_dir)  # Все события
+    export_upcoming_events_to_json(events, json_dir)  # Предстоящие события
+    export_webinars_to_json(all_webinars, json_dir)  # Все вебинары
     export_upcoming_webinars_to_json(webinars, json_dir)  # Предстоящие вебинары
 
     # Генерируем sitemap.xml

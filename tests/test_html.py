@@ -1,4 +1,3 @@
-import unittest
 from html.cards import (
     generate_event_id,
     render_event,
@@ -7,16 +6,13 @@ from html.cards import (
 from unittest.mock import patch
 
 
-class TestHtmlRendering(unittest.TestCase):
+class TestHtmlRendering:
     def test_generate_event_id(self):
-        """Тестирует генерацию ID события."""
-        event = {
-            'filename': '2026-05-11_conf',
-        }
+        event = {'filename': '2026-05-11_conf'}
 
         result = generate_event_id(event, 'event')
 
-        self.assertEqual(result, 'event-2026-05-11_conf')
+        assert result == 'event-2026-05-11_conf'
 
     @patch('html.cards.map_link')
     @patch('html.cards.add_utm_marks')
@@ -27,7 +23,6 @@ class TestHtmlRendering(unittest.TestCase):
         mock_add_utm,
         mock_map_link,
     ):
-        """Тестирует полный рендер события."""
         mock_format_time.return_value = 'через 10 дней'
         mock_add_utm.return_value = 'https://register.com?utm=test'
         mock_map_link.return_value = 'https://maps.yandex.ru/test'
@@ -45,21 +40,14 @@ class TestHtmlRendering(unittest.TestCase):
 
         result = render_event(event)
 
-        self.assertIn('Конференция 1С', result)
-
-        self.assertIn('Описание события', result)
-
-        self.assertIn('через 10 дней', result)
-
-        self.assertIn('https://register.com?utm=test', result)
-
-        self.assertIn('Показать на карте', result)
-
-        self.assertIn('calendar/2026-05-11-Конференция-1С.ics', result)
-
-        self.assertIn('data-city="Москва"', result)
-
-        self.assertIn('id="event-conf.yml"', result)
+        assert 'Конференция 1С' in result
+        assert 'Описание события' in result
+        assert 'через 10 дней' in result
+        assert 'https://register.com?utm=test' in result
+        assert 'Показать на карте' in result
+        assert 'calendar/2026-05-11-Конференция-1С.ics' in result
+        assert 'data-city="Москва"' in result
+        assert 'id="event-conf.yml"' in result
 
     @patch('html.cards.map_link')
     @patch('html.cards.add_utm_marks')
@@ -70,7 +58,6 @@ class TestHtmlRendering(unittest.TestCase):
         mock_add_utm,
         mock_map_link,
     ):
-        """Тестирует рендер события без optional полей."""
         mock_format_time.return_value = 'сегодня'
         mock_add_utm.return_value = ''
         mock_map_link.return_value = ''
@@ -86,18 +73,12 @@ class TestHtmlRendering(unittest.TestCase):
 
         result = render_event(event)
 
-        self.assertIn('Митап', result)
-
-        self.assertIn('сегодня', result)
-
-        # Нет кнопки регистрации
-        self.assertNotIn('Регистрация', result)
-
-        # Нет ссылки карты
-        self.assertNotIn('Показать на карте', result)
+        assert 'Митап' in result
+        assert 'сегодня' in result
+        assert 'Регистрация' not in result
+        assert 'Показать на карте' not in result
 
     def test_render_webinar(self):
-        """Тестирует рендер вебинара."""
         webinar = {
             'title': 'Вебинар по ERP',
             'date': '2026-07-01',
@@ -109,20 +90,14 @@ class TestHtmlRendering(unittest.TestCase):
 
         result = render_webinar(webinar)
 
-        self.assertIn('Вебинар по ERP', result)
-
-        self.assertIn('Описание вебинара', result)
-
-        self.assertIn('https://youtube.com/test', result)
-
-        self.assertIn('Трансляция', result)
-
-        self.assertIn('calendar/2026-07-01-Вебинар-по-ERP.ics', result)
-
-        self.assertIn('id="webinar-webinar.yml"', result)
+        assert 'Вебинар по ERP' in result
+        assert 'Описание вебинара' in result
+        assert 'https://youtube.com/test' in result
+        assert 'Трансляция' in result
+        assert 'calendar/2026-07-01-Вебинар-по-ERP.ics' in result
+        assert 'id="webinar-webinar.yml"' in result
 
     def test_render_webinar_contains_image(self):
-        """Тестирует наличие картинки вебинара."""
         webinar = {
             'title': 'Тест',
             'date': '2026-07-01',
@@ -134,7 +109,7 @@ class TestHtmlRendering(unittest.TestCase):
 
         result = render_webinar(webinar)
 
-        self.assertIn('src="img/webinars/test.png"', result)
+        assert 'src="img/webinars/test.png"' in result
 
     @patch('html.cards.map_link')
     @patch('html.cards.add_utm_marks')
@@ -145,7 +120,6 @@ class TestHtmlRendering(unittest.TestCase):
         mock_add_utm,
         mock_map_link,
     ):
-        """Тестирует событие без адреса."""
         mock_format_time.return_value = 'завтра'
         mock_add_utm.return_value = ''
         mock_map_link.return_value = ''
@@ -161,6 +135,5 @@ class TestHtmlRendering(unittest.TestCase):
 
         result = render_event(event)
 
-        self.assertIn('Онлайн', result)
-
-        self.assertNotIn('Онлайн, ', result)
+        assert 'Онлайн' in result
+        assert 'Онлайн, ' not in result

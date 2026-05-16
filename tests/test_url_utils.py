@@ -1,5 +1,6 @@
-import unittest
 from unittest.mock import Mock, patch
+
+import pytest
 
 from utils.url import (
     add_utm_marks,
@@ -9,135 +10,129 @@ from utils.url import (
 )
 
 
-class TestUrlUtils(unittest.TestCase):
-    def test_get_timezone_for_event(self):
-        """Тестирует определение временной зоны по городу."""
-        test_cases = [
-            ({'city': 'Москва'}, 'Europe/Moscow'),
-            ({'city': 'москва'}, 'Europe/Moscow'),
-            ({'city': 'Онлайн'}, 'Europe/Moscow'),
-            ({'city': 'онлайн'}, 'Europe/Moscow'),
-            ({'city': 'Санкт-Петербург'}, 'Europe/Moscow'),
-            ({'city': 'новосибирск'}, 'Asia/Novosibirsk'),
-            ({'city': 'Иркутск'}, 'Asia/Irkutsk'),
-            ({'city': 'Неизвестный город'}, None),
-            ({'city': ''}, None),
-            ({}, None),
-            ({'city': None}, None),
-        ]
+@pytest.mark.parametrize(
+    'event_data,expected',
+    [
+        ({'city': 'Москва'}, 'Europe/Moscow'),
+        ({'city': 'москва'}, 'Europe/Moscow'),
+        ({'city': 'Онлайн'}, 'Europe/Moscow'),
+        ({'city': 'онлайн'}, 'Europe/Moscow'),
+        ({'city': 'Санкт-Петербург'}, 'Europe/Moscow'),
+        ({'city': 'новосибирск'}, 'Asia/Novosibirsk'),
+        ({'city': 'Иркутск'}, 'Asia/Irkutsk'),
+        ({'city': 'Неизвестный город'}, None),
+        ({'city': ''}, None),
+        ({}, None),
+        ({'city': None}, None),
+    ],
+)
+def test_get_timezone_for_event(event_data, expected):
+    assert get_timezone_for_event(event_data) == expected
 
-        for event_data, expected in test_cases:
-            with self.subTest(event_data=event_data):
-                self.assertEqual(get_timezone_for_event(event_data), expected)
 
-    def test_shorten_url_empty(self):
-        """Тестирует сокращение пустого URL."""
-        self.assertEqual(shorten_url(''), '')
+def test_shorten_url_empty():
+    assert shorten_url('') == ''
 
-    @patch('utils.url.requests.get')
-    def test_shorten_url_success(self, mock_get):
-        """Тестирует успешное сокращение URL."""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.text = 'https://clck.ru/abc123\n'
-        mock_get.return_value = mock_response
 
-        result = shorten_url('https://example.com/very-long-url')
+@patch('utils.url.requests.get')
+def test_shorten_url_success(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.text = 'https://clck.ru/abc123\n'
+    mock_get.return_value = mock_response
 
-        self.assertEqual(result, 'https://clck.ru/abc123')
-        mock_get.assert_called_once_with(
-            'https://clck.ru/--',
-            params={'url': 'https://example.com/very-long-url'},
-            timeout=5,
-        )
+    result = shorten_url('https://example.com/very-long-url')
 
-    @patch('utils.url.requests.get')
-    def test_shorten_url_non_200(self, mock_get):
-        """Тестирует возврат исходного URL при ошибке сервера."""
-        mock_response = Mock()
-        mock_response.status_code = 500
-        mock_get.return_value = mock_response
+    assert result == 'https://clck.ru/abc123'
+    mock_get.assert_called_once_with(
+        'https://clck.ru/--',
+        params={'url': 'https://example.com/very-long-url'},
+        timeout=5,
+    )
 
-        url = 'https://example.com/test'
 
-        self.assertEqual(shorten_url(url), url)
+@patch('utils.url.requests.get')
+def test_shorten_url_non_200(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 500
+    mock_get.return_value = mock_response
 
-    @patch('utils.url.requests.get')
-    def test_shorten_url_exception(self, mock_get):
-        """Тестирует обработку исключений requests."""
-        mock_get.side_effect = Exception('Connection error')
+    url = 'https://example.com/test'
 
-        url = 'https://example.com/test'
+    assert shorten_url(url) == url
 
-        self.assertEqual(shorten_url(url), url)
 
-    def test_map_link_success(self):
-        """Тестирует создание ссылки на карту."""
-        result = map_link('Москва', 'Красная площадь, 1')
+@patch('utils.url.requests.get')
+def test_shorten_url_exception(mock_get):
+    mock_get.side_effect = Exception('Connection error')
 
-        self.assertIn('https://yandex.ru/maps/?text=', result)
-        self.assertIn('%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0', result)
+    url = 'https://example.com/test'
 
-    def test_map_link_empty_address(self):
-        """Тестирует пустой адрес."""
-        self.assertEqual(map_link('Москва', ''), '')
+    assert shorten_url(url) == url
 
-    def test_map_link_online_event(self):
-        """Тестирует online события."""
-        self.assertEqual(map_link('Online', 'Любой адрес'), '')
-        self.assertEqual(map_link('онлайн', 'Любой адрес'), '')
 
-    def test_map_link_uncertain_address(self):
-        """Тестирует адреса с неопределенными значениями."""
-        uncertain_addresses = [
-            'Адрес уточняется',
-            'TBD',
-            'TODO later',
-            'Будет объявлено позже',
-            'Нужно уточнить',
-        ]
+def test_map_link_success():
+    result = map_link('Москва', 'Красная площадь, 1')
 
-        for address in uncertain_addresses:
-            with self.subTest(address=address):
-                self.assertEqual(map_link('Москва', address), '')
+    assert 'https://yandex.ru/maps/?text=' in result
+    assert '%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0' in result
 
-    def test_add_utm_marks_success(self):
-        """Тестирует добавление UTM-меток."""
-        url = 'https://example.com/event'
 
-        result = add_utm_marks(url)
+def test_map_link_empty_address():
+    assert map_link('Москва', '') == ''
 
-        self.assertIn('utm_source=onevents.ru', result)
-        self.assertIn('utm_medium=website', result)
-        self.assertIn('utm_campaign=news', result)
-        self.assertIn('utm_content=link', result)
 
-    def test_add_utm_marks_existing_query_params(self):
-        """Тестирует добавление UTM к URL с query params."""
-        url = 'https://example.com/event?id=123'
+def test_map_link_online_event():
+    assert map_link('Online', 'Любой адрес') == ''
+    assert map_link('онлайн', 'Любой адрес') == ''
 
-        result = add_utm_marks(url)
 
-        self.assertIn('id=123&', result)
-        self.assertIn('utm_source=onevents.ru', result)
+@pytest.mark.parametrize(
+    'address',
+    [
+        'Адрес уточняется',
+        'TBD',
+        'TODO later',
+        'Будет объявлено позже',
+        'Нужно уточнить',
+    ],
+)
+def test_map_link_uncertain_address(address):
+    assert map_link('Москва', address) == ''
 
-    def test_add_utm_marks_existing_utm(self):
-        """Тестирует URL с уже существующим utm_source."""
-        url = 'https://example.com/?utm_source=test'
 
-        self.assertEqual(add_utm_marks(url), url)
+def test_add_utm_marks_success():
+    result = add_utm_marks('https://example.com/event')
 
-    def test_add_utm_marks_telegram_urls(self):
-        """Тестирует исключение Telegram URL."""
-        telegram_urls = [
-            'https://t.me/channel',
-            'https://telegram.org/blog',
-        ]
+    assert 'utm_source=onevents.ru' in result
+    assert 'utm_medium=website' in result
+    assert 'utm_campaign=news' in result
+    assert 'utm_content=link' in result
 
-        for url in telegram_urls:
-            with self.subTest(url=url):
-                self.assertEqual(add_utm_marks(url), url)
 
-    def test_add_utm_marks_empty_url(self):
-        """Тестирует пустой URL."""
-        self.assertEqual(add_utm_marks(''), '')
+def test_add_utm_marks_existing_query_params():
+    result = add_utm_marks('https://example.com/event?id=123')
+
+    assert 'id=123&' in result
+    assert 'utm_source=onevents.ru' in result
+
+
+def test_add_utm_marks_existing_utm():
+    url = 'https://example.com/?utm_source=test'
+
+    assert add_utm_marks(url) == url
+
+
+@pytest.mark.parametrize(
+    'url',
+    [
+        'https://t.me/channel',
+        'https://telegram.org/blog',
+    ],
+)
+def test_add_utm_marks_telegram_urls(url):
+    assert add_utm_marks(url) == url
+
+
+def test_add_utm_marks_empty_url():
+    assert add_utm_marks('') == ''

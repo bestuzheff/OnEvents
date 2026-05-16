@@ -27,11 +27,11 @@ def generate_event_vevent(event: dict, session: dict | None = None) -> str:
     # Формируем местоположение (город + адрес)
     location = event.get('city', '')
     if not location:
-        location = "Online"
+        location = 'Online'
 
     address = event.get('address')
     if address:
-        location += f", {address}"
+        location += f', {address}'
 
     # Очищаем текст для ICS (экранируем спецсимволы)
     title = clean_text(event['title'])
@@ -39,23 +39,16 @@ def generate_event_vevent(event: dict, session: dict | None = None) -> str:
 
     # Определяем временную зону для события
     tzid = get_timezone_for_event(event)
-    tz_param = f";TZID={tzid}" if tzid else ""
+    tz_param = f';TZID={tzid}' if tzid else ''
 
     # Выбираем тип генерации: для сессии или простого события
     if session:
-        return _generate_session_vevent(
-            event, session, uid, location, title, description,
-            tz_param
-        )
+        return _generate_session_vevent(event, session, uid, location, title, description, tz_param)
     else:
-        return _generate_simple_vevent(
-            event, uid, location, title, description
-        )
+        return _generate_simple_vevent(event, uid, location, title, description)
 
 
-def _generate_session_vevent(
-    event, session, uid, location, title, description, tz_param
-) -> str:
+def _generate_session_vevent(event, session, uid, location, title, description, tz_param) -> str:
     """Генерирует VEVENT для сессии события (с конкретным временем).
 
     Args:
@@ -72,25 +65,25 @@ def _generate_session_vevent(
         Текстовое представление VEVENT.
     """
     # Парсим дату сессии из строки
-    session_date = datetime.strptime(session['date'], "%Y-%m-%d")
+    session_date = datetime.strptime(session['date'], '%Y-%m-%d')
 
     # Формируем время начала и окончания в формате ICS (YYYYMMDDTHHMMSS)
-    start_datetime = f"{session_date.strftime('%Y%m%d')}T{to_hhmmss(session['start_time'])}"
-    end_datetime = f"{session_date.strftime('%Y%m%d')}T{to_hhmmss(session['end_time'])}"
+    start_datetime = f'{session_date.strftime("%Y%m%d")}T{to_hhmmss(session["start_time"])}'
+    end_datetime = f'{session_date.strftime("%Y%m%d")}T{to_hhmmss(session["end_time"])}'
 
     # Формируем название сессии с датой (например: "Конференция (15 мая)")
-    date_str = format_date(session_date, format="d MMMM", locale="ru")
-    session_title = f"{title} ({date_str})"
+    date_str = format_date(session_date, format='d MMMM', locale='ru')
+    session_title = f'{title} ({date_str})'
 
     # Добавляем ссылку на карту через сервис сокращения ссылок
     map_url = shorten_url(map_link(event.get('city', ''), event.get('address', '')))
-    map_text = f"\\n\\nПоказать на карте: {map_url}" if map_url else ""
+    map_text = f'\\n\\nПоказать на карте: {map_url}' if map_url else ''
 
     # Формируем полное описание события со ссылкой и временем
     registration_link = event.get('registration_url') or event.get('url', '')
     description_text = (
-        f"{description}\\n\\nСсылка: {registration_link}"
-        f"\\n\\nВремя: {session['start_time']}-{session['end_time']}{map_text}"
+        f'{description}\\n\\nСсылка: {registration_link}'
+        f'\\n\\nВремя: {session["start_time"]}-{session["end_time"]}{map_text}'
     )
 
     return f"""BEGIN:VEVENT
@@ -119,15 +112,15 @@ def _generate_simple_vevent(event, uid, location, title, description) -> str:
         Текстовое представление VEVENT.
     """
     # Парсим дату события
-    event_date = datetime.strptime(event['date'], "%Y-%m-%d")
-  
+    event_date = datetime.strptime(event['date'], '%Y-%m-%d')
+
     # Добавляем ссылку на карту
     map_url = shorten_url(map_link(event['city'], event.get('address', '')))
-    map_text = f"\\n\\nПоказать на карте: {map_url}" if map_url else ""
+    map_text = f'\\n\\nПоказать на карте: {map_url}' if map_url else ''
 
     # Формируем описание события
     registration_link = event.get('registration_url') or event.get('url', '')
-    description_text = f"{description}\\n\\nСсылка: {registration_link}{map_text}"
+    description_text = f'{description}\\n\\nСсылка: {registration_link}{map_text}'
 
     return f"""BEGIN:VEVENT
 UID:{uid}@onevents.ru
@@ -140,9 +133,7 @@ TRANSP:OPAQUE
 END:VEVENT"""
 
 
-def generate_public_calendar(
-    events: list[dict], calendar_name: str | None = None, wr_url: str | None = None
-) -> str:
+def generate_public_calendar(events: list[dict], calendar_name: str | None = None, wr_url: str | None = None) -> str:
     """Генерирует полный ICS календарь со всеми событиями.
 
     Args:
@@ -155,10 +146,10 @@ def generate_public_calendar(
     """
     # Текущее время для метаданных календаря
     now = datetime.now()
-    now_str = now.strftime("%Y%m%dT%H%M%SZ")
+    now_str = now.strftime('%Y%m%dT%H%M%SZ')
 
     # Название календаря по умолчанию
-    default_name = "Cобытия 1C - OnEvents"
+    default_name = 'Cобытия 1C - OnEvents'
     cal_name = calendar_name or default_name
     cal_url = wr_url
 
@@ -180,19 +171,19 @@ DTSTAMP:{now_str}"""
     # Добавляем все события в календарь
     for event in events:
         # Проверяем есть ли сессии у события
-        if "sessions" in event and event["sessions"]:
-            sessions = event["sessions"]
+        if 'sessions' in event and event['sessions']:
+            sessions = event['sessions']
             # Сортируем сессии по дате
-            sessions.sort(key=lambda x: x["date"])
+            sessions.sort(key=lambda x: x['date'])
 
             # Создаем отдельный VEVENT для каждой сессии
             for i, session in enumerate(sessions):
                 vevent = generate_event_vevent(event, session)
-                ics_content += f"\n{vevent}"
+                ics_content += f'\n{vevent}'
         else:
             # Обычное однодневное событие
             vevent = generate_event_vevent(event)
-            ics_content += f"\n{vevent}"
+            ics_content += f'\n{vevent}'
 
     # Закрываем календарь
     ics_content += """
@@ -224,16 +215,16 @@ METHOD:PUBLISH"""
 X-WR-TIMEZONE:{tzid}"""
 
     # Добавляем событие или сессии
-    if "sessions" in event and event["sessions"]:
-        sessions = event["sessions"]
-        sessions.sort(key=lambda x: x["date"])
+    if 'sessions' in event and event['sessions']:
+        sessions = event['sessions']
+        sessions.sort(key=lambda x: x['date'])
 
         for i, session in enumerate(sessions):
             vevent = generate_event_vevent(event, session)
-            ics_content += f"\n{vevent}"
+            ics_content += f'\n{vevent}'
     else:
         vevent = generate_event_vevent(event)
-        ics_content += f"\n{vevent}"
+        ics_content += f'\n{vevent}'
 
     # Закрываем ICS файл
     ics_content += """

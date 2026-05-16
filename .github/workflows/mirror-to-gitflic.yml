@@ -1,0 +1,19 @@
+name: Mirror to GitFlic
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push main to GitFlic
+        run: |
+          git remote add gitflic "https://bestuzheff:${{ secrets.GITFLIC_TOKEN }}@gitflic.ru/project/bestuzheff/onevents.git"
+          git push gitflic main --force --tags

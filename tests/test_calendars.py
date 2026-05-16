@@ -108,3 +108,77 @@ class TestICSCalendars:
         assert 'X-WR-TIMEZONE:Europe/Moscow' in result
         assert 'VEVENT_CONTENT' in result
         assert 'END:VCALENDAR' in result
+
+    @patch('ics_calendars.vevents.uuid.uuid4')
+    @patch('ics_calendars.vevents.shorten_url')
+    @patch('ics_calendars.vevents.map_link')
+    @patch('ics_calendars.vevents.get_timezone_for_event')
+    def test_generate_vevent_without_city(
+        self,
+        mock_timezone,
+        mock_map_link,
+        mock_shorten_url,
+        mock_uuid,
+    ):
+        mock_uuid.return_value = 'test-uuid'
+        mock_timezone.return_value = None
+        mock_map_link.return_value = ''
+        mock_shorten_url.return_value = ''
+
+        event = {
+            'title': 'Конференция',
+            'description': 'Описание',
+            'date': '2026-05-11',
+            'city': '',
+            'url': 'https://example.com',
+        }
+
+        result = generate_event_vevent(event)
+
+        assert 'LOCATION:Online' in result
+
+    @patch('ics_calendars.vevents.generate_event_vevent')
+    def test_generate_public_calendar_with_sessions(self, mock_generate_event):
+        mock_generate_event.return_value = 'SESSION_VEVENT'
+
+        events = [
+            {
+                'title': 'Конференция',
+                'date': '2026-05-11',
+                'sessions': [
+                    {'date': '2026-05-11', 'start_time': '10:00', 'end_time': '18:00'},
+                    {'date': '2026-05-12', 'start_time': '10:00', 'end_time': '17:00'},
+                ],
+            }
+        ]
+
+        result = generate_public_calendar(events)
+
+        assert 'BEGIN:VCALENDAR' in result
+        assert 'END:VCALENDAR' in result
+        assert mock_generate_event.call_count == 2
+
+    @patch('ics_calendars.vevents.generate_event_vevent')
+    @patch('ics_calendars.vevents.get_timezone_for_event')
+    def test_generate_ics_content_with_sessions(
+        self,
+        mock_timezone,
+        mock_generate_event,
+    ):
+        mock_timezone.return_value = 'Europe/Moscow'
+        mock_generate_event.return_value = 'SESSION_VEVENT'
+
+        event = {
+            'title': 'Конференция',
+            'date': '2026-05-11',
+            'sessions': [
+                {'date': '2026-05-11', 'start_time': '10:00', 'end_time': '18:00'},
+                {'date': '2026-05-12', 'start_time': '10:00', 'end_time': '17:00'},
+            ],
+        }
+
+        result = generate_ics_content(event)
+
+        assert 'BEGIN:VCALENDAR' in result
+        assert 'END:VCALENDAR' in result
+        assert mock_generate_event.call_count == 2

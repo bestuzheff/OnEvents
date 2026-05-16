@@ -1,10 +1,9 @@
-import unittest
 from unittest.mock import patch
 
 from rss.rss import generate_rss
 
 
-class TestRSSGeneration(unittest.TestCase):
+class TestRSSGeneration:
     @patch('rss.rss.generate_event_id')
     @patch('rss.rss.get_timezone_for_event')
     def test_generate_rss_single_event(
@@ -12,7 +11,6 @@ class TestRSSGeneration(unittest.TestCase):
         mock_get_timezone,
         mock_generate_event_id,
     ):
-        """Тестирует генерацию RSS для одного события."""
         mock_get_timezone.return_value = 'Europe/Moscow'
         mock_generate_event_id.return_value = 'event-123'
 
@@ -29,19 +27,13 @@ class TestRSSGeneration(unittest.TestCase):
 
         result = generate_rss(events)
 
-        self.assertIn('<?xml version="1.0" encoding="UTF-8"?>', result)
-
-        self.assertIn('<title>События 1С — OnEvents</title>', result)
-
-        self.assertIn('<title>Конференция 1С</title>', result)
-
-        self.assertIn('https://onevents.ru/#event-123', result)
-
-        self.assertIn('Описание события', result)
-
-        self.assertIn('Регистрация: https://register.com', result)
-
-        self.assertIn('onevents-event.yml', result)
+        assert '<?xml version="1.0" encoding="UTF-8"?>' in result
+        assert '<title>События 1С — OnEvents</title>' in result
+        assert '<title>Конференция 1С</title>' in result
+        assert 'https://onevents.ru/#event-123' in result
+        assert 'Описание события' in result
+        assert 'Регистрация: https://register.com' in result
+        assert 'onevents-event.yml' in result
 
     @patch('rss.rss.generate_event_id')
     @patch('rss.rss.get_timezone_for_event')
@@ -50,7 +42,6 @@ class TestRSSGeneration(unittest.TestCase):
         mock_get_timezone,
         mock_generate_event_id,
     ):
-        """Тестирует RSS без registration_url."""
         mock_get_timezone.return_value = 'Europe/Moscow'
         mock_generate_event_id.return_value = 'event-456'
 
@@ -66,9 +57,8 @@ class TestRSSGeneration(unittest.TestCase):
 
         result = generate_rss(events)
 
-        self.assertIn('<item>', result)
-
-        self.assertNotIn('Регистрация:', result)
+        assert '<item>' in result
+        assert 'Регистрация:' not in result
 
     @patch('rss.rss.generate_event_id')
     @patch('rss.rss.get_timezone_for_event')
@@ -77,7 +67,6 @@ class TestRSSGeneration(unittest.TestCase):
         mock_get_timezone,
         mock_generate_event_id,
     ):
-        """Тестирует экранирование HTML."""
         mock_get_timezone.return_value = 'Europe/Moscow'
         mock_generate_event_id.return_value = 'event-html'
 
@@ -93,9 +82,8 @@ class TestRSSGeneration(unittest.TestCase):
 
         result = generate_rss(events)
 
-        self.assertIn('&lt;b&gt;Конференция&lt;/b&gt;', result)
-
-        self.assertIn('Описание &lt;test&gt;', result)
+        assert '&lt;b&gt;Конференция&lt;/b&gt;' in result
+        assert 'Описание &lt;test&gt;' in result
 
     @patch('rss.rss.generate_event_id')
     @patch('rss.rss.get_timezone_for_event')
@@ -104,7 +92,6 @@ class TestRSSGeneration(unittest.TestCase):
         mock_get_timezone,
         mock_generate_event_id,
     ):
-        """Тестирует сортировку событий по дате."""
         mock_get_timezone.return_value = 'Europe/Moscow'
         mock_generate_event_id.return_value = 'event-id'
 
@@ -127,10 +114,7 @@ class TestRSSGeneration(unittest.TestCase):
 
         result = generate_rss(events)
 
-        new_pos = result.find('Новое событие')
-        old_pos = result.find('Старое событие')
-
-        self.assertLess(new_pos, old_pos)
+        assert result.find('Новое событие') < result.find('Старое событие')
 
     @patch('rss.rss.generate_event_id')
     @patch('rss.rss.get_timezone_for_event')
@@ -139,7 +123,6 @@ class TestRSSGeneration(unittest.TestCase):
         mock_get_timezone,
         mock_generate_event_id,
     ):
-        """Тестирует fallback timezone."""
         mock_get_timezone.return_value = None
         mock_generate_event_id.return_value = 'event-timezone'
 
@@ -155,14 +138,13 @@ class TestRSSGeneration(unittest.TestCase):
 
         result = generate_rss(events)
 
-        self.assertIn('<pubDate>', result)
-        self.assertIn('</pubDate>', result)
+        assert '<pubDate>' in result
+        assert '</pubDate>' in result
 
     def test_generate_empty_rss(self):
-        """Тестирует генерацию пустой RSS ленты."""
         result = generate_rss([])
 
-        self.assertIn('<rss version="2.0"', result)
-        self.assertIn('<channel>', result)
-        self.assertIn('</channel>', result)
-        self.assertIn('</rss>', result)
+        assert '<rss version="2.0"' in result
+        assert '<channel>' in result
+        assert '</channel>' in result
+        assert '</rss>' in result

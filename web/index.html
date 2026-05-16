@@ -44,7 +44,10 @@
     <link rel="shortcut icon" href="icons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-title" content="OnEvents">
-    <link rel="manifest" href="icons/site.webmanifest">    
+    <link rel="manifest" href="icons/site.webmanifest">
+    <meta name="theme-color" content="#1f2428">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14">
     <!-- Yandex.Metrika counter --> <script type="text/javascript">     (function(m,e,t,r,i,k,a){         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};         m[i].l=1*new Date();         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103858050', 'ym');      ym(103858050, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true}); </script> <noscript><div><img src="https://mc.yandex.ru/watch/103858050" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
     <style>
         html { scroll-behavior: smooth; }
@@ -127,6 +130,8 @@
         }
         nav {display:flex;gap:1em;align-items:center;}
         .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;}
+        .install-btn {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;display:none}
+        .install-btn.visible {display:inline-flex;align-items:center}
         
         /* Бургер-меню */
         .burger-container {
@@ -344,6 +349,7 @@
         <option value="">Все города</option>
       </select>
       <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
+      <button class="install-btn" id="installBtn" type="button" aria-label="Установить приложение" title="Установить приложение">📲</button>
       <div class="burger-container">
         <button class="burger-menu-btn" id="burgerMenuBtn" type="button" aria-label="Открыть меню">☰</button>
         <div class="mobile-menu" id="mobileMenu">
@@ -807,6 +813,34 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         console.log('OnEvents: Service Worker не зарегистрирован:', err);
       });
   }
+
+  var deferredPrompt;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    var btn = document.getElementById('installBtn');
+    if (btn) { btn.classList.add('visible'); }
+  });
+
+  var installBtn = document.getElementById('installBtn');
+  if (installBtn) {
+    installBtn.addEventListener('click', function () {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function (result) {
+          if (result.outcome === 'accepted') {
+            installBtn.classList.remove('visible');
+          }
+          deferredPrompt = null;
+        });
+      }
+    });
+  }
+
+  window.addEventListener('appinstalled', function () {
+    if (installBtn) { installBtn.classList.remove('visible'); }
+    deferredPrompt = null;
+  });
 })();
 </script>
 </body>

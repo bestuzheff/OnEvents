@@ -1,6 +1,11 @@
 {
   "name": "OnEvents",
   "short_name": "OnEvents",
+  "description": "Календарь событий и конференций по 1С в городах России",
+  "start_url": "/",
+  "scope": "/",
+  "id": "https://onevents.ru/",
+  "lang": "ru",
   "icons": [
     {
       "src": "/icons/web-app-manifest-192x192.png",
@@ -17,5 +22,6 @@
   ],
   "theme_color": "#1f2428",
   "background_color": "#1f2428",
-  "display": "standalone"
+  "display": "standalone",
+  "prefer_related_applications": false
 }

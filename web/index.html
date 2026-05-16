@@ -787,5 +787,27 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   window.addEventListener('hashchange', highlightEventFromHash);
 })();
 </script>
+<script>
+(function () {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function (reg) {
+        reg.addEventListener('updatefound', function () {
+          var newWorker = reg.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', function () {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('OnEvents: доступна новая версия, обновите страницу.');
+              }
+            });
+          }
+        });
+      })
+      .catch(function (err) {
+        console.log('OnEvents: Service Worker не зарегистрирован:', err);
+      });
+  }
+})();
+</script>
 </body>
 </html>

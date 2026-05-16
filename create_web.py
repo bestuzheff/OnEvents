@@ -111,6 +111,7 @@ def main() -> None:
     # Копируем статические файлы (картинки и иконки)
     shutil.copytree('img', 'site/img', dirs_exist_ok=True)
     shutil.copytree('icons', 'site/icons', dirs_exist_ok=True)
+    shutil.copy('web/sw.js', OUTPUT_DIR / 'sw.js')
 
     # Генерируем ICS календари
     calendar_dir = OUTPUT_DIR / 'calendar'

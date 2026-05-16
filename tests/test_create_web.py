@@ -155,6 +155,51 @@ class TestCreateWeb:
             patch('create_web.export_upcoming_webinars_to_json'),
             patch('create_web.render_public_calendars', return_value=''),
             patch('create_web.render_webinars_calendar', return_value=''),
+            patch('create_web.format_date', return_value='16 мая 2026'),
+            patch('pathlib.Path.mkdir'),
+            patch('pathlib.Path.write_text'),
+        ):
+            create_web.main()
+
+        mock_print.assert_any_call('Ошибка при чтении файла broken.yml: Ошибка YAML')
+
+    @patch('builtins.print')
+    @patch('create_web.yaml.safe_load')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('pathlib.Path.read_text')
+    @patch('pathlib.Path.glob')
+    def test_main_handles_invalid_webinar_yaml(
+        self,
+        mock_glob,
+        mock_read_text,
+        mock_open_file,
+        mock_yaml_load,
+        mock_print,
+    ):
+        broken_file = Path('webinars/broken.yml')
+
+        mock_glob.side_effect = [
+            [],
+            [broken_file],
+        ]
+
+        mock_read_text.return_value = '{{ webinars }}'
+
+        mock_yaml_load.side_effect = Exception('Ошибка YAML')
+
+        with (
+            patch('create_web.shutil.copytree'),
+            patch('create_web.generate_event_calendars'),
+            patch('create_web.generate_public_calendars'),
+            patch('create_web.generate_webinars_public_calendar'),
+            patch('create_web.generate_rss', return_value='rss'),
+            patch('create_web.export_events_to_json'),
+            patch('create_web.export_upcoming_events_to_json'),
+            patch('create_web.export_webinars_to_json'),
+            patch('create_web.export_upcoming_webinars_to_json'),
+            patch('create_web.render_public_calendars', return_value=''),
+            patch('create_web.render_webinars_calendar', return_value=''),
+            patch('create_web.format_date', return_value='16 мая 2026'),
             patch('pathlib.Path.mkdir'),
             patch('pathlib.Path.write_text'),
         ):

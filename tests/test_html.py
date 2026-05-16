@@ -1,10 +1,9 @@
-from unittest.mock import patch
-
 from html.cards import (
     generate_event_id,
     render_event,
     render_webinar,
 )
+from unittest.mock import patch
 
 
 class TestHtmlRendering:

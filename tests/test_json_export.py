@@ -1,6 +1,7 @@
-import pytest
 from pathlib import Path
 from unittest.mock import mock_open, patch
+
+import pytest
 
 from json_export.json import (
     export_events_to_json,

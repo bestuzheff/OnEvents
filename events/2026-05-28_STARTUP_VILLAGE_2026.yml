@@ -1,0 +1,15 @@
+id: 648fad96-cce7-42d6-a08b-fcc74553bfca
+title: Startup Village 2026
+date: '2026-05-28'
+city: Москва
+address: Технопарк «Сколково», Сад Технопарка
+icon: startup_village_2026.jpg
+description: Startup Village 2026 — технофестиваль в Сколково, где корпорации формируют технологический заказ, а стартапы презентуют решения; программа включает стартап-базар, менторскую гостиную, питчи и нетворкинг.
+registration_url: https://startupvillage.ru/
+sessions:
+- date: '2026-05-28'
+  start_time: '10:00'
+  end_time: '18:00'
+- date: '2026-05-29'
+  start_time: '10:00'
+  end_time: '18:00'

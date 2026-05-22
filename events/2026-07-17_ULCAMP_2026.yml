@@ -1,0 +1,18 @@
+id: a3710e17-d05c-4d8b-94de-ce9fc7d1b209
+title: ULCAMP’26
+date: '2026-07-17'
+city: Ульяновск
+address: Славянское подворье, Ульяновск
+icon: ulcamp_2026.jpg
+description: 'ULCAMP’26 — масштабный пляжный IT-фестиваль в Ульяновской области: программа для IT-сообщества, спикеры, нетворкинг, музыка, фудкорт и корпоративный лагерь.'
+registration_url: https://2026.ulcamp.ru/
+sessions:
+- date: '2026-07-17'
+  start_time: '10:00'
+  end_time: '18:00'
+- date: '2026-07-18'
+  start_time: '10:00'
+  end_time: '18:00'
+- date: '2026-07-19'
+  start_time: '10:00'
+  end_time: '18:00'

@@ -1,0 +1,12 @@
+id: "9011da08-9f42-4fa9-8da9-7fea20293c85"
+title: "Архитектурный митап"
+date: "2026-05-27"       
+city: "Москва"
+address: "Ленинградский пр-т, 36с41 (офис Т1, БЦ «Арена», 23 этаж)"
+icon: "2026-05-27-architectural-mitap-moscow-may-t1-progmsk.png"
+description: "Митап про архитектуру информационных решгений от Т1 и ProgMSK. Проектировать - это не про сложные диаграммы. Это про умение выбирать: как зафиксировать архитектурные решения так, чтобы они не устарели через месяц, и почему один и тот же паттерн в Java, Python и Go выглядит по-разному."
+registration_url: "https://pro.t1.ru/event/wOZljDWJ?utm_source=online&utm_medium=post&utm_campaign=post&utm_content=crazyelephant_note&utm_term=cbd"
+sessions:
+  - date: "2026-05-27"
+    start_time: "19:00"
+    end_time: "21:30"

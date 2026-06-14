@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:54044b3f-d15b-4e68-b78a-18a717c7e5c4@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260620T113000
+DTEND;TZID=Europe/Moscow:20260620T173000
+SUMMARY:Холиварные аналитические посиделки: Лунная база (20 июня)
+DESCRIPTION:20 июня штаб-квартира КОРУСа превратится в настоящий полигон для системного проектирования. Забудьте про скучные доклады — на ближайшей встрече клуба вы будете строить ИС на Луне в условиях жёстких дедлайнов и внезапного инцидента от заказчика. Партнеры встречи: Холиварные аналитические посиделки\, Корус Консалтинг\, ИнфоТеКС\, Клуб Питерских Одинэсников\n\nСсылка: https://pro.t1.ru/event/hpAnMaqh\n\nВремя: 11:30-17:30\n\nПоказать на карте: https://clck.ru/3U4k8E
+LOCATION:Санкт-Петербург, Оптиков, 4/3 (БЦ Лахта-2)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

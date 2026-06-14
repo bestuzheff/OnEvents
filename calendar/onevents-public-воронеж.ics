@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Воронеж - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-воронеж.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260614T075733Z
+DTSTAMP:20260614T075733Z
+BEGIN:VEVENT
+UID:ef6c16ed-dbef-4c25-99c4-81a0412b4aa4@onevents.ru
+DTSTART:20251127T190000
+DTEND:20251127T210000
+SUMMARY:Желтый клуб Воронеж (27 ноября)
+DESCRIPTION:В этот раз поговорим о том\, как программистам … меньше программировать или вообще не программировать (но при этом успешно решать задачи интеграции информационных систем). Другими словами — про так называемый Low-code А на втором докладе разберём путь от рядового разработчика до 'главного босса квеста' (цитата автора)\n\nСсылка: https://yellowclub-voronezh.timepad.ru/event/3681964\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3QQTkj
+LOCATION:Воронеж, ул. Свободы, 21 (центр 'Мой бизнес')
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:e4f31d75-504c-4b26-8435-909e12103c07@onevents.ru
+DTSTART:20260521T190000
+DTEND:20260521T210000
+SUMMARY:Жёлтый клуб Воронеж (21 мая)
+DESCRIPTION:Желтый клуб — сообщество 1С программистов. В прошлый раз мы обсуждали как программистам меньше программировать (говорили про Low-code). Пришла пора сделать следующий шаг и обсудить как разработчику вообще (ну или почти) не программировать! Речь пойдёт про ИИ-агента\, его возможностях и управлении им.\n\nСсылка: https://yellowclub-voronezh.timepad.ru/event/3967709\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3TZLSh
+LOCATION:Воронеж, ул. Свободы, 21
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

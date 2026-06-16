@@ -1,0 +1,12 @@
+id: "4ad54c4d-eb3d-4c28-a2cc-fb420d0f7ccc"
+title: "КУНГ-ФУ МИТАП: LLM Wiki для 1С"
+date: "2026-07-16"
+city: "Санкт-Петербург"
+address: "ул. Рубинштейна, д. 27, (RUBICON)"
+icon: "kfk.jpg"
+description: "Обсудим подход Андрея Карпаты, где LLM не каждый раз получает пачку документов заново, а помогает вести живую базу знаний: пополнять её, связывать заметки, вытаскивать нужный контекст и не терять решения по проекту."
+registration_url: "https://spb.qtickets.events/239185-llm-wiki-dlya-1s-baza-znaniy-kotoraya-rastet-sama"
+sessions:
+  - date: "2026-07-16"
+    start_time: "19:00"
+    end_time: "21:00"

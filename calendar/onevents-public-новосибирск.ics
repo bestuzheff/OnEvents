@@ -1,0 +1,54 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Новосибирск - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-новосибирск.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260702T065212Z
+DTSTAMP:20260702T065212Z
+BEGIN:VEVENT
+UID:e0972ae0-398f-4d78-a771-70f5ea958632@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20251204T190000
+DTEND;TZID=Asia/Novosibirsk:20251204T213000
+SUMMARY:1C Meetup (4 декабря)
+DESCRIPTION:Приглашаем 1С-разработчиков\, тестировщиков и аналитиков на бесплатный митап! В программе полезные доклады\, общение с экспертами и возможность перенять полезные практики. А ещё — мини-квиз! Правила простые: собери команду и приходи на митап со своими коллегами-друзьями\, отвечайте вместе на вопросы из области 1С и выигрывайте призы :)\n\nСсылка: https://koronatech.ru/events/241\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3QAcpq
+LOCATION:Новосибирск, Академгородок, ул. Ильича, 8 (бар 'Red Rabbit')
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:468f36bd-fbe9-4893-876e-85161a99a7d3@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20251216T190000
+DTEND;TZID=Asia/Novosibirsk:20251216T213000
+SUMMARY:Project Meetup (16 декабря)
+DESCRIPTION:Приглашаем на бесплатный митап менеджеров проектов\, менеджеров продуктов\, бизнес-аналитиков\, аналитиков данных и тимлидов!\n\nСсылка: https://koronatech.ru/events/242/\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3QHTm4
+LOCATION:Новосибирск, Красный проспект, 17/1, 9 этаж, ресторан 'Большие Пузырики'
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:19fab3c6-3921-4b6f-a742-3158372c0a79@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20260203T183000
+DTEND;TZID=Asia/Novosibirsk:20260203T213000
+SUMMARY:PGMeetupNSK - Разговоры вокруг QA (3 февраля)
+DESCRIPTION:PGMeetup — традиционное мероприятие от компании Postgres Professional\, где в рамках камерной атмосферы мы не выбираем одну конкретную тему для обсуждения\, а просто берём направление\, которое нам кажется интересным.\n\nСсылка: https://pgconf.ru/030226\n\nВремя: 18:30-21:30\n\nПоказать на карте: https://clck.ru/3RFnwM
+LOCATION:Новосибирск, ул. Инженерная, д. 7, БЦ Port i7
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:68806f67-63ac-4f7d-bc7b-32cd855c76f4@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20260618T171000
+DTEND;TZID=Asia/Novosibirsk:20260618T210000
+SUMMARY:1С Митап в Новосибирске (18 июня)
+DESCRIPTION:Технический митап новосибирских 1С-экспертов в приятном лофте в центре. Три доклада от практиков CDEK и Инфософт о том\, как эксплуатировать 1С под реальной нагрузкой: обмены\, PostgreSQL\, архитектура\, разбор инцидентов.\n\nСсылка: https://cdek-meetup.timepad.ru/event/4010555\n\nВремя: 17:10-21:00\n\nПоказать на карте: https://clck.ru/3TxLHF
+LOCATION:Новосибирск, ул.Ядринцевская, дом 21
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

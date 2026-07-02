@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Светлогорск - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-светлогорск.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260702T065247Z
+DTSTAMP:20260702T065247Z
+BEGIN:VEVENT
+UID:4d0497d3-e005-4d84-9566-e7220481a113@onevents.ru
+DTSTART:20251017T103000
+DTEND:20251017T175000
+SUMMARY:MERGE BALTIC 2025 (17 октября)
+DESCRIPTION:Merge⠀— крупнейшая межрегиональная IT-конференция. Это место\, где встречаются представители разных сфер мира IT: от разработки до маркетинга.\n\nСсылка: https://baltic2025.mergeconf.ru/\n\nВремя: 10:30-17:50\n\nПоказать на карте: https://clck.ru/3PTX67
+LOCATION:Светлогорск, ул. Ленина, 11, Театр эстрады Янтарь Холл
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:5ff1e9c4-c87d-404c-85b5-56fb19f9a0ba@onevents.ru
+DTSTART:20251018T103000
+DTEND:20251018T163000
+SUMMARY:MERGE BALTIC 2025 (18 октября)
+DESCRIPTION:Merge⠀— крупнейшая межрегиональная IT-конференция. Это место\, где встречаются представители разных сфер мира IT: от разработки до маркетинга.\n\nСсылка: https://baltic2025.mergeconf.ru/\n\nВремя: 10:30-16:30\n\nПоказать на карте: https://clck.ru/3PTX67
+LOCATION:Светлогорск, ул. Ленина, 11, Театр эстрады Янтарь Холл
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

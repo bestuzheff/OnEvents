@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:f11b4116-b1de-46a9-9219-c8773a6a0b57@onevents.ru
+DTSTART;VALUE=DATE:20260909
+SUMMARY:ПЕРФОМАНС КОНФ #12
+DESCRIPTION:Конференция по нагрузочному тестированию и производительности ПО. Доклады без воды от экспертов Альфа-Банка\, Сбера\, Авито\, Райффайзен Банка и других компаний. Ключевые темы: оптимизация производительности\, SRE и мониторинг\, DevOps/CI/CD\, хаос-инженерия и применение ИИ. Офлайн + онлайн. Есть доклады по 1С.\n\nСсылка: https://perfconf.ru/\n\nПоказать на карте: https://clck.ru/3UJr87
+LOCATION:Москва, ул. Ленинская Слобода, д. 26 с. 15 (Loft Hall)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:e4337f40-d8b9-4f7c-bc94-7c28d08f9ffa@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260716T190000
+DTEND;TZID=Europe/Moscow:20260716T210000
+SUMMARY:КУНГ-ФУ МИТАП: LLM Wiki для 1С (16 июля)
+DESCRIPTION:Обсудим подход Андрея Карпаты\, где LLM не каждый раз получает пачку документов заново\, а помогает вести живую базу знаний: пополнять её\, связывать заметки\, вытаскивать нужный контекст и не терять решения по проекту.\n\nСсылка: https://spb.qtickets.events/239185-llm-wiki-dlya-1s-baza-znaniy-kotoraya-rastet-sama\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3UCev2
+LOCATION:Санкт-Петербург, ул. Рубинштейна, д. 27, (RUBICON)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

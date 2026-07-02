@@ -1,0 +1,53 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Иркутск - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-иркутск.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260702T065134Z
+DTSTAMP:20260702T065134Z
+BEGIN:VEVENT
+UID:6da656db-c389-48df-9488-f41a15ac437e@onevents.ru
+DTSTART;VALUE=DATE:20250828
+SUMMARY:Кунг-фу конфа
+DESCRIPTION:«Кунг-фу конфа» — это место\, где 1С-специалисты могут расширить свои знания\, обменяться опытом и завести новые знакомства. На конференции вы получите ценные теоретические и практические навыки\, которые сможете использовать в своих повседневных задача.\n\nСсылка: https://kotovdima.timepad.ru/event/3489863/\n\nПоказать на карте: https://clck.ru/3PTX6N
+LOCATION:Иркутск, ул. ​Рабочая улица, 2а/4, БЦ Премьер, Коворкинг Мой бизнес
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:f747e0ba-5f2d-4e1e-94c5-17e2daaf51a8@onevents.ru
+DTSTART;TZID=Asia/Irkutsk:20251127T190000
+DTEND;TZID=Asia/Irkutsk:20251127T213000
+SUMMARY:Желтый клуб - Иркутск (27 ноября)
+DESCRIPTION:ИИ в 1С: применение на практике — встреча для специалистов\, которые хотят понять\, как искусственный интеллект применяется в реальных задачах 1С и бизнеса. Формат включает два практических доклада\, обсуждение кейсов участников и неформальную часть с ароматной пиццей.\n\nСсылка: https://kotovdima.timepad.ru/event/3680992\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3QQ6p5
+LOCATION:Иркутск, ул. Рабочая, 2а/4, 1 этаж, БЦ «Премьер», коворкинг «Мой бизнес»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:879319fc-4a95-4338-b336-0888f96fb55e@onevents.ru
+DTSTART;TZID=Asia/Irkutsk:20260430T190000
+DTEND;TZID=Asia/Irkutsk:20260430T213000
+SUMMARY:Жёлтый клуб в Иркутске! (30 апреля)
+DESCRIPTION:Два доклада на одной встрече: инструменты разработки и анализ поведения людей. EDT + GIT или Хранилище + Конфигуратор? Как распознать ложь быстрее\, чем git blame найдёт автора бага? Практические кейсы\, живые примеры и пицца в перерыве.\n\nСсылка: https://kotovdima.timepad.ru/event/3929163\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3T8g9T
+LOCATION:Иркутск, Улица Карла Либкнехта, 121​, цокольный этаж, Арт-пространство БЛИНДАЖ: ​БЦ Europlaza
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:60ca15ba-4088-4e37-ae7e-eb7da8423d07@onevents.ru
+DTSTART;TZID=Asia/Irkutsk:20260618T190000
+DTEND;TZID=Asia/Irkutsk:20260618T213000
+SUMMARY:КУНГ-ФУ МИТАП. Вайбкодинг на 1С - Проще простого! (18 июня)
+DESCRIPTION:ИИ в связке с 1С\, за один вечер вы получите интенсивный мастер-класс по вайбкодингу и практике применения ИИ-агентов в 1С. Программист ускоряет рутину\, аналитик собирает результат без программиста\, бизнес получает данные без «айтишников». Создаём обработку без конфигуратора\, разбираем ошибки в отчётах по скриншоту без входа в 1С.\n\nСсылка: https://kotovdima.timepad.ru/event/4024826\n\nВремя: 19:00-21:30\n\nПоказать на карте: https://clck.ru/3U5CGj
+LOCATION:Иркутск, улица Ядринцева, 1ж, отель «Звезда» вход через «Иероглиф» (6 этаж, конференц-зал Brown hall)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

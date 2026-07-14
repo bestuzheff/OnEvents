@@ -1,0 +1,16 @@
+id: "0c4849a2-312b-497a-8577-92522327a0a6"
+title: "1С Битва. Claude Fable 5 vs ChatGPT SOL. ИИ пишет код на 1С."
+date: "2026-07-15"
+pic: "2026-07-15_DK.jpg"
+description: |
+  <p>Проверим две топовые модели, Fable 5 и Sol, на моём классическом кейсе: «Напиши выгрузку справочника “Номенклатура” в JSON».</p>
+  <br>
+  <p>Без Cursor и VS Codex. Только оригинальные десктопные среды разработки от вендоров: Claude Desktop и Codex Desktop.</p>
+  <p>Посмотрим, кто лучше справится с 1С-кодом и выдаст действительно рабочее решение.</p>
+  <p>Стрим: 15 июля 2026 в 14:30 по МСК!</p>
+  <p><a href="https://youtube.com/live/O7cQKdI1K30?feature=share">YouTube</a> | <a href="https://live.vkvideo.ru/top_1c">ВК-Видео</a> | <a href="https://rutube.ru/video/c902247354a195189d0bef2db361928f/">Рутуб</a> | <a href="https://t.me/top_1c?livestream">Телеграм</a></p>
+url: "https://youtube.com/live/O7cQKdI1K30?feature=share"
+sessions:
+  - date: "2026-07-15"
+    start_time: "14:30"
+    end_time: "16:00"

@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Белгород - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-белгород.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260724T060440Z
+DTSTAMP:20260724T060440Z
+BEGIN:VEVENT
+UID:db684c70-27ce-432c-ba6a-ab2534e8a605@onevents.ru
+DTSTART:20260604T190000
+DTEND:20260604T210000
+SUMMARY:Желтый Клуб Белгород (4 июня)
+DESCRIPTION:В этот раз меняем формат митапа с классических докладов на воркшоп и открытый микрофон. Никакой теории и продающих лозунгов! Делимся реальным опытом\, будет горячий обмен мнений по работе с ИИ. А также поговорим о работе в 1С и рынке труда.\n\nСсылка: https://1c-31.timepad.ru/event/4013327\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3TwAZL
+LOCATION:Белгород, ул.Лермонтова 33А
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Иннополис - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-иннополис.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260724T060445Z
+DTSTAMP:20260724T060445Z
+BEGIN:VEVENT
+UID:2851cb91-26db-43b4-b9a2-6274e273ae40@onevents.ru
+DTSTART:20260417T100000
+DTEND:20260417T190000
+SUMMARY:IT-конференция Merge в Иннополисе 2026 (17 апреля)
+DESCRIPTION:Merge — крупнейшая межрегиональная IT-конференция.Это место\, где встречаются представители разных сфер мира IT от разработки до маркетинга.\n\nСсылка: https://tatarstan2026.mergeconf.ru\n\nВремя: 10:00-19:00\n\nПоказать на карте: https://clck.ru/3Rdyi9
+LOCATION:Иннополис, Верхнеуслонский район, Республика Татарстан
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:d4f8e433-57e5-431d-b110-1508d227e246@onevents.ru
+DTSTART:20260418T100000
+DTEND:20260418T190000
+SUMMARY:IT-конференция Merge в Иннополисе 2026 (18 апреля)
+DESCRIPTION:Merge — крупнейшая межрегиональная IT-конференция.Это место\, где встречаются представители разных сфер мира IT от разработки до маркетинга.\n\nСсылка: https://tatarstan2026.mergeconf.ru\n\nВремя: 10:00-19:00\n\nПоказать на карте: https://clck.ru/3Rdyi9
+LOCATION:Иннополис, Верхнеуслонский район, Республика Татарстан
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

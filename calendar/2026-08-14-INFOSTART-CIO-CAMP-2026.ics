@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:58a997ce-d744-42a8-99a8-7348a2be9245@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260814T090000
+DTEND;TZID=Europe/Moscow:20260814T200000
+SUMMARY:INFOSTART CIO CAMP 2026 (14 августа)
+DESCRIPTION:Эксклюзивный формат для ИТ‑директоров: здесь обсуждают реальные управленческие ситуации\, делятся проверенными решениями и разбором факапов — без «выступлений ради выступлений». В центре внимания — оптимизация бюджетов\, внедрение ИИ и уникальные бизнес‑кейсы\, которые не звучат на массовых конференциях.\n\nСсылка: https://infostart.ru/event/2408623\n\nВремя: 09:00-20:00\n\nПоказать на карте: https://clck.ru/3Ud2Gu
+LOCATION:Санкт-Петербург, ул. Рюхина, д. 9, к. 2, литера А, Parklane Resort and Spa
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:7840d291-3a67-41c6-af22-083434a1473f@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260815T090000
+DTEND;TZID=Europe/Moscow:20260815T203000
+SUMMARY:INFOSTART CIO CAMP 2026 (15 августа)
+DESCRIPTION:Эксклюзивный формат для ИТ‑директоров: здесь обсуждают реальные управленческие ситуации\, делятся проверенными решениями и разбором факапов — без «выступлений ради выступлений». В центре внимания — оптимизация бюджетов\, внедрение ИИ и уникальные бизнес‑кейсы\, которые не звучат на массовых конференциях.\n\nСсылка: https://infostart.ru/event/2408623\n\nВремя: 09:00-20:30\n\nПоказать на карте: https://clck.ru/3Ud2Gu
+LOCATION:Санкт-Петербург, ул. Рюхина, д. 9, к. 2, литера А, Parklane Resort and Spa
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

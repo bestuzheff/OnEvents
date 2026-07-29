@@ -1,0 +1,12 @@
+id: "019fac78-1a4f-7a21-bc91-cd81157758c8"
+title: "ИТ Кунг-фу Ужин"
+date: "2026-07-30"
+city: "Нячанг"
+address: ""
+icon: "kfk.jpg"
+description: "ИТ Кунг-фу Ужин состоится в Нячанге 30 июля в 20:00, Red Buffalo Hub - Hon Chong. Без докладов, вход свободный, каждый платит сам за себя 🐼 Приходи! Обсудим все хайповые тренды в 1С и не только." # Краткое описание
+registration_url: "https://t.me/kungfu_conf/122"
+sessions:
+  - date: "2025-09-15"
+    start_time: "20:00"
+    end_time: "2:00"

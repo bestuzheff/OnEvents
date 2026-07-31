@@ -10,3 +10,18 @@ sessions:
   - date: "2026-05-28"
     start_time: "19:00"
     end_time: "22:00"
+videos:
+  - description: "Павел Чегодаев: ИИ - из чата в IDE и CLI"
+    links:
+      - platform: "YouTube"
+        url: "https://youtu.be/fqZ3p-sPCMo"
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-232435421_456239052"   
+  - description: "Артем Соболевский: Опыт создания собственного решения на интерфейсе 8.5"
+    links:
+      - platform: "YouTube"
+        url: "https://youtu.be/4eJiExruTZQ"
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-232435421_456239050"   
+
+    

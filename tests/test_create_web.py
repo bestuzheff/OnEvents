@@ -11,6 +11,7 @@ def test_generate_sitemap():
 
     assert '<?xml version="1.0" encoding="UTF-8"?>' in result
     assert 'https://onevents.ru/' in result
+    assert 'https://onevents.ru/video/' in result
     assert 'https://onevents.ru/rss/rss.xml' in result
     assert date.today().isoformat() in result
     assert '<changefreq>daily</changefreq>' in result
@@ -102,7 +103,7 @@ class TestCreateWeb:
 
         create_web.main()
 
-        mock_read_text.assert_called_once_with(encoding='utf-8')
+        mock_read_text.assert_any_call(encoding='utf-8')
 
         assert mock_mkdir.called
 
@@ -124,7 +125,7 @@ class TestCreateWeb:
 
         assert mock_write_text.called
 
-        final_html = mock_write_text.call_args_list[-1][0][0]
+        final_html = mock_write_text.call_args_list[-2][0][0]
 
         assert '<div>EVENT</div>' in final_html
         assert '<div>WEBINAR</div>' in final_html

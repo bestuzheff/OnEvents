@@ -1,0 +1,13 @@
+id: "e2379f0f-20a1-46ae-9e8f-dd90ded123f9"
+title: "Кунг-фу митап: ИИ в 1С-разработке"
+date: "2026-09-11"
+city: "Санкт-Петербург"
+address: "ул. Цветочная ул. , д. 23"
+icon: "kfk.jpg"
+description: "Кунг-фу митап: ИИ в 1С-разработке (теория и практика). Обсудим инструменты и подходы для разработки через ИИ в 1С."
+registration_url: "https://kungfu-spb.qtickets.ru"
+sessions:
+  - date: "2026-09-11"
+    start_time: "19:00"
+    end_time: "22:00"
+

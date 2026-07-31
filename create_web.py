@@ -5,7 +5,7 @@
 
 import shutil
 from datetime import date, datetime
-from html import render_event, render_webinar
+from html import render_event, render_video_card, render_webinar
 from html.calendars import render_public_calendars, render_webinars_calendar
 from pathlib import Path
 
@@ -30,8 +30,10 @@ from rss import generate_rss
 EVENTS_DIR = Path('events')  # Папка с YAML файлами событий
 WEBINARS_DIR = Path('webinars')  # Папка с YAML файлами вебинаров
 TEMPLATE_FILE = Path('web/index.html')  # HTML шаблон сайта
+VIDEO_TEMPLATE_FILE = Path('web/video.html')  # HTML шаблон страницы видеозаписей
 OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
+VIDEO_OUTPUT_FILE = OUTPUT_DIR / 'video.html'  # HTML файл страницы видеозаписей
 
 
 def generate_sitemap() -> str:
@@ -43,6 +45,12 @@ def generate_sitemap() -> str:
     <lastmod>{today_iso}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://onevents.ru/video.html</loc>
+    <lastmod>{today_iso}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://onevents.ru/rss/rss.xml</loc>
@@ -170,6 +178,33 @@ def main() -> None:
 
     # Сохраняем готовый HTML файл
     OUTPUT_FILE.write_text(result_html, encoding='utf-8')
+
+    # Генерируем страницу видеозаписей
+    today = datetime.today().date()
+
+    video_items = []
+    for event in all_events:
+        event_date = datetime.strptime(event['date'], '%Y-%m-%d').date()
+        if event_date < today and event.get('videos'):
+            video_items.append((event, 'event'))
+
+    for webinar in all_webinars:
+        webinar_date = datetime.strptime(webinar['date'], '%Y-%m-%d').date()
+        if webinar_date < today and webinar.get('videos'):
+            video_items.append((webinar, 'webinar'))
+
+    video_items.sort(key=lambda x: x[0]['date'], reverse=True)
+    video_cards_html = '\n'.join(
+        render_video_card(ev, ev_type) for ev, ev_type in video_items
+    )
+
+    video_template = VIDEO_TEMPLATE_FILE.read_text(encoding='utf-8')
+    video_html = (
+        video_template
+        .replace('{{ eventsvideo }}', video_cards_html)
+        .replace('{{ builddate }}', today_date_str)
+    )
+    VIDEO_OUTPUT_FILE.write_text(video_html, encoding='utf-8')
 
 
 if __name__ == '__main__':

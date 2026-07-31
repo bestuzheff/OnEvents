@@ -10,3 +10,16 @@ sessions:
   - date: "2026-03-12"
     start_time: "19:00"
     end_time: "22:00"
+videos:
+  - description: "Андрей Соколов: «Как съесть XML с JSON, и не поперхнуться»"
+    links:
+      - platform: "YouTube"
+        url: "https://youtu.be/o8ras_BflLk"
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-232435421_456239041"        
+  - description: "Дмитрий Чекменев: «Изучение стандартов разработки 1С в команде»"
+    links:
+      - platform: "YouTube"
+        url: "https://youtu.be/1ZQMK37ji5s"
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-232435421_456239044"        

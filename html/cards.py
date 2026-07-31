@@ -136,6 +136,64 @@ def render_event(event: dict) -> str:
     """
 
 
+def render_video_card(event: dict, event_type: str) -> str:
+    date_obj = datetime.strptime(event['date'], '%Y-%m-%d')
+    date_str = format_date(date_obj, format='d MMMM y', locale='ru')
+
+    if event_type == 'event':
+        img_src = f"img/events/{event['icon']}"
+        img_alt = f"Логотип «{event['title']}»"
+        city = event.get('city', 'Online')
+        address = event.get('address') or ''
+        location_str = f'{city}, {address}' if address else city
+    else:
+        img_src = f"img/webinars/{event['pic']}"
+        img_alt = f"Логотип «{event['title']}»"
+        city = 'Online'
+        location_str = 'Online'
+
+    video_items = []
+    for v in event.get('videos', []):
+        desc = v['description']
+        links_parts = []
+        for link in v.get('links', []):
+            links_parts.append(
+                f'<a href="{link["url"]}" target="_blank">{link["platform"]}</a>'
+            )
+        if links_parts:
+            video_items.append(
+                f'<li>{desc} ({", ".join(links_parts)})</li>'
+            )
+    videos_html = '\n'.join(video_items)
+
+    return f"""
+    <article class="card" data-city="{city}">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="{img_alt}"
+               src="{img_src}" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">{event['title']}</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="{event['date']}">{date_str}</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>{location_str}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul>{videos_html}</ul>
+      </div>
+    </article>
+    """
+
+
 def render_webinar(webinar: dict) -> str:
     """Генерирует HTML карточку вебинара для отображения на сайте.
 

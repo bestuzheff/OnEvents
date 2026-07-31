@@ -2,23 +2,23 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Календарь событий и конференций по 1С | OnEvents</title>
+    <title>Видеозаписи прошедших событий | OnEvents</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Актуальные события и конференции по 1С в городах России. Календарь митапов, конференций и встреч сообщества 1С.">
-    <link rel="canonical" href="https://onevents.ru/">
+    <meta name="description" content="Видеозаписи прошедших событий и вебинаров по 1С.">
+    <link rel="canonical" href="https://onevents.ru/video.html">
     <link rel="alternate" type="application/rss+xml" title="События 1С — OnEvents" href="https://onevents.ru/rss/rss.xml">
-    <meta property="og:title" content="Календарь событий и конференций по 1С | OnEvents">
-    <meta property="og:description" content="Актуальные события и конференции по 1С в городах России. Календарь митапов, конференций и встреч сообщества 1С.">
+    <meta property="og:title" content="Видеозаписи прошедших событий | OnEvents">
+    <meta property="og:description" content="Видеозаписи прошедших событий и вебинаров по 1С.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://onevents.ru/">
+    <meta property="og:url" content="https://onevents.ru/video.html">
     <meta property="og:image" content="https://onevents.ru/icons/web-app-manifest-192x192.png">
     <meta property="og:image:width" content="192">
     <meta property="og:image:height" content="192">
     <meta property="og:locale" content="ru_RU">
     <meta property="og:site_name" content="OnEvents">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Календарь событий и конференций по 1С | OnEvents">
-    <meta name="twitter:description" content="Актуальные события и конференции по 1С в городах России.">
+    <meta name="twitter:title" content="Видеозаписи прошедших событий | OnEvents">
+    <meta name="twitter:description" content="Видеозаписи прошедших событий и вебинаров по 1С.">
     <meta name="twitter:image" content="https://onevents.ru/icons/web-app-manifest-192x192.png">
     <script type="application/ld+json">
     {
@@ -83,17 +83,6 @@
         body {font-family:'JetBrains Mono', monospace;margin:0;padding:0;background:var(--bg);color:var(--text);word-break:break-word;transition:background .2s,color .2s;}
         a {color:var(--link);} a:hover {color:#a2c8ff !important;}
         header a {color:var(--header-text);} header a:hover {color:#a2c8ff !important; text-decoration:underline;}
-        
-        /* Темный стиль для выбора города в хедере */
-        #cityFilter {
-            background: #333 !important;
-            color: #fff !important;
-            border-color: #555 !important;
-        }
-        #cityFilter option {
-            background: #333;
-            color: #fff;
-        }
 
         header {
             position: sticky; top: 0; z-index: 1000;
@@ -103,7 +92,7 @@
         .header-inner {max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
         .logo {font-size:1.75em;font-weight:bold; display: flex; align-items: center;}
         .logo-onevents {height: 32px; width: auto;}
-        
+
         @media (max-width: 600px) {
             .header-inner {
                 flex-direction: row;
@@ -132,7 +121,7 @@
         .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;}
         .install-btn {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;display:none}
         .install-btn.visible {display:inline-flex;align-items:center}
-        
+
         /* Бургер-меню */
         .burger-container {
             position: relative;
@@ -189,26 +178,18 @@
         .mobile-menu.open {
             display: block;
         }
-        /* Фильтр города внутри бургер-меню */
-        .mobile-menu .city-filter-wrapper { padding: 0.25rem 0.5rem 0.5rem; }
-        .mobile-menu #cityFilter { width: 100%; }
         nav.main-nav {
             display: none;
         }
 
         .container {max-width:1000px;margin:2em auto;padding:0 1em;}
-        article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
+        article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);}
         .card-header {display:flex;align-items:flex-start;gap:.75em;margin-bottom:.75em;flex-wrap:wrap;}
         .card-header-main {display:flex;align-items:flex-start;gap:.75em;flex:1;min-width:0;}
         .event-info {display:flex;flex-direction:column;gap:.35em;flex:1;min-width:0;}
-        #webinars .event-info p {margin:0;line-height:1.25;}
         .card-title {margin:0;font-size:1.5em;}
-        .meta {display:block;margin:.25em 0 .5em 0;}
         .meta-item {font-size:.95em;color:var(--muted);display:flex;align-items:baseline;margin:.15em 0;}
         .meta-item .icon {margin-right:.35em;}
-        .days-left {color:#78b777;opacity:.9;}
-        .map-link {display:block;margin-top:.25em;text-decoration:none;font-size:0.9em;opacity:0.8;transition:opacity 0.2s;color:var(--link);}
-        .map-link:hover {opacity:1;text-decoration:underline;}
         footer {background:var(--footer-bg);color:var(--footer-text);text-align:center;padding:1em;margin-top:2em;font-size:.9em;}
 
         .grid {display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
@@ -216,120 +197,24 @@
         .icon svg {width:20px;height:20px;fill:currentColor;}
 
         #about { scroll-margin-top: 80px; }
-        #public-calendars { scroll-margin-top: 80px; }
-        
-        
-        /* Стили для блока публичных календарей */
-        .calendar-item {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .calendar-city-name {
-            color: var(--text);
-            width: 140px;
-            flex-shrink: 0;
-            text-align: left;
-        }
-        .calendar-input-group {
-            position: relative;
-            flex: 1;
-            max-width: calc(100% - 160px);
-        }
-        .calendar-input {
-            width: 100%;
-            padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85em;
-            word-break: break-all;
-            box-sizing: border-box;
-        }
-        .calendar-copy-btn {
-            position: absolute;
-            right: 0.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 3px;
-            color: var(--muted);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            font-size: 14px;
-        }
-        .calendar-copy-btn:hover {
-            color: var(--link);
-            background: var(--border);
-        }
-        .calendar-copy-btn:active {
-            transform: translateY(-50%) scale(0.9);
-        }
 
-        /* Адаптивное поведение блока вебинаров */
-        @media (max-width: 600px) {
-            #webinars .card-header-main {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            #webinars .event-info {
-                width: 100%;
-            }
+        /* Стили для ссылок на видео */
+        .video-links {
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
         }
-        
-        /* Стили для кнопки копирования ссылки события */
-        .event-copy-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 3px;
-            color: var(--muted);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            font-size: 14px;
-            margin-left: auto;
-            align-self: flex-start;
+        .video-links h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.05em;
         }
-        .event-copy-btn:hover {
-            color: var(--link);
-            background: var(--border);
+        .video-links ul {
+            margin: 0;
+            padding-left: 1.25em;
         }
-        .event-copy-btn:active {
-            transform: scale(0.9);
-        }
-        
-        /* Стили для действий с событиями */
-        .event-actions {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-        
-        
-        /* Стили для якорных ссылок */
-        .card {
-            scroll-margin-top: 100px;
-            position: relative;
-        }
-        .card.highlighted {
-            border-color: var(--link);
-            box-shadow: 0 0 0 2px rgba(123, 179, 255, 0.2);
+        .video-links li {
+            margin-bottom: 0.35rem;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -344,21 +229,16 @@
       OnEvents
     </div>
     <div id="headerControls" style="display: flex; align-items: center; gap: 1rem;">
-      <label for="cityFilter" class="sr-only">Фильтр по городу</label>
-      <select id="cityFilter" class="pure-input">
-        <option value="">Все города</option>
-      </select>
       <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
       <button class="install-btn" id="installBtn" type="button" aria-label="Установить приложение" title="Установить приложение">📲</button>
       <div class="burger-container">
         <button class="burger-menu-btn" id="burgerMenuBtn" type="button" aria-label="Открыть меню">☰</button>
         <div class="mobile-menu" id="mobileMenu">
           <nav>
-            <div id="mobileCityFilterWrapper" class="city-filter-wrapper"></div>
-            <a href="#top" class="mobile-menu-link">События</a>
-            <a href="/video.html" class="mobile-menu-link">Видеозаписи</a>
-            <a href="#webinars" class="mobile-menu-link">Прямой эфир</a>
-            <a href="#public-calendars" class="mobile-menu-link">Календари</a>
+            <a href="/" class="mobile-menu-link">События</a>
+            <a href="#top" class="mobile-menu-link">Видеозаписи</a>
+            <a href="/#webinars" class="mobile-menu-link">Прямой эфир</a>
+            <a href="/#public-calendars" class="mobile-menu-link">Календари</a>
             <a href="#about" class="mobile-menu-link">О проекте</a>
             <a href="https://onevents.ru/rss/rss.xml" class="mobile-menu-link">RSS</a>
           </nav>
@@ -369,26 +249,14 @@
 </header>
 
 <main class="container">
-  <h1 class="sr-only">Календарь событий OnEvents</h1>
+  <h1 class="sr-only">Видеозаписи прошедших событий</h1>
 
   <div id="events">
-    {{ events }}
+    {{ eventsvideo }}
   </div>
 
-  <!-- Блок прямой эфир -->
-  <section id="webinars">
-    <h2>📺 Прямой эфир</h2>
-    {{ webinars }}
-    {{ webinars_calendar }}
-    </section>
 
-
-  <!-- Блок публичных календарей -->
-  <section id="public-calendars">
-    {{ public_calendars }}
-  </section>
-
-  <!-- Блок О проекте -->   
+  <!-- Блок О проекте -->
   <section id="about">
     <h2>О проекте</h2>
 
@@ -420,7 +288,7 @@
       <ul>
         <li><a href="https://github.com/bestuzheff/OnEvents" target="_blank">GitHub</a></li>
         <li><a href="mailto:info@onevents.ru">info@onevents.ru</a></li>
-        <li><a href="https://t.me/OnEvents" target="_blank">Telegram</a></li> 
+        <li><a href="https://t.me/OnEvents" target="_blank">Telegram</a></li>
         <li><a href="https://max.ru/id541000083625_biz" target="_blank">MAX</a></li>
         <li><a href="https://vk.com/onevents_ru" target="_blank">ВКонтакте</a></li>
         <li><a href="https://t.me/Un_tru" target="_blank">@Un_tru</a></li>
@@ -438,257 +306,53 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function(e) {
     const targetId = this.getAttribute("href").substring(1);
     if (!targetId) return;
-    
+
     const targetEl = document.getElementById(targetId);
     if (targetEl) {
       e.preventDefault();
-      
-      // Получаем высоту хедера
+
       const header = document.querySelector('header');
       const headerHeight = header ? header.offsetHeight : 0;
-      
-      // Дополнительный отступ для мобильных устройств
+
       const isMobile = window.innerWidth <= 600;
-      const extraOffset = isMobile ? 40 : 20; // дополнительный отступ
-      
-      // Вычисляем позицию с учетом высоты хедера и дополнительного отступа
+      const extraOffset = isMobile ? 40 : 20;
+
       const targetPosition = targetEl.offsetTop - headerHeight - extraOffset;
-      
-      // Плавный скролл к вычисленной позиции
+
       window.scrollTo({
         top: Math.max(0, targetPosition),
         behavior: "smooth"
       });
-      
-      // Обновляем URL
+
       history.pushState(null, "", "#" + targetId);
     }
   });
 });
 </script>
-<script>
-(function cityFilterInit(){
-  const SELECT_ID = 'cityFilter';
-  function getCards(){ return Array.from(document.querySelectorAll('article.card[data-city]')); }
-  function getCalendarItems(){ return Array.from(document.querySelectorAll('.calendar-item[data-city]')); }
-  function uniqueCities(){
-    const set = new Set(getCards().map(c => (c.getAttribute('data-city')||'').trim()).filter(Boolean));
-    return Array.from(set).sort((a,b) => a.localeCompare(b, 'ru'));
-  }
-  function buildOptions(){
-    const sel = document.getElementById(SELECT_ID);
-    if(!sel) return;
-    const existing = new Set(Array.from(sel.options).map(o=>o.value));
-    uniqueCities().forEach(city => {
-      if(!existing.has(city)){
-        const opt = document.createElement('option');
-        opt.value = city;
-        opt.textContent = city;
-        sel.appendChild(opt);
-      }
-    });
-  }
-  function applyFilter(city){
-    const cards = getCards();
-    const calendarItems = getCalendarItems();
-    
-    cards.forEach(card => {
-      const c = (card.getAttribute('data-city')||'').trim();
-      card.style.display = (!city || c === city) ? '' : 'none';
-    });
-    
-    calendarItems.forEach(item => {
-      const c = (item.getAttribute('data-city')||'').trim();
-      // Показываем календарь если:
-      // 1. Нет фильтра (показываем все)
-      // 2. Это общий календарь (data-city="")
-      // 3. Город совпадает с фильтром
-      item.style.display = (!city || c === '' || c === city) ? '' : 'none';
-    });
-  }
-  function loadSaved(){
-    try { return localStorage.getItem('cityFilter') || ''; } catch(e){ return ''; }
-  }
-  function saveSelected(val){
-    try { localStorage.setItem('cityFilter', val || ''); } catch(e){}
-  }
-  function onChange(e){
-    const val = e.target.value;
-    saveSelected(val);
-    applyFilter(val);
-    // Закрываем бургер-меню при выборе города на мобильных
-    const mobileMenu = document.getElementById('mobileMenu');
-    const burgerBtn = document.getElementById('burgerMenuBtn');
-    const isMobile = window.innerWidth <= 600;
-    if (isMobile && mobileMenu && mobileMenu.contains(e.target)) {
-      mobileMenu.classList.remove('open');
-      if (burgerBtn) burgerBtn.textContent = '☰';
-    }
-  }
-  function init(){
-    const sel = document.getElementById(SELECT_ID);
-    if(!sel) return;
-    buildOptions();
-    const saved = loadSaved();
-    if(saved){
-      sel.value = saved;
-    }
-    sel.addEventListener('change', onChange);
-    applyFilter(sel.value || '');
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-</script>
 
 <script>
-// Функциональность копирования ссылок календарей
-(function copyCalendarLinks() {
-  function copyToClipboard(text) {
-    if (navigator.clipboard) {
-      return navigator.clipboard.writeText(text);
-    } else {
-      // Fallback для старых браузеров
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        return Promise.resolve();
-      } catch (err) {
-        return Promise.reject(err);
-      } finally {
-        document.body.removeChild(textArea);
-      }
-    }
-  }
-
-  function initCopyButtons() {
-    document.querySelectorAll('.calendar-copy-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const input = this.closest('.calendar-input-group').querySelector('.calendar-input');
-        const url = input.value;
-        
-        copyToClipboard(url).then(() => {
-          // Временная смена иконки на галочку
-          const originalText = this.textContent;
-          this.textContent = '✓';
-          this.style.color = 'var(--link)';
-          
-          setTimeout(() => {
-            this.textContent = originalText;
-            this.style.color = '';
-          }, 2000);
-        }).catch(() => {
-          // Fallback - показываем URL в alert
-          alert('Скопируйте ссылку: ' + url);
-        });
-      });
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCopyButtons);
-  } else {
-    initCopyButtons();
-  }
-})();
-</script>
-
-<script>
-// Функциональность копирования ссылок событий
-(function copyEventLinks() {
-  function copyToClipboard(text) {
-    if (navigator.clipboard) {
-      return navigator.clipboard.writeText(text);
-    } else {
-      // Fallback для старых браузеров
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        return Promise.resolve();
-      } catch (err) {
-        return Promise.reject(err);
-      } finally {
-        document.body.removeChild(textArea);
-      }
-    }
-  }
-
-  function initEventCopyButtons() {
-    document.querySelectorAll('.event-copy-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const eventId = this.getAttribute('data-event-id');
-        const url = `${window.location.origin}${window.location.pathname}#${eventId}`;
-        
-        copyToClipboard(url).then(() => {
-          // Временная смена иконки на галочку
-          const originalText = this.textContent;
-          this.textContent = '✓';
-          this.style.color = 'var(--link)';
-          
-          setTimeout(() => {
-            this.textContent = originalText;
-            this.style.color = '';
-          }, 2000);
-        }).catch(() => {
-          // Fallback - показываем URL в alert
-          alert('Скопируйте ссылку: ' + url);
-        });
-      });
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initEventCopyButtons);
-  } else {
-    initEventCopyButtons();
-  }
-})();
-</script>
-
-<script>
-// Функциональность бургер-меню
 (function burgerMenu() {
   const burgerBtn = document.getElementById('burgerMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
-  
+
   if (!burgerBtn || !mobileMenu) return;
-  
+
   burgerBtn.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
     mobileMenu.classList.toggle('open');
-    
-    // Меняем иконку
+
     const icon = this.textContent;
     this.textContent = icon === '☰' ? '✕' : '☰';
   });
-  
-  // Закрываем меню при клике вне его или при клике на ссылку
+
   document.addEventListener('click', function(e) {
     if (!mobileMenu.contains(e.target) && e.target !== burgerBtn) {
       mobileMenu.classList.remove('open');
       burgerBtn.textContent = '☰';
     }
   });
-  
-  // Закрываем меню при клике на ссылки
+
   mobileMenu.querySelectorAll('.mobile-menu-link').forEach(link => {
     link.addEventListener('click', function() {
       mobileMenu.classList.remove('open');
@@ -698,102 +362,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 })();
 </script>
 
-
-<script>
-// Перенос фильтра города в бургер-меню на мобильных
-(function relocateCityFilter(){
-  const MOBILE_MAX = 600;
-  const selectEl = document.getElementById('cityFilter');
-  const headerControls = document.getElementById('headerControls');
-  const themeToggle = document.getElementById('themeToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  if (!selectEl || !headerControls || !mobileMenu) return;
-
-  const nav = mobileMenu.querySelector('nav');
-  let mobileWrapper = document.getElementById('mobileCityFilterWrapper');
-  if (!mobileWrapper && nav) {
-    mobileWrapper = document.createElement('div');
-    mobileWrapper.id = 'mobileCityFilterWrapper';
-    mobileWrapper.className = 'city-filter-wrapper';
-    nav.insertBefore(mobileWrapper, nav.firstChild);
-  }
-
-  function updatePlacement(){
-    const isMobile = window.innerWidth <= MOBILE_MAX;
-    if (isMobile) {
-      if (mobileWrapper && selectEl.parentElement !== mobileWrapper) {
-        mobileWrapper.appendChild(selectEl);
-      }
-    } else {
-      if (selectEl.parentElement !== headerControls) {
-        if (themeToggle && themeToggle.parentElement === headerControls) {
-          headerControls.insertBefore(selectEl, themeToggle);
-        } else {
-          headerControls.appendChild(selectEl);
-        }
-      }
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updatePlacement);
-  } else {
-    updatePlacement();
-  }
-  window.addEventListener('resize', updatePlacement);
-})();
-</script>
-
-<script>
-// Функциональность подсветки событий при переходе по якорной ссылке
-(function highlightEvents() {
-  // Подсветка события при переходе по якорной ссылке
-  function highlightEventFromHash() {
-    const hash = window.location.hash;
-    if (hash && hash.startsWith('#event-')) {
-      const eventElement = document.querySelector(hash);
-      if (eventElement) {
-        // Убираем предыдущую подсветку
-        document.querySelectorAll('.card.highlighted').forEach(el => {
-          el.classList.remove('highlighted');
-        });
-        
-        // Добавляем подсветку к текущему событию
-        eventElement.classList.add('highlighted');
-        
-        // Корректируем позицию скролла с учетом хедера
-        setTimeout(() => {
-          const header = document.querySelector('header');
-          const headerHeight = header ? header.offsetHeight : 0;
-          const isMobile = window.innerWidth <= 600;
-          const extraOffset = isMobile ? 40 : 20;
-          const targetPosition = eventElement.offsetTop - headerHeight - extraOffset;
-          
-          window.scrollTo({
-            top: Math.max(0, targetPosition),
-            behavior: "smooth"
-          });
-        }, 100); // небольшая задержка для корректной работы
-        
-        // Убираем подсветку через 3 секунды
-        setTimeout(() => {
-          eventElement.classList.remove('highlighted');
-        }, 3000);
-      }
-    }
-  }
-
-  // Инициализация при загрузке страницы
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', highlightEventFromHash);
-  } else {
-    highlightEventFromHash();
-  }
-
-  // Обработка изменения хеша в URL
-  window.addEventListener('hashchange', highlightEventFromHash);
-})();
-</script>
 <script>
 (function () {
   if ('serviceWorker' in navigator) {

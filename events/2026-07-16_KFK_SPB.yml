@@ -10,3 +10,10 @@ sessions:
   - date: "2026-07-16"
     start_time: "19:00"
     end_time: "21:00"
+videos:
+  - description: "Алексей Корякин: LLM Wiki как память проекта. Skills как способ с ней работать" 
+    links: 
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-233393032_456239041"
+      - platform: "YouTube"
+        url: "https://youtu.be/jwZr39IQEl0"        

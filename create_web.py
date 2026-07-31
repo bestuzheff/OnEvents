@@ -33,7 +33,7 @@ TEMPLATE_FILE = Path('web/index.html')  # HTML шаблон сайта
 VIDEO_TEMPLATE_FILE = Path('web/video.html')  # HTML шаблон страницы видеозаписей
 OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
-VIDEO_OUTPUT_FILE = OUTPUT_DIR / 'video.html'  # HTML файл страницы видеозаписей
+VIDEO_OUTPUT_FILE = OUTPUT_DIR / 'video' / 'index.html'  # HTML файл страницы видеозаписей
 
 
 def generate_sitemap() -> str:
@@ -47,7 +47,7 @@ def generate_sitemap() -> str:
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://onevents.ru/video.html</loc>
+    <loc>https://onevents.ru/video/</loc>
     <lastmod>{today_iso}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -204,6 +204,7 @@ def main() -> None:
         .replace('{{ eventsvideo }}', video_cards_html)
         .replace('{{ builddate }}', today_date_str)
     )
+    VIDEO_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     VIDEO_OUTPUT_FILE.write_text(video_html, encoding='utf-8')
 
 

@@ -11,7 +11,7 @@ def test_generate_sitemap():
 
     assert '<?xml version="1.0" encoding="UTF-8"?>' in result
     assert 'https://onevents.ru/' in result
-    assert 'https://onevents.ru/video.html' in result
+    assert 'https://onevents.ru/video/' in result
     assert 'https://onevents.ru/rss/rss.xml' in result
     assert date.today().isoformat() in result
     assert '<changefreq>daily</changefreq>' in result

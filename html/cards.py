@@ -141,13 +141,13 @@ def render_video_card(event: dict, event_type: str) -> str:
     date_str = format_date(date_obj, format='d MMMM y', locale='ru')
 
     if event_type == 'event':
-        img_src = f"img/events/{event['icon']}"
+        img_src = f"/img/events/{event['icon']}"
         img_alt = f"Логотип «{event['title']}»"
         city = event.get('city', 'Online')
         address = event.get('address') or ''
         location_str = f'{city}, {address}' if address else city
     else:
-        img_src = f"img/webinars/{event['pic']}"
+        img_src = f"/img/webinars/{event['pic']}"
         img_alt = f"Логотип «{event['title']}»"
         city = 'Online'
         location_str = 'Online'

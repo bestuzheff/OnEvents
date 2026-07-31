@@ -16,3 +16,31 @@ sessions:
   - date: "2026-03-14"
     start_time: "10:00"
     end_time: "18:00"
+videos:
+  - description: "АМФИТЕАТР" 
+    links: 
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/playlist/-42867005_71"
+  - description: "КОНГРЕСС ЗАЛ 1" 
+    links: 
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/playlist/-42867005_70"
+  - description: "КОНГРЕСС ЗАЛ 2" 
+    links: 
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/playlist/-42867005_77"
+  - description: "КОНГРЕСС ЗАЛ 3" 
+    links: 
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/playlist/-42867005_73"
+  - description: "ПРЕСС-ЗАЛ" 
+    links: 
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/playlist/-42867005_76"
+
+
+        
+
+        
+
+        

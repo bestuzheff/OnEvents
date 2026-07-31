@@ -149,8 +149,8 @@ def render_video_card(event: dict, event_type: str) -> str:
     else:
         img_src = f"/img/webinars/{event['pic']}"
         img_alt = f"Логотип «{event['title']}»"
-        city = 'Online'
-        location_str = 'Online'
+        city = 'Вебинар'
+        location_str = 'Вебинар'
 
     video_items = []
     for v in event.get('videos', []):

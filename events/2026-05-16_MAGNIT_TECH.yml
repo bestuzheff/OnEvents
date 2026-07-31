@@ -10,3 +10,8 @@ sessions:
   - date: "2026-05-16"
     start_time: "11:00"
     end_time: "15:30"
+videos:
+  - description: "Записи докладов"
+    links:
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-234058735_456239032"

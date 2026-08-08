@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:152f1451-f734-4186-b4b7-233ca6bfef23@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261127T093000
+DTEND;TZID=Europe/Moscow:20261127T180000
+SUMMARY:1Событие Для малого бизнеса (27 ноября)
+DESCRIPTION:1Событие — специализированный форум от фирмы «1С» для владельцев и руководителей малого бизнеса. Более 2500 участников\, 7 тематических секций (налоги\, маркетплейсы\, производство\, продажи и др.)\, выступления основателя 1С и представителей Ozon\, Wildberries\, Яндекса и Т-Банка.\n\nСсылка: https://1c-event.ru/\n\nВремя: 09:30-18:00
+LOCATION:Москва
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

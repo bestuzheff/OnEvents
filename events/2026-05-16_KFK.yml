@@ -10,3 +10,10 @@ sessions:
   - date: "2026-05-16"
     start_time: "09:00"
     end_time: "19:00"
+videos:
+  - description: "Владимир Харин: От вайб-кодинга к инженерному подходу: ИИ-агенты в разработке на 1С"
+    links:
+      - platform: "YouTube"
+        url: "https://www.youtube.com/watch?v=Weas9J9A1zI"
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-233393032_456239037"   

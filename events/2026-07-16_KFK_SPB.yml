@@ -17,3 +17,9 @@ videos:
         url: "https://vkvideo.ru/video-233393032_456239041"
       - platform: "YouTube"
         url: "https://youtu.be/jwZr39IQEl0"        
+  - description: "Павел Королев: LLM Wiki как память проекта: практика на реальном проекте" 
+    links: 
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-233393032_456239042"
+      - platform: "YouTube"
+        url: "https://youtu.be/ov1_KeZ7_lo"           

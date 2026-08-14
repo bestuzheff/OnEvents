@@ -1,0 +1,12 @@
+id: "424b0263-f07c-490d-87a5-160b0de4c4c3"
+title: "PGMeetup.МСК 2026"
+date: "2026-09-03"
+city: "Москва"
+address: "Берсеневская наб., 6, стр. 3, 4 этаж"
+icon: "pgconf.jpg"
+description: "Очный митап Postgres Pro: логическая репликация и катастрофоустойчивые кластеры BiHA, аналитика через Table Access Method в AXE 2.0, мажорное обновление кластера для 1С и миграция больших баз из Oracle."
+registration_url: "https://pgconf.ru/030926"
+sessions:
+  - date: "2026-09-03"
+    start_time: "17:30"
+    end_time: "22:00"

@@ -1,0 +1,12 @@
+id: "2a1e6f72-44b5-4c1f-a93c-d8236cf6db34"
+title: "PGMeetup.БРН 2026"
+date: "2026-09-17"
+city: "Барнаул"
+address: "Комсомольский пр., 104Б, 2 этаж, Urban Event Hall"
+icon: "pgconf.jpg"
+description: "Очный митап Postgres Pro: оптимизация запросов в Postgres Pro Enterprise, каскадная репликация в BiHA и экономия железа и времени для тестов 1С."
+registration_url: "https://pgconf.ru/170926"
+sessions:
+  - date: "2026-09-17"
+    start_time: "18:30"
+    end_time: "22:00"

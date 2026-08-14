@@ -1,0 +1,12 @@
+id: "6be06594-7f56-49e1-88ca-531fd37c1c27"
+title: "PGMeetup.СПб 2026"
+date: "2026-10-01"
+city: "Санкт-Петербург"
+address: "Арсенальная наб., 1, Comnata Mars"
+icon: "pgconf.jpg"
+description: "Очный митап Postgres Pro: бэкапы многокластерных систем, замена Redis на Postgres Pro KVik и переход с MS SQL на Postgres в связке с 1С."
+registration_url: "https://pgconf.ru/011026"
+sessions:
+  - date: "2026-10-01"
+    start_time: "18:30"
+    end_time: "22:00"

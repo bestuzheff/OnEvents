@@ -1,0 +1,12 @@
+id: "7334564f-ff7a-440f-8b66-d29f9b7df904"
+title: "PGMeetup.НСК 2026"
+date: "2026-12-03"
+city: "Новосибирск"
+address: "Пл. Карла Маркса, 1/1, MIROTEL, конференц-зал «Мадрид»"
+icon: "pgconf.jpg"
+description: "Очный митап Postgres Pro: аналитические запросы в Postgres Pro AXE, истории из жизни PostgreSQL, миграция с MySQL с минимальным простоем и устройство WAL-файлов."
+registration_url: "https://pgconf.ru/031226"
+sessions:
+  - date: "2026-12-03"
+    start_time: "17:30"
+    end_time: "22:00"

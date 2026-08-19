@@ -26,14 +26,17 @@
     <meta name="theme-color" content="#1f2428">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         html { scroll-behavior: smooth; }
         :root {
+            --heat-cell:13px;
             --bg:#fafafa; --text:#111; --muted:#666;
             --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
             --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
             --link:#0b76ef;
+            --cal-bg:#f4ecd9; --cal-text:#1f1710; --cal-year:#8a8272; --cal-month:#b8503c;
+            --cal-pin:#1c1a16; --cal-shadow:rgba(0,0,0,.25); --cal-shadow-hover:rgba(0,0,0,.32);
+            --heat-0:#e7e2d3; --heat-1:#e3d19c; --heat-2:#dcb968; --heat-3:#d1a13f; --heat-4:#a97c1f;
         }
         @media (prefers-color-scheme: dark) {
             :root {
@@ -41,6 +44,9 @@
                 --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
                 --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
                 --link:#7cb3ff;
+                --cal-bg:#2c2418; --cal-text:#ece0c8; --cal-year:#a89c82; --cal-month:#d97e5e;
+                --cal-pin:#120e0a; --cal-shadow:rgba(0,0,0,.5); --cal-shadow-hover:rgba(0,0,0,.6);
+                --heat-0:#1b2030; --heat-1:#3d3626; --heat-2:#6b5a2c; --heat-3:#c9a227; --heat-4:#f0c94a;
             }
         }
         .dark-theme {
@@ -48,12 +54,18 @@
             --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
             --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
             --link:#7cb3ff;
+            --cal-bg:#2c2418; --cal-text:#ece0c8; --cal-year:#a89c82; --cal-month:#d97e5e;
+            --cal-pin:#120e0a; --cal-shadow:rgba(0,0,0,.5); --cal-shadow-hover:rgba(0,0,0,.6);
+            --heat-0:#1b2030; --heat-1:#3d3626; --heat-2:#6b5a2c; --heat-3:#c9a227; --heat-4:#f0c94a;
         }
         .light-theme {
             --bg:#fafafa; --text:#111; --muted:#666;
             --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
             --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
             --link:#0b76ef;
+            --cal-bg:#f4ecd9; --cal-text:#1f1710; --cal-year:#8a8272; --cal-month:#b8503c;
+            --cal-pin:#1c1a16; --cal-shadow:rgba(0,0,0,.25); --cal-shadow-hover:rgba(0,0,0,.32);
+            --heat-0:#e7e2d3; --heat-1:#e3d19c; --heat-2:#dcb968; --heat-3:#d1a13f; --heat-4:#a97c1f;
         }
 
         * { box-sizing: border-box; }
@@ -83,22 +95,155 @@
         .hero .subtitle {color:var(--muted); font-size:1.05em; margin:0;}
         .hero .dates {margin-top:1em; display:inline-block; padding:.5em 1em; border:1px dashed var(--border); border-radius:8px; color:var(--muted);}
 
+        /* Year duo: tear-off calendars + days ring */
+        .year-duo {display:flex; align-items:center; justify-content:center; gap:clamp(.75rem,3vw,2rem); margin-top:1.5em; flex-wrap:wrap;}
+        .calendar-card, .kpi {
+            position:relative; background:var(--cal-bg); border-radius:14px; text-align:center;
+            box-shadow:0 6px 16px var(--cal-shadow);
+            transform:scale(1) rotate(0deg); transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+            cursor:default;
+        }
+        .calendar-card::before, .calendar-card::after, .kpi::before, .kpi::after {
+            content:''; position:absolute; top:.6em; width:10px; height:10px; border-radius:50%; background:var(--cal-pin);
+        }
+        .calendar-card::before, .kpi::before {left:22%;}
+        .calendar-card::after, .kpi::after {right:22%;}
+        .calendar-card {width:clamp(108px,22vw,150px); padding:1.1em .5em .9em;}
+        .calendar-left:hover {transform:scale(1.06) rotate(-4deg); box-shadow:0 10px 22px var(--cal-shadow-hover);}
+        .calendar-right:hover {transform:scale(1.06) rotate(4deg); box-shadow:0 10px 22px var(--cal-shadow-hover);}
+        .cal-month {display:block; color:var(--cal-month); font-weight:700; letter-spacing:.06em; font-size:.85em;}
+        .cal-day {display:block; color:var(--cal-text); font-weight:800; font-size:2.6em; line-height:1.1; font-family:Georgia,'Times New Roman',serif;}
+        .cal-year {display:block; color:var(--cal-year); font-size:.8em; margin-top:.15em;}
+
+        .days-ring {position:relative; width:clamp(96px,18vw,132px); height:clamp(96px,18vw,132px); flex:none; display:flex; align-items:center; justify-content:center;}
+        .days-ring svg {position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg);}
+        .days-ring .ring-progress {
+            fill:none; stroke:#d1a13f; stroke-width:8; stroke-linecap:round;
+            stroke-dasharray:339.29; stroke-dashoffset:0;
+            transition:stroke-dashoffset .55s cubic-bezier(.65,0,.35,1);
+        }
+        .days-ring.ring-empty .ring-progress {stroke-dashoffset:339.29;}
+        .days-ring-label {position:relative; text-align:center;}
+        .days-ring-label .num {display:block; font-size:1.6em; font-weight:800; color:var(--text);}
+        .days-ring-label .lbl {display:block; font-size:.75em; color:var(--muted);}
+
         /* KPI */
-        .kpi-grid {display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin:2em 0;}
-        .kpi {background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.25em 1em;text-align:center;box-shadow:var(--shadow);}
-        .kpi .num {font-size:2.3em;font-weight:bold;line-height:1.1;}
-        .kpi .lbl {color:var(--muted);font-size:.85em;margin-top:.4em;}
+        .kpi-grid {display:grid;gap:1.25rem 1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin:2em 0;}
+        .kpi {padding:1.6em 1em 1.1em;}
+        .kpi:hover {transform:scale(1.05) rotate(-3deg); box-shadow:0 10px 22px var(--cal-shadow-hover);}
+        .kpi:nth-child(even):hover {transform:scale(1.05) rotate(3deg);}
+        .kpi .lbl {display:block; color:var(--cal-month); font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:.85em; margin-bottom:.3em;}
+        .kpi .num {display:block; font-size:2.3em;font-weight:800;line-height:1.1; font-family:Georgia,'Times New Roman',serif; color:var(--cal-text);}
 
         /* Cards for charts */
         section {margin:2.5em 0;}
         section h2 {font-size:1.4em;margin:0 0 1em;}
         .card {background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.5em;box-shadow:var(--shadow);}
-        .chart-box {position:relative; width:100%;}
-        .chart-box.tall {height:420px;}
-        .chart-box.medium {height:340px;}
-        .chart-box.small {height:300px;}
         .grid-2 {display:grid;gap:1.5rem;grid-template-columns:1fr 1fr;}
         @media (max-width:800px){ .grid-2 {grid-template-columns:1fr;} }
+
+        /* Heatmap */
+        .heatmap-head {display:flex; align-items:center; justify-content:space-between; gap:1em; flex-wrap:wrap; margin-bottom:.3em;}
+        .heatmap-head h2 {margin:0;}
+        .heatmap-hash {color:var(--muted); font-weight:400;}
+        .heatmap-subtitle {color:var(--muted); margin:0 0 1.2em; font-size:.95em;}
+        .heatmap-wrap {--heat-cols:53; --heat-cell:13px;}
+        .heatmap-months {display:grid; grid-template-columns:repeat(var(--heat-cols), var(--heat-cell)); gap:3px; margin-bottom:.5em;}
+        .heatmap-months span {color:var(--muted); font-size:.7em; overflow:hidden;}
+        .heatmap-grid {display:grid; grid-template-columns:repeat(var(--heat-cols), var(--heat-cell)); grid-template-rows:repeat(7, var(--heat-cell)); grid-auto-flow:column; gap:3px;}
+        .heat-cell {width:var(--heat-cell); height:var(--heat-cell); border-radius:3px; background:var(--heat-0);
+            opacity:0; transform:scale(.4); transition:transform .18s ease, box-shadow .18s ease;}
+        .heat-cell.out {visibility:hidden;}
+        .heat-cell.in {opacity:1; transform:scale(1); transition:opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1);}
+        .heat-cell.in:not(.out):hover {transform:scale(1.4); box-shadow:0 0 0 1px var(--heat-4); cursor:default; position:relative; z-index:2;}
+        .heat-cell[data-level="1"] {background:var(--heat-1);}
+        .heat-cell[data-level="2"] {background:var(--heat-2);}
+        .heat-cell[data-level="3"] {background:var(--heat-3);}
+        .heat-cell[data-level="4"] {background:var(--heat-4);}
+        .heatmap-legend {display:flex; align-items:center; justify-content:flex-end; gap:.4em; margin-top:1em; color:var(--muted); font-size:.8em;}
+        .heatmap-legend .legend-swatch {width:12px; height:12px; border-radius:3px;}
+        .heatmap-legend .legend-swatch.level-0 {background:var(--heat-0);}
+        .heatmap-legend .legend-swatch.level-1 {background:var(--heat-1);}
+        .heatmap-legend .legend-swatch.level-2 {background:var(--heat-2);}
+        .heatmap-legend .legend-swatch.level-3 {background:var(--heat-3);}
+        .heatmap-legend .legend-swatch.level-4 {background:var(--heat-4);}
+
+        .heat-tooltip {
+            position:fixed; z-index:1000; pointer-events:none; white-space:nowrap;
+            background:var(--cal-bg); color:var(--cal-text); border:1px solid var(--heat-3); border-radius:8px;
+            padding:.5em .75em; font-size:.8em; line-height:1.5; box-shadow:0 6px 16px var(--cal-shadow);
+            opacity:0; transform:translateY(4px); transition:opacity .12s ease, transform .12s ease;
+        }
+        .heat-tooltip.visible {opacity:1; transform:translateY(0);}
+        .heat-tooltip .tt-day {font-weight:700;}
+        .heat-tooltip .tt-month {color:var(--cal-year); display:block; margin-top:.15em;}
+
+        /* Monthly bars */
+        .month-bars {display:flex; align-items:flex-end; gap:clamp(4px,1.4vw,14px); height:230px; padding:.5em .25em 0;}
+        .month-bar-col {flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; min-width:0;}
+        .month-bar {width:100%; max-width:38px; border-radius:7px 7px 3px 3px; background:linear-gradient(180deg, var(--heat-4), var(--heat-2));
+            height:0; transition:height .8s cubic-bezier(.22,1,.36,1), filter .2s ease, transform .2s ease; cursor:default; transform-origin:bottom;}
+        .month-bar:hover {filter:brightness(1.15); transform:scaleX(1.12);}
+        .month-bar-label {margin-top:.6em; font-size:.72em; color:var(--muted); white-space:nowrap;}
+
+        /* Geo bars */
+        .geo-bars {display:flex; flex-direction:column; gap:.65em;}
+        .geo-bar-row {display:flex; align-items:center; gap:.75em; cursor:default;}
+        .geo-bar-label {width:9.5em; flex:none; font-size:.85em; color:var(--text); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+        .geo-bar-track {flex:1; height:16px; background:var(--heat-0); border-radius:8px; overflow:hidden;}
+        .geo-bar-fill {height:100%; width:0; border-radius:8px; background:linear-gradient(90deg, var(--heat-2), var(--heat-4)); transition:width .8s cubic-bezier(.22,1,.36,1), filter .2s ease;}
+        .geo-bar-row:hover .geo-bar-fill {filter:brightness(1.15);}
+        .geo-bar-count {width:2.4em; flex:none; font-size:.8em; color:var(--muted); text-align:left;}
+        @media (max-width:560px){ .geo-bar-label {width:7em; font-size:.78em;} }
+
+        /* Graph */
+        .graph-card {padding:0; overflow:hidden; position:relative;}
+        #graphCanvas {display:block; width:100%; height:600px; cursor:grab; touch-action:none;}
+        #graphCanvas.dragging {cursor:grabbing;}
+        .graph-immersive {position:fixed; inset:0; z-index:2000; border-radius:0; background:var(--card-bg);}
+        .graph-immersive #graphCanvas {height:100%;}
+        .graph-controls {position:absolute; right:.75em; bottom:.75em; display:flex; gap:.4em;}
+        .graph-controls button {
+            width:34px; height:34px; display:grid; place-items:center; padding:0; border-radius:8px;
+            background:var(--cal-bg); border:1px solid var(--cal-shadow); color:var(--cal-text);
+            font-family:'JetBrains Mono', monospace; font-size:1.1em; line-height:1; cursor:pointer;
+            box-shadow:0 2px 6px var(--cal-shadow); transition:transform .15s ease, background .15s ease;
+        }
+        .graph-controls button:hover {background:var(--heat-3); color:#fff; transform:translateY(-1px);}
+        @media (max-width:640px){ #graphCanvas {height:440px;} .graph-immersive #graphCanvas {height:100%;} }
+
+        /* Format ring */
+        .format-ring-card {display:flex; align-items:center; justify-content:center; padding:2.5em 1em;}
+        .format-ring {position:relative; width:min(280px,70vw); height:min(280px,70vw); display:flex; align-items:center; justify-content:center; cursor:default;}
+        .format-ring svg {position:absolute; inset:0; width:100%; height:100%; overflow:visible; transform:rotate(-90deg);}
+        .format-ring circle {fill:none; stroke-width:22; transform-origin:60px 60px;}
+        .format-track {stroke:var(--heat-0);}
+        .format-seg {stroke-linecap:butt; transition:transform .25s cubic-bezier(.22,1,.36,1), filter .2s ease;}
+        .format-seg.hot {filter:brightness(1.15);}
+        .format-ring-label {position:relative; text-align:center;}
+        .format-ring-label .num {display:block; font-size:1.8em; font-weight:800; color:var(--text);}
+        .format-ring-label .lbl {display:block; font-size:.8em; color:var(--muted);}
+
+        /* Recent events */
+        .recent-events {list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.3em;}
+        .recent-event-row {display:flex; align-items:center; gap:.75em; padding:.5em .4em; border-radius:8px;
+            opacity:0; transform:translateX(-8px); transition:background .15s ease, opacity .4s ease, transform .4s ease;}
+        .recent-event-row.in {opacity:1; transform:translateX(0);}
+        .recent-event-row:hover {background:var(--cal-bg);}
+        .recent-event-thumb {width:38px; height:38px; flex:none; border-radius:50%; overflow:hidden; background:var(--cal-bg); display:flex; align-items:center; justify-content:center;}
+        .recent-event-thumb img {width:100%; height:100%; object-fit:cover;}
+        .recent-event-text {flex:1; min-width:0;}
+        .recent-event-title {display:block; font-size:.92em; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+        .recent-event-meta {display:block; font-size:.8em; color:var(--muted); margin-top:.1em;}
+
+        /* Word cloud */
+        .word-cloud {display:flex; flex-wrap:wrap; align-items:baseline; justify-content:center; gap:.35em .8em; padding:1em .5em; user-select:none;}
+        .word-cloud-item {
+            display:inline-block; font-weight:700; line-height:1.2; cursor:default;
+            opacity:0; transform:scale(.6); transition:opacity .45s ease, transform .45s cubic-bezier(.34,1.56,.64,1), color .15s ease;
+        }
+        .word-cloud-item.in {opacity:1; transform:scale(1);}
+        .word-cloud-item:hover {color:var(--heat-4) !important; transform:scale(1.12) !important;}
 
         /* Thanks */
         .thanks {text-align:center; max-width:640px; margin:0 auto;}
@@ -129,47 +274,144 @@
     <div class="cake">🎂</div>
     <h1>OnEvents — один год</h1>
     <p class="subtitle">Год назад появился календарь событий и вебинаров по 1С.<br>Смотрим, что получилось.</p>
-    <div class="dates">21 августа 2025 — 21 августа 2026</div>
+    <div class="year-duo">
+      <div class="calendar-card calendar-left" id="calLeft">
+        <span class="cal-month">АВГУСТ</span>
+        <span class="cal-day">21</span>
+        <span class="cal-year">2025</span>
+      </div>
+      <div class="days-ring ring-empty" id="daysRing">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-progress" cx="60" cy="60" r="54"/>
+        </svg>
+        <div class="days-ring-label">
+          <span class="num">365</span>
+          <span class="lbl">дней</span>
+        </div>
+      </div>
+      <div class="calendar-card calendar-right" id="calRight">
+        <span class="cal-month">АВГУСТ</span>
+        <span class="cal-day">21</span>
+        <span class="cal-year">2026</span>
+      </div>
+    </div>
   </div>
 
   <div class="kpi-grid">
-    <div class="kpi"><div class="num">154</div><div class="lbl">мероприятия в календаре</div></div>
-    <div class="kpi"><div class="num">134</div><div class="lbl">события</div></div>
-    <div class="kpi"><div class="num">20</div><div class="lbl">вебинаров</div></div>
-    <div class="kpi"><div class="num">20</div><div class="lbl">городов</div></div>
-    <div class="kpi"><div class="num">111</div><div class="lbl">офлайн-встреч</div></div>
-    <div class="kpi"><div class="num">9</div><div class="lbl">с видеозаписями</div></div>
+    <div class="kpi"><div class="lbl">Мероприятия</div><div class="num">154</div></div>
+    <div class="kpi"><div class="lbl">События</div><div class="num">134</div></div>
+    <div class="kpi"><div class="lbl">Вебинары</div><div class="num">20</div></div>
+    <div class="kpi"><div class="lbl">Города</div><div class="num">20</div></div>
+    <div class="kpi"><div class="lbl">Офлайн-встречи</div><div class="num">111</div></div>
+    <div class="kpi"><div class="lbl">Видеозаписи</div><div class="num">9</div></div>
   </div>
 
   <section>
-    <h2>📈 Мероприятия по месяцам (первый год)</h2>
+    <div class="heatmap-head">
+      <h2><span class="heatmap-hash">#</span> Мероприятия по месяцам</h2>
+    </div>
+    <p class="heatmap-subtitle">Каждый квадрат — день. Чем ярче — тем больше мероприятий в этот день.</p>
     <div class="card">
-      <div class="chart-box tall"><canvas id="monthsChart"></canvas></div>
+      <div class="heatmap-wrap" id="heatmapWrap">
+        <div class="heatmap-months" id="heatmapMonths"></div>
+        <div class="heatmap-grid" id="heatmapGrid"></div>
+      </div>
+    </div>
+    <div class="heatmap-legend">
+      <span>меньше</span>
+      <span class="legend-swatch level-0"></span>
+      <span class="legend-swatch level-1"></span>
+      <span class="legend-swatch level-2"></span>
+      <span class="legend-swatch level-3"></span>
+      <span class="legend-swatch level-4"></span>
+      <span>больше</span>
     </div>
   </section>
+  <script id="heatmapData" type="application/json">{{ heatmap_data }}</script>
 
   <section>
-    <h2>📍 География</h2>
+    <div class="heatmap-head">
+      <h2><span class="heatmap-hash">#</span> Динамика по месяцам</h2>
+    </div>
+    <p class="heatmap-subtitle">Высота столбика — сколько мероприятий прошло в этот месяц.</p>
     <div class="card">
-      <div class="chart-box medium"><canvas id="citiesChart"></canvas></div>
+      <div class="month-bars" id="monthBars"></div>
     </div>
   </section>
+  <script id="monthlyData" type="application/json">{{ monthly_data }}</script>
 
   <section>
-    <h2>🎭 Формат мероприятий</h2>
+    <div class="heatmap-head">
+      <h2><span class="heatmap-hash">#</span> География</h2>
+    </div>
+    <p class="heatmap-subtitle">Длина полоски — сколько офлайн-мероприятий прошло в городе.</p>
+    <div class="card">
+      <div class="geo-bars" id="geoBars"></div>
+    </div>
+  </section>
+  <script id="geoData" type="application/json">{{ geo_data }}</script>
+
+  <section>
+    <div class="heatmap-head">
+      <h2><span class="heatmap-hash">#</span> Карта сообщества</h2>
+    </div>
+    <p class="heatmap-subtitle">Города — золотые кружки (крупнее — больше мероприятий), маленькие — сами мероприятия. Перетащите узел мышкой.</p>
+    <div class="card graph-card">
+      <canvas id="graphCanvas"></canvas>
+      <div class="graph-controls">
+        <button type="button" id="graphZoomIn" aria-label="Приблизить">+</button>
+        <button type="button" id="graphZoomOut" aria-label="Отдалить">−</button>
+        <button type="button" id="graphCenter" aria-label="Вписать всё">⌖</button>
+        <button type="button" id="graphExpand" aria-label="Развернуть на весь экран">⤢</button>
+      </div>
+    </div>
+  </section>
+  <script id="graphData" type="application/json">{{ graph_data }}</script>
+  <script id="cityArms" type="application/json">{{ city_arms }}</script>
+  <script id="cityColors" type="application/json">{{ city_colors }}</script>
+
+  <section>
     <div class="grid-2">
-      <div class="card">
-        <div class="chart-box small"><canvas id="formatChart"></canvas></div>
+      <div>
+        <div class="heatmap-head">
+          <h2><span class="heatmap-hash">#</span> Формат мероприятий</h2>
+        </div>
+        <p class="heatmap-subtitle">Наведите на сегмент — расскажем подробнее.</p>
+        <div class="card format-ring-card">
+          <div class="format-ring" id="formatRing">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="format-track" cx="60" cy="60" r="50"/>
+            </svg>
+            <div class="format-ring-label">
+              <span class="num" id="formatTotal">0</span>
+              <span class="lbl">мероприятий</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="card">
-        <ul style="margin:0;padding-left:1.25em;line-height:2;">
-          <li>Офлайн — митапы, конференции, встречи сообщества</li>
-          <li>Онлайн — события с онлайн-трансляцией</li>
-          <li>Вебинары — прямой эфир на сайте</li>
-        </ul>
+      <div>
+        <div class="heatmap-head">
+          <h2><span class="heatmap-hash">#</span> Последние мероприятия</h2>
+        </div>
+        <p class="heatmap-subtitle">То, что уже прошло совсем недавно.</p>
+        <div class="card">
+          <ul class="recent-events" id="recentEvents"></ul>
+        </div>
       </div>
     </div>
   </section>
+  <script id="recentEventsData" type="application/json">{{ recent_events }}</script>
+
+  <section>
+    <div class="heatmap-head">
+      <h2><span class="heatmap-hash">#</span> Облако тегов</h2>
+    </div>
+    <p class="heatmap-subtitle">Самые частые слова из названий и описаний мероприятий — крупнее слово, чаще оно встречается.</p>
+    <div class="card">
+      <div class="word-cloud" id="wordCloud"></div>
+    </div>
+  </section>
+  <script id="wordCloudData" type="application/json">{{ word_cloud }}</script>
 
   <section class="thanks">
     <h2>Спасибо сообществу 💛</h2>
@@ -199,9 +441,20 @@
     if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='☀️';}
     else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='🌙';}
     try{localStorage.setItem('theme',mode);}catch(e){}
-    applyChartTheme();
   }
   btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});
+
+  (function daysRingHover(){
+    const ring=document.getElementById('daysRing');
+    const calLeft=document.getElementById('calLeft');
+    const calRight=document.getElementById('calRight');
+    if(!ring||!calLeft||!calRight) return;
+    calLeft.addEventListener('mouseenter',function(){ring.classList.add('ring-empty');});
+    calLeft.addEventListener('mouseleave',function(){ring.classList.remove('ring-empty');});
+    calRight.addEventListener('mouseenter',function(){ring.classList.remove('ring-empty');});
+
+    setTimeout(function(){ring.classList.remove('ring-empty');},400);
+  })();
   try{
     const saved=localStorage.getItem('theme');
     if(saved==='dark'){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}
@@ -209,99 +462,1049 @@
     else{icon.textContent = isDark() ? '☀️' : '🌙';}
   }catch(e){}
 })();
+
+(function kpiCountUp(){
+  const nums = document.querySelectorAll('.kpi .num');
+  if(!nums.length) return;
+  const targets = new Map();
+  nums.forEach(function(el){
+    targets.set(el, parseInt(el.textContent, 10) || 0);
+    el.textContent = '0';
+  });
+  function animate(el, target){
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now){
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(eased * target);
+      if(t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if('IntersectionObserver' in window){
+    const observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          animate(entry.target, targets.get(entry.target));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.4});
+    nums.forEach(function(el){ observer.observe(el); });
+  } else {
+    nums.forEach(function(el){ animate(el, targets.get(el)); });
+  }
+})();
 </script>
 
 <script>
 (function charts(){
-  function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-  function isDark(){
-    const root=document.documentElement;
-    if(root.classList.contains('dark-theme')) return true;
-    if(root.classList.contains('light-theme')) return false;
-    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  }
+  // Heatmap: Мероприятия по дням (реальные данные из events/ и webinars/)
+  (function heatmap(){
+    const dataEl = document.getElementById('heatmapData');
+    const monthsEl = document.getElementById('heatmapMonths');
+    const gridEl = document.getElementById('heatmapGrid');
+    const wrapEl = document.getElementById('heatmapWrap');
+    if(!dataEl || !monthsEl || !gridEl || !wrapEl) return;
 
-  const months = ["Авг'25","Сен'25","Окт'25","Ноя'25","Дек'25","Янв'26","Фев'26","Мар'26","Апр'26","Май'26","Июн'26","Июл'26","Авг'26"];
-  const monthData = [2,12,18,23,14,2,8,16,17,12,6,9,3];
+    let heatData;
+    try { heatData = JSON.parse(dataEl.textContent); } catch(e){ return; }
+    if(!heatData.cells || !heatData.cells.length) return;
 
-  const cities = ["Москва","Санкт-Петербург","Новосибирск","Иркутск","Владивосток","Краснодар","Ульяновск","Воронеж","Липецк","Екатеринбург","Ещё 10 городов"];
-  const cityData = [38,38,5,4,4,3,3,2,2,2,10];
+    const monthGenitive = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+    const monthPrepositional = ['январе','феврале','марте','апреле','мае','июне','июле','августе','сентябре','октябре','ноябре','декабре'];
 
-  const allCharts = [];
-
-  function mkCommon(){
-    const c = isDark() ? { text: cssVar('--text'), muted: cssVar('--muted'), border: cssVar('--border') }
-                       : { text: cssVar('--text'), muted: cssVar('--muted'), border: cssVar('--border') };
-    return c;
-  }
-
-  const blue = '#0b76ef', green = '#78b777', orange = '#e8932c';
-
-  // 1. По месяцам
-  const monthsChart = new Chart(document.getElementById('monthsChart'), {
-    type: 'bar',
-    data: {
-      labels: months,
-      datasets: [{ label: 'Мероприятий', data: monthData, backgroundColor: blue, borderRadius: 4 }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false } },
-        y: { beginAtZero: true, ticks: { stepSize: 5 } }
-      }
+    function pluralize(n, forms){
+      const mod10 = n % 10, mod100 = n % 100;
+      if(mod10 === 1 && mod100 !== 11) return forms[0];
+      if(mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1];
+      return forms[2];
     }
-  });
-  allCharts.push(monthsChart);
+    const eventForms = ['мероприятие','мероприятия','мероприятий'];
 
-  // 2. Города
-  const citiesChart = new Chart(document.getElementById('citiesChart'), {
-    type: 'bar',
-    data: {
-      labels: cities,
-      datasets: [{ label: 'Событий', data: cityData, backgroundColor: green, borderRadius: 4 }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { beginAtZero: true, grid: { display: false } },
-        y: { grid: { display: false } }
-      }
-    }
-  });
-  allCharts.push(citiesChart);
+    wrapEl.style.setProperty('--heat-cols', heatData.weeks);
 
-  // 3. Формат
-  const formatChart = new Chart(document.getElementById('formatChart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Офлайн', 'Онлайн', 'Вебинары'],
-      datasets: [{ data: [111, 23, 20], backgroundColor: [blue, green, orange], borderWidth: 0 }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      cutout: '62%',
-      plugins: { legend: { position: 'bottom' } }
-    }
-  });
-  allCharts.push(formatChart);
-
-  window.applyChartTheme = function(){
-    const col = mkCommon();
-    const tickColor = col.muted, gridColor = col.border, labelColor = col.text;
-    allCharts.forEach(ch => {
-      if(ch.options.scales){
-        if(ch.options.scales.x){ ch.options.scales.x.ticks = Object.assign({}, ch.options.scales.x.ticks, {color: tickColor}); ch.options.scales.x.grid = Object.assign({}, ch.options.scales.x.grid, {color: gridColor}); }
-        if(ch.options.scales.y){ ch.options.scales.y.ticks = Object.assign({}, ch.options.scales.y.ticks, {color: tickColor}); ch.options.scales.y.grid = Object.assign({}, ch.options.scales.y.grid, {color: gridColor}); }
-      }
-      if(ch.options.plugins && ch.options.plugins.legend){ ch.options.plugins.legend.labels = Object.assign({}, ch.options.plugins.legend.labels, {color: labelColor}); }
-      ch.update();
+    heatData.months.forEach(function(m){
+      const span = document.createElement('span');
+      span.textContent = m.label;
+      span.style.gridColumn = 'span ' + m.span;
+      monthsEl.appendChild(span);
     });
-  };
-  applyChartTheme();
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'heat-tooltip';
+    document.body.appendChild(tooltip);
+
+    function showTooltip(cellEl, info, monthIndex){
+      const dayLine = info.day + ' ' + monthGenitive[monthIndex] + ' — ' + info.count + ' ' + pluralize(info.count, eventForms);
+      const monthLine = info.monthTotal + ' ' + pluralize(info.monthTotal, eventForms) + ' в ' + monthPrepositional[monthIndex];
+      tooltip.innerHTML = '<span class="tt-day">' + dayLine + '</span><span class="tt-month">' + monthLine + '</span>';
+      tooltip.classList.add('visible');
+      const rect = cellEl.getBoundingClientRect();
+      const ttRect = tooltip.getBoundingClientRect();
+      let left = rect.left + rect.width / 2 - ttRect.width / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - ttRect.width - 6));
+      let top = rect.top - ttRect.height - 8;
+      if(top < 6) top = rect.bottom + 8;
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    }
+    function hideTooltip(){ tooltip.classList.remove('visible'); }
+
+    heatData.cells.forEach(function(info){
+      const cell = document.createElement('div');
+      cell.className = 'heat-cell';
+      if(info.count === null){
+        cell.classList.add('out');
+      } else {
+        cell.dataset.level = Math.min(4, info.count);
+        const parts = info.date.split('-');
+        const monthIndex = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        cell.addEventListener('mouseenter', function(){
+          showTooltip(cell, { day: day, count: info.count, monthTotal: info.monthTotal }, monthIndex);
+        });
+        cell.addEventListener('mouseleave', hideTooltip);
+      }
+      gridEl.appendChild(cell);
+    });
+
+    function resize(){
+      const gap = 3;
+      const available = wrapEl.clientWidth;
+      const cell = Math.max(6, Math.floor((available - (heatData.weeks - 1) * gap) / heatData.weeks));
+      wrapEl.style.setProperty('--heat-cell', cell + 'px');
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    if('IntersectionObserver' in window){
+      const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            Array.from(gridEl.children).forEach(function(cell, i){
+              setTimeout(function(){ cell.classList.add('in'); }, Math.min(i * 2, 400));
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.2});
+      observer.observe(gridEl);
+    } else {
+      Array.from(gridEl.children).forEach(function(cell){ cell.classList.add('in'); });
+    }
+  })();
+
+  // Динамика по месяцам: столбчатый график (реальные данные)
+  (function monthlyChart(){
+    const dataEl = document.getElementById('monthlyData');
+    const barsEl = document.getElementById('monthBars');
+    if(!dataEl || !barsEl) return;
+
+    let monthly;
+    try { monthly = JSON.parse(dataEl.textContent); } catch(e){ return; }
+    if(!monthly.length) return;
+
+    const monthPrepositional = ['январе','феврале','марте','апреле','мае','июне','июле','августе','сентябре','октябре','ноябре','декабре'];
+    const monthShortToIndex = {'янв':0,'фев':1,'мар':2,'апр':3,'май':4,'июн':5,'июл':6,'авг':7,'сен':8,'окт':9,'ноя':10,'дек':11};
+
+    function pluralize(n, forms){
+      const mod10 = n % 10, mod100 = n % 100;
+      if(mod10 === 1 && mod100 !== 11) return forms[0];
+      if(mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1];
+      return forms[2];
+    }
+    const eventForms = ['мероприятие','мероприятия','мероприятий'];
+    const webinarForms = ['вебинар','вебинара','вебинаров'];
+
+    const maxTotal = Math.max.apply(null, monthly.map(function(m){ return m.total; })) || 1;
+    const maxBarHeight = 190;
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'heat-tooltip';
+    document.body.appendChild(tooltip);
+
+    function showTooltip(barEl, m){
+      const monthIndex = monthShortToIndex[m.label];
+      const parts = [];
+      if(m.offline) parts.push(m.offline + ' офлайн');
+      if(m.online) parts.push(m.online + ' онлайн');
+      if(m.webinars) parts.push(m.webinars + ' ' + pluralize(m.webinars, webinarForms));
+      const breakdown = parts.length ? parts.join(' · ') : 'нет мероприятий';
+      tooltip.innerHTML =
+        '<span class="tt-day">' + m.total + ' ' + pluralize(m.total, eventForms) + '</span>' +
+        '<span class="tt-month">в ' + monthPrepositional[monthIndex] + ' ' + m.year + '</span>' +
+        '<span class="tt-month">' + breakdown + '</span>';
+      tooltip.classList.add('visible');
+      const rect = barEl.getBoundingClientRect();
+      const ttRect = tooltip.getBoundingClientRect();
+      let left = rect.left + rect.width / 2 - ttRect.width / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - ttRect.width - 6));
+      let top = rect.top - ttRect.height - 8;
+      if(top < 6) top = rect.bottom + 8;
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    }
+    function hideTooltip(){ tooltip.classList.remove('visible'); }
+
+    monthly.forEach(function(m){
+      const col = document.createElement('div');
+      col.className = 'month-bar-col';
+
+      const bar = document.createElement('div');
+      bar.className = 'month-bar';
+      bar.dataset.targetHeight = Math.max(4, Math.round((m.total / maxTotal) * maxBarHeight));
+      bar.addEventListener('mouseenter', function(){ showTooltip(bar, m); });
+      bar.addEventListener('mouseleave', hideTooltip);
+
+      const label = document.createElement('span');
+      label.className = 'month-bar-label';
+      label.textContent = m.label;
+
+      col.appendChild(bar);
+      col.appendChild(label);
+      barsEl.appendChild(col);
+    });
+
+    if('IntersectionObserver' in window){
+      const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            Array.from(barsEl.querySelectorAll('.month-bar')).forEach(function(bar, i){
+              setTimeout(function(){ bar.style.height = bar.dataset.targetHeight + 'px'; }, i * 40);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.3});
+      observer.observe(barsEl);
+    } else {
+      Array.from(barsEl.querySelectorAll('.month-bar')).forEach(function(bar){ bar.style.height = bar.dataset.targetHeight + 'px'; });
+    }
+  })();
+
+  // География: города (реальные данные)
+  (function geoBars(){
+    const dataEl = document.getElementById('geoData');
+    const barsEl = document.getElementById('geoBars');
+    if(!dataEl || !barsEl) return;
+
+    let geo;
+    try { geo = JSON.parse(dataEl.textContent); } catch(e){ return; }
+    if(!geo.length) return;
+
+    function pluralize(n, forms){
+      const mod10 = n % 10, mod100 = n % 100;
+      if(mod10 === 1 && mod100 !== 11) return forms[0];
+      if(mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1];
+      return forms[2];
+    }
+    const eventForms = ['мероприятие','мероприятия','мероприятий'];
+
+    const maxCount = Math.max.apply(null, geo.map(function(g){ return g.count; })) || 1;
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'heat-tooltip';
+    document.body.appendChild(tooltip);
+
+    function showTooltip(rowEl, g){
+      let html = '<span class="tt-day">' + g.city + '</span>' +
+        '<span class="tt-month">' + g.count + ' ' + pluralize(g.count, eventForms) + '</span>';
+      if(g.cities && g.cities.length){
+        html += '<span class="tt-month">' + g.cities.map(function(c){ return c.city + ' (' + c.count + ')'; }).join(' · ') + '</span>';
+      }
+      tooltip.innerHTML = html;
+      tooltip.classList.add('visible');
+      const rect = rowEl.getBoundingClientRect();
+      const ttRect = tooltip.getBoundingClientRect();
+      let left = rect.left + rect.width / 2 - ttRect.width / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - ttRect.width - 6));
+      let top = rect.top - ttRect.height - 8;
+      if(top < 6) top = rect.bottom + 8;
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    }
+    function hideTooltip(){ tooltip.classList.remove('visible'); }
+
+    geo.forEach(function(g){
+      const row = document.createElement('div');
+      row.className = 'geo-bar-row';
+
+      const label = document.createElement('span');
+      label.className = 'geo-bar-label';
+      label.textContent = g.city;
+
+      const track = document.createElement('div');
+      track.className = 'geo-bar-track';
+      const fill = document.createElement('div');
+      fill.className = 'geo-bar-fill';
+      fill.dataset.targetWidth = Math.round((g.count / maxCount) * 100);
+      track.appendChild(fill);
+
+      const count = document.createElement('span');
+      count.className = 'geo-bar-count';
+      count.textContent = g.count;
+
+      row.appendChild(label);
+      row.appendChild(track);
+      row.appendChild(count);
+      row.addEventListener('mouseenter', function(){ showTooltip(row, g); });
+      row.addEventListener('mouseleave', hideTooltip);
+      barsEl.appendChild(row);
+    });
+
+    if('IntersectionObserver' in window){
+      const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            Array.from(barsEl.querySelectorAll('.geo-bar-fill')).forEach(function(fill, i){
+              setTimeout(function(){ fill.style.width = fill.dataset.targetWidth + '%'; }, i * 60);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.3});
+      observer.observe(barsEl);
+    } else {
+      Array.from(barsEl.querySelectorAll('.geo-bar-fill')).forEach(function(fill){ fill.style.width = fill.dataset.targetWidth + '%'; });
+    }
+  })();
+
+  // Формат мероприятий: кольцо офлайн/онлайн/вебинары (реальные данные)
+  (function formatDonut(){
+    const dataEl = document.getElementById('monthlyData');
+    const ringEl = document.getElementById('formatRing');
+    const totalEl = document.getElementById('formatTotal');
+    if(!dataEl || !ringEl) return;
+
+    let monthly;
+    try { monthly = JSON.parse(dataEl.textContent); } catch(e){ return; }
+    if(!monthly.length) return;
+
+    const totals = monthly.reduce(function(acc, m){
+      acc.offline += m.offline; acc.online += m.online; acc.webinars += m.webinars;
+      return acc;
+    }, { offline: 0, online: 0, webinars: 0 });
+    const total = totals.offline + totals.online + totals.webinars;
+    if(!total) return;
+
+    function pluralize(n, forms){
+      const mod10 = n % 10, mod100 = n % 100;
+      if(mod10 === 1 && mod100 !== 11) return forms[0];
+      if(mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1];
+      return forms[2];
+    }
+    const eventForms = ['мероприятие', 'мероприятия', 'мероприятий'];
+
+    const segments = [
+      { key: 'offline', label: 'Офлайн', desc: 'митапы, конференции, встречи сообщества', color: 'var(--heat-4)', value: totals.offline },
+      { key: 'online', label: 'Онлайн', desc: 'события с онлайн-трансляцией', color: 'var(--heat-2)', value: totals.online },
+      { key: 'webinars', label: 'Вебинары', desc: 'прямой эфир на сайте', color: 'var(--cal-month)', value: totals.webinars },
+    ];
+
+    const svg = ringEl.querySelector('svg');
+    const R = 50, C = 2 * Math.PI * R, STROKE = 22;
+    const EXPLODE = 9; // px (в единицах viewBox), на сколько выезжает сегмент
+    const HOVER_SCALE = 1.07;
+    let offsetAcc = 0;
+    segments.forEach(function(seg){
+      seg.frac = seg.value / total;
+      seg.len = seg.frac * C;
+      // Локальный угол (до transform:rotate(-90deg) на <svg>) — та же система
+      // координат, в которой stroke-dashoffset отсчитывает позицию по кругу.
+      seg.startDeg = (offsetAcc / C) * 360;
+      seg.endDeg = ((offsetAcc + seg.len) / C) * 360;
+      const midRad = ((seg.startDeg + seg.endDeg) / 2) * Math.PI / 180;
+      seg.dirX = Math.cos(midRad);
+      seg.dirY = Math.sin(midRad);
+
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', 60); circle.setAttribute('cy', 60); circle.setAttribute('r', R);
+      circle.setAttribute('stroke-dasharray', '0 ' + C);
+      circle.setAttribute('stroke-dashoffset', -offsetAcc);
+      circle.classList.add('format-seg');
+      circle.style.stroke = seg.color;
+      svg.appendChild(circle);
+      seg.circle = circle;
+      offsetAcc += seg.len;
+    });
+
+    // Подсказка вместо легенды
+    const tooltip = document.createElement('div');
+    tooltip.className = 'heat-tooltip';
+    document.body.appendChild(tooltip);
+    function showTooltip(seg, clientX, clientY){
+      const pct = Math.round(seg.frac * 100);
+      tooltip.innerHTML =
+        '<span class="tt-day">' + seg.label + ' — ' + seg.value + ' ' + pluralize(seg.value, eventForms) + ' (' + pct + '%)</span>' +
+        '<span class="tt-month">' + seg.desc + '</span>';
+      tooltip.classList.add('visible');
+      const ttRect = tooltip.getBoundingClientRect();
+      let left = clientX - ttRect.width / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - ttRect.width - 6));
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = (clientY - ttRect.height - 14) + 'px';
+    }
+    function hideTooltip(){ tooltip.classList.remove('visible'); }
+
+    // Ховер считаем по фиксированному углу/расстоянию от центра кольца, а не
+    // по текущему (сдвинутому) положению сегмента — иначе смещение сегмента
+    // при наведении меняет то, что мы проверяем, и он дёргается туда-сюда.
+    let active = null;
+    function setActive(seg){
+      if(active === seg) return;
+      if(active){ active.circle.classList.remove('hot'); active.circle.style.transform = ''; }
+      active = seg;
+      if(active){
+        active.circle.classList.add('hot');
+        active.circle.style.transform =
+          'translate(' + (active.dirX * EXPLODE) + 'px,' + (active.dirY * EXPLODE) + 'px) scale(' + HOVER_SCALE + ')';
+      }
+    }
+
+    ringEl.addEventListener('mousemove', function(e){
+      const rect = svg.getBoundingClientRect();
+      const scale = 120 / rect.width;
+      const mx = (e.clientX - rect.left) * scale - 60;
+      const my = (e.clientY - rect.top) * scale - 60;
+      const dist = Math.hypot(mx, my);
+      if(dist < R - STROKE / 2 || dist > R + STROKE / 2 + EXPLODE){ setActive(null); hideTooltip(); return; }
+      const screenDeg = Math.atan2(my, mx) * 180 / Math.PI;
+      const localDeg = (screenDeg + 90 + 360) % 360;
+      const hit = segments.find(function(seg){ return localDeg >= seg.startDeg && localDeg < seg.endDeg; });
+      setActive(hit || null);
+      if(hit) showTooltip(hit, e.clientX, e.clientY); else hideTooltip();
+    });
+    ringEl.addEventListener('mouseleave', function(){ setActive(null); hideTooltip(); });
+
+    function animate(){
+      const duration = 900;
+      const start = performance.now();
+      function step(now){
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        segments.forEach(function(seg){
+          const len = seg.len * eased;
+          seg.circle.setAttribute('stroke-dasharray', len + ' ' + (C - len));
+        });
+        totalEl.textContent = Math.round(total * eased);
+        if(t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    if('IntersectionObserver' in window){
+      const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ animate(); observer.unobserve(entry.target); }
+        });
+      }, { threshold: .4 });
+      observer.observe(ringEl);
+    } else {
+      animate();
+    }
+  })();
+
+  // Последние прошедшие мероприятия (реальные данные)
+  (function recentEvents(){
+    const dataEl = document.getElementById('recentEventsData');
+    const listEl = document.getElementById('recentEvents');
+    if(!dataEl || !listEl) return;
+
+    let items;
+    try { items = JSON.parse(dataEl.textContent); } catch(e){ return; }
+    if(!items.length) return;
+
+    const monthGenitive = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+    function formatDate(iso){
+      const parts = iso.split('-');
+      return parseInt(parts[2], 10) + ' ' + monthGenitive[parseInt(parts[1], 10) - 1];
+    }
+
+    items.forEach(function(item){
+      const li = document.createElement('li');
+      li.className = 'recent-event-row';
+      li.innerHTML =
+        '<span class="recent-event-thumb"><img src="' + item.icon + '" alt="" loading="lazy"></span>' +
+        '<span class="recent-event-text">' +
+        '<span class="recent-event-title">' + item.title + '</span>' +
+        '<span class="recent-event-meta">' + formatDate(item.date) + ' · ' + item.city + '</span>' +
+        '</span>';
+      listEl.appendChild(li);
+    });
+
+    if('IntersectionObserver' in window){
+      const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            Array.from(listEl.children).forEach(function(row, i){
+              setTimeout(function(){ row.classList.add('in'); }, i * 60);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .2 });
+      observer.observe(listEl);
+    } else {
+      Array.from(listEl.children).forEach(function(row){ row.classList.add('in'); });
+    }
+  })();
+
+  // Облако тегов (реальные данные)
+  (function wordCloud(){
+    const dataEl = document.getElementById('wordCloudData');
+    const cloudEl = document.getElementById('wordCloud');
+    if(!dataEl || !cloudEl) return;
+
+    let words;
+    try { words = JSON.parse(dataEl.textContent); } catch(e){ return; }
+    if(!words.length) return;
+
+    function pluralize(n, forms){
+      const mod10 = n % 10, mod100 = n % 100;
+      if(mod10 === 1 && mod100 !== 11) return forms[0];
+      if(mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1];
+      return forms[2];
+    }
+    const mentionForms = ['упоминание', 'упоминания', 'упоминаний'];
+
+    // Размер по sqrt от частоты — иначе доминирующее слово ("1С") задавит все
+    // остальные, раз оно встречается в разы чаще любого другого.
+    const weights = words.map(function(w){ return Math.sqrt(w.count); });
+    const minW = Math.min.apply(null, weights), maxW = Math.max.apply(null, weights);
+    const FONT_MIN = 0.85, FONT_MAX = 2.7;
+
+    const shuffled = words.slice().sort(function(){ return Math.random() - 0.5; });
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'heat-tooltip';
+    document.body.appendChild(tooltip);
+    function showTooltip(el, w){
+      tooltip.innerHTML = '<span class="tt-day">' + w.count + ' ' + pluralize(w.count, mentionForms) + '</span>';
+      tooltip.classList.add('visible');
+      const rect = el.getBoundingClientRect();
+      const ttRect = tooltip.getBoundingClientRect();
+      let left = rect.left + rect.width / 2 - ttRect.width / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - ttRect.width - 6));
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = (rect.top - ttRect.height - 8) + 'px';
+    }
+    function hideTooltip(){ tooltip.classList.remove('visible'); }
+
+    shuffled.forEach(function(w){
+      const weight = Math.sqrt(w.count);
+      const t = maxW > minW ? (weight - minW) / (maxW - minW) : 1;
+      const fontSize = FONT_MIN + (FONT_MAX - FONT_MIN) * t;
+      const color = t > 0.66 ? 'var(--heat-4)' : t > 0.33 ? 'var(--heat-3)' : 'var(--muted)';
+
+      const span = document.createElement('span');
+      span.className = 'word-cloud-item';
+      span.textContent = w.text === '1с' ? '1С' : w.text;
+      span.style.fontSize = fontSize.toFixed(2) + 'em';
+      span.style.color = color;
+      span.addEventListener('mouseenter', function(){ showTooltip(span, w); });
+      span.addEventListener('mouseleave', hideTooltip);
+      cloudEl.appendChild(span);
+    });
+
+    if('IntersectionObserver' in window){
+      const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            Array.from(cloudEl.children).forEach(function(el, i){
+              setTimeout(function(){ el.classList.add('in'); }, i * 20);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .2 });
+      observer.observe(cloudEl);
+    } else {
+      Array.from(cloudEl.children).forEach(function(el){ el.classList.add('in'); });
+    }
+  })();
+
+})();
+</script>
+
+<script>
+(function graph(){
+  const dataEl = document.getElementById('graphData');
+  const armsEl = document.getElementById('cityArms');
+  const colorsEl = document.getElementById('cityColors');
+  const canvas = document.getElementById('graphCanvas');
+  if(!dataEl || !canvas) return;
+
+  let events, cityArms, cityColors;
+  try { events = JSON.parse(dataEl.textContent); } catch(e){ return; }
+  try { cityArms = armsEl ? JSON.parse(armsEl.textContent) : {}; } catch(e){ cityArms = {}; }
+  try { cityColors = colorsEl ? JSON.parse(colorsEl.textContent) : {}; } catch(e){ cityColors = {}; }
+  if(!events.length) return;
+
+  const FONT = "'JetBrains Mono', monospace";
+  const card = canvas.closest('.graph-card');
+  const wrap = canvas.parentElement;
+  const ctx = canvas.getContext('2d');
+
+  function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  const monthGenitive = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  function formatDate(iso){
+    const parts = iso.split('-');
+    return parseInt(parts[2], 10) + ' ' + monthGenitive[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
+  }
+
+  // Группируем мероприятия по городам
+  const cityCounts = {};
+  events.forEach(function(ev){ cityCounts[ev.city] = (cityCounts[ev.city] || 0) + 1; });
+  const cityNames = Object.keys(cityCounts).sort(function(a, b){ return cityCounts[b] - cityCounts[a]; });
+
+  const CITY_R_BASE = 12, CITY_R_MAX = 30, EVENT_R = 13;
+  function cityR(count){ return Math.min(CITY_R_MAX, CITY_R_BASE + 3.4 * Math.sqrt(count)); }
+
+  // Превью картинок: тяжёлые исходники (герб/логотип) масштабируем один раз в
+  // маленький canvas (contain — без обрезки) вместо перерисовки оригинала
+  // каждый кадр — иначе анимация подтормаживает.
+  const THUMB = 200;
+  const thumbCache = {};
+  function loadThumb(src){
+    if(thumbCache[src] !== undefined) return thumbCache[src];
+    thumbCache[src] = null;
+    const img = new Image();
+    img.onload = function(){
+      const iw = img.naturalWidth || 1, ih = img.naturalHeight || 1;
+      // Вписываем по диагонали, а не по сторонам квадрата: маска — круг,
+      // и угол прямоугольного герба вылезает за окружность, если просто
+      // уместить его в квадрат THUMB×THUMB.
+      const scale = THUMB / Math.sqrt(iw * iw + ih * ih);
+      const dw = iw * scale, dh = ih * scale;
+      const c = document.createElement('canvas');
+      c.width = THUMB; c.height = THUMB;
+      c.getContext('2d').drawImage(img, (THUMB - dw) / 2, (THUMB - dh) / 2, dw, dh);
+      thumbCache[src] = c;
+      wake();
+    };
+    img.src = src;
+    return null;
+  }
+
+  const ANCHOR_R = Math.max(90, cityNames.length * 8);
+  const cityNodes = {};
+  const nodes = [];
+
+  cityNames.forEach(function(city, i){
+    const angle = (i / cityNames.length) * Math.PI * 2 - Math.PI / 2;
+    const imgSrc = cityColors[city] ? null : cityArms[city] || null;
+    if(imgSrc) loadThumb(imgSrc);
+    const n = {
+      type: 'city', city: city, count: cityCounts[city], r: cityR(cityCounts[city]),
+      imgSrc: imgSrc, color: cityColors[city] || null,
+      x: Math.cos(angle) * ANCHOR_R, y: Math.sin(angle) * ANCHOR_R, vx: 0, vy: 0, hoverT: 0,
+    };
+    cityNodes[city] = n;
+    nodes.push(n);
+  });
+
+  const links = [];
+  events.forEach(function(ev){
+    const cn = cityNodes[ev.city];
+    const angle = Math.random() * Math.PI * 2;
+    const dist = cn.r + 16 + Math.random() * 18;
+    loadThumb(ev.icon);
+    const n = {
+      type: 'event', title: ev.title, city: ev.city, date: ev.date, imgSrc: ev.icon, r: EVENT_R,
+      x: cn.x + Math.cos(angle) * dist, y: cn.y + Math.sin(angle) * dist, vx: 0, vy: 0, hoverT: 0,
+    };
+    nodes.push(n);
+    links.push({ a: n, b: cn, len: cn.r + EVENT_R + 9 });
+  });
+
+  // Физика: отталкивание + пружины связей + лёгкая гравитация к центру.
+  // Города могут стоять близко друг к другу (REP_CITY слабее). Мероприятия
+  // одного города не должны наезжать друг на друга (REP сильный), а вот
+  // мероприятия РАЗНЫХ городов могут подходить ближе (REP_CROSS слабее) —
+  // иначе крупные «букеты» СПб и Москвы просто отпихивают друг друга целиком.
+  const REP_CITY = 140, REP = 1900, REP_CROSS = 420, SPRING = 0.09, GRAV = 0.0025, DAMP = 0.88;
+  let alpha = 1;
+  let hoverAnimating = false;
+
+  function tick(){
+    for(let i = 0; i < nodes.length; i++){
+      const a = nodes[i];
+      for(let j = i + 1; j < nodes.length; j++){
+        const b = nodes[j];
+        let rep;
+        if(a.type === 'city' && b.type === 'city') rep = REP_CITY;
+        else if(a.type === 'event' && b.type === 'event' && a.city !== b.city) rep = REP_CROSS;
+        else rep = REP;
+        let dx = a.x - b.x, dy = a.y - b.y;
+        let d2 = dx * dx + dy * dy;
+        if(d2 < 0.01){ d2 = 0.01; dx = Math.random() - 0.5; dy = Math.random() - 0.5; }
+        const d = Math.sqrt(d2), f = rep / d2;
+        const fx = (dx / d) * f, fy = (dy / d) * f;
+        a.vx += fx; a.vy += fy;
+        b.vx -= fx; b.vy -= fy;
+        const minD = a.r + b.r + 5;
+        if(d < minD){
+          const p = ((minD - d) / d) * 0.5;
+          const mx = dx * p, my = dy * p;
+          if(a !== drag.node){ a.x += mx; a.y += my; }
+          if(b !== drag.node){ b.x -= mx; b.y -= my; }
+        }
+      }
+    }
+    links.forEach(function(l){
+      const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y;
+      const d = Math.hypot(dx, dy) || 0.01;
+      const f = (d - l.len) * SPRING;
+      const fx = (dx / d) * f, fy = (dy / d) * f;
+      l.a.vx += fx; l.a.vy += fy;
+      l.b.vx -= fx; l.b.vy -= fy;
+    });
+    hoverAnimating = false;
+    nodes.forEach(function(n){
+      n.vx += -n.x * GRAV;
+      n.vy += -n.y * GRAV;
+      n.hoverT += ((n === hover ? 1 : 0) - n.hoverT) * 0.25;
+      if(Math.abs(n.hoverT - (n === hover ? 1 : 0)) > 0.01) hoverAnimating = true;
+      if(n === drag.node){ n.vx = 0; n.vy = 0; return; }
+      n.vx *= DAMP; n.vy *= DAMP;
+      const sp = Math.hypot(n.vx, n.vy);
+      if(sp > 26){ n.vx = (n.vx / sp) * 26; n.vy = (n.vy / sp) * 26; }
+      n.x += n.vx * alpha;
+      n.y += n.vy * alpha;
+    });
+    if(alpha > 0.03) alpha *= 0.992;
+  }
+
+  const view = { x: 0, y: 0, scale: 1 };
+  let W = 0, H = 0, dpr = 1;
+
+  function resize(){
+    dpr = window.devicePixelRatio || 1;
+    W = wrap.clientWidth;
+    H = canvas.clientHeight || 560;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+  }
+
+  function computeBounds(){
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    nodes.forEach(function(n){
+      minX = Math.min(minX, n.x - n.r); maxX = Math.max(maxX, n.x + n.r);
+      minY = Math.min(minY, n.y - n.r); maxY = Math.max(maxY, n.y + n.r);
+    });
+    return { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
+  }
+  function fitView(){
+    const b = computeBounds();
+    const w = b.maxX - b.minX, h = b.maxY - b.minY;
+    if(w <= 0 || h <= 0 || !W || !H) return;
+    view.scale = Math.min(2.2, Math.max(0.25, Math.min(W / (w * 1.16), H / (h * 1.16))));
+    view.x = -((b.minX + b.maxX) / 2) * view.scale;
+    view.y = -((b.minY + b.maxY) / 2) * view.scale;
+  }
+
+  function theme(){
+    return {
+      link: cssVar('--border'),
+      linkHot: cssVar('--heat-3'),
+      label: cssVar('--muted'),
+      cityFill: cssVar('--heat-0'),
+      cityStroke: cssVar('--heat-3'),
+      eventFill: cssVar('--cal-bg'),
+      eventStroke: cssVar('--border'),
+    };
+  }
+
+  let hover = null;
+  function draw(){
+    const t = theme();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.setTransform(view.scale * dpr, 0, 0, view.scale * dpr, (W / 2 + view.x) * dpr, (H / 2 + view.y) * dpr);
+
+    links.forEach(function(l){
+      const hot = hover && (l.a === hover || l.b === hover);
+      ctx.strokeStyle = hot ? t.linkHot : t.link;
+      ctx.lineWidth = (hot ? 1.6 : 0.8) / view.scale;
+      ctx.beginPath();
+      ctx.moveTo(l.a.x, l.a.y);
+      ctx.lineTo(l.b.x, l.b.y);
+      ctx.stroke();
+    });
+
+    nodes.forEach(function(n){
+      if(n.type === 'city'){
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = n.color || t.cityFill;
+        ctx.fill();
+        ctx.lineWidth = (n === hover ? 3 : 2) / view.scale;
+        ctx.strokeStyle = t.cityStroke;
+        ctx.stroke();
+        const thumb = n.imgSrc ? thumbCache[n.imgSrc] : null;
+        if(thumb){
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r - 3, 0, Math.PI * 2);
+          ctx.clip();
+          const s = (n.r - 3) * 2;
+          ctx.drawImage(thumb, n.x - s / 2, n.y - s / 2, s, s);
+          ctx.restore();
+        } else if(!n.color){
+          ctx.fillStyle = t.cityStroke;
+          ctx.font = '700 ' + Math.max(10, n.r * 0.34) + 'px ' + FONT;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(n.count, n.x, n.y);
+        }
+        ctx.font = (11 / view.scale) + 'px ' + FONT;
+        ctx.fillStyle = t.label;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText(n.city, n.x, n.y + n.r + 4 / view.scale);
+      } else {
+        const scale = 1 + n.hoverT * 0.28;
+        const r = n.r * scale;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = t.eventFill;
+        ctx.fill();
+        ctx.lineWidth = (n === hover ? 2.5 : 1.2) / view.scale;
+        ctx.strokeStyle = t.eventStroke;
+        ctx.stroke();
+        const thumb = thumbCache[n.imgSrc];
+        if(thumb){
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, r - 2, 0, Math.PI * 2);
+          ctx.clip();
+          const s = (r - 2) * 2;
+          ctx.drawImage(thumb, n.x - s / 2, n.y - s / 2, s, s);
+          ctx.restore();
+        }
+      }
+    });
+  }
+
+  let running = false;
+  let settling = true;
+  function frame(){
+    tick();
+    if(settling){
+      if(alpha > 0.03){ fitView(); } else { settling = false; }
+    }
+    draw();
+    if(running) requestAnimationFrame(frame);
+  }
+  function wake(){
+    if(!running){ running = true; requestAnimationFrame(frame); }
+  }
+
+  function toWorld(mx, my){ return { x: (mx - W / 2 - view.x) / view.scale, y: (my - H / 2 - view.y) / view.scale }; }
+  function nodeAt(mx, my){
+    const w = toWorld(mx, my);
+    let best = null, bd = Infinity;
+    nodes.forEach(function(n){
+      const d = Math.hypot(n.x - w.x, n.y - w.y);
+      if(d < n.r && d < bd){ bd = d; best = n; }
+    });
+    return best;
+  }
+  function pos(e){
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+
+  const drag = { node: null, panning: false, lx: 0, ly: 0 };
+
+  const tooltip = document.createElement('div');
+  tooltip.className = 'heat-tooltip';
+  document.body.appendChild(tooltip);
+  function showTooltip(n, clientX, clientY){
+    const html = n.type === 'city'
+      ? '<span class="tt-day">' + n.city + '</span><span class="tt-month">' + n.count + ' мероприятий</span>'
+      : '<span class="tt-day">' + n.title + '</span><span class="tt-month">' + n.city + ' · ' + formatDate(n.date) + '</span>';
+    tooltip.innerHTML = html;
+    tooltip.classList.add('visible');
+    const ttRect = tooltip.getBoundingClientRect();
+    let left = clientX - ttRect.width / 2;
+    left = Math.max(6, Math.min(left, window.innerWidth - ttRect.width - 6));
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = (clientY - ttRect.height - 14) + 'px';
+  }
+  function hideTooltip(){ tooltip.classList.remove('visible'); }
+
+  canvas.addEventListener('mousemove', function(e){
+    wake();
+    const p = pos(e);
+    if(drag.node){
+      const w = toWorld(p.x, p.y);
+      drag.node.x = w.x; drag.node.y = w.y;
+      alpha = Math.max(alpha, 0.35);
+      showTooltip(drag.node, e.clientX, e.clientY);
+    } else if(drag.panning){
+      view.x += p.x - drag.lx; view.y += p.y - drag.ly;
+      drag.lx = p.x; drag.ly = p.y;
+    } else {
+      hover = nodeAt(p.x, p.y);
+      canvas.style.cursor = hover ? 'pointer' : 'grab';
+      if(hover) showTooltip(hover, e.clientX, e.clientY); else hideTooltip();
+    }
+  });
+  // Колесо мыши перехватывается только после клика по графу — иначе
+  // случайный курсор над канвасом при скролле страницы «крадёт» прокрутку.
+  let activated = false;
+
+  canvas.addEventListener('mousedown', function(e){
+    activated = true;
+    settling = false;
+    wake();
+    const p = pos(e);
+    const n = nodeAt(p.x, p.y);
+    if(n){ drag.node = n; hover = n; } else { drag.panning = true; drag.lx = p.x; drag.ly = p.y; }
+    canvas.classList.add('dragging');
+  });
+  window.addEventListener('mouseup', function(){
+    drag.node = null; drag.panning = false;
+    canvas.classList.remove('dragging');
+  });
+  canvas.addEventListener('mouseleave', function(){ hover = null; hideTooltip(); activated = false; });
+  canvas.addEventListener('wheel', function(e){
+    if(!activated) return;
+    e.preventDefault();
+    settling = false;
+    wake();
+    const p = pos(e), w = toWorld(p.x, p.y);
+    const k = Math.exp(-e.deltaY * 0.0012);
+    view.scale = Math.min(3.5, Math.max(0.2, view.scale * k));
+    view.x = p.x - W / 2 - w.x * view.scale;
+    view.y = p.y - H / 2 - w.y * view.scale;
+  }, { passive: false });
+
+  // Тач: одно касание — драг узла/пан, два — щипок-зум
+  let pinch = null;
+  function tpos(t){ const r = canvas.getBoundingClientRect(); return { x: t.clientX - r.left, y: t.clientY - r.top }; }
+  canvas.addEventListener('touchstart', function(e){
+    settling = false;
+    wake();
+    if(e.touches.length === 1){
+      pinch = null;
+      const p = tpos(e.touches[0]);
+      const n = nodeAt(p.x, p.y);
+      if(n){ drag.node = n; hover = n; } else { drag.panning = true; drag.lx = p.x; drag.ly = p.y; }
+    } else if(e.touches.length === 2){
+      drag.node = null; drag.panning = false;
+      const a = tpos(e.touches[0]), b = tpos(e.touches[1]);
+      pinch = { dist: Math.hypot(a.x - b.x, a.y - b.y) };
+    }
+    e.preventDefault();
+  }, { passive: false });
+  canvas.addEventListener('touchmove', function(e){
+    if(pinch && e.touches.length === 2){
+      const a = tpos(e.touches[0]), b = tpos(e.touches[1]);
+      const dist = Math.hypot(a.x - b.x, a.y - b.y);
+      const cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2, w = toWorld(cx, cy);
+      view.scale = Math.min(3.5, Math.max(0.2, view.scale * dist / (pinch.dist || dist)));
+      view.x = cx - W / 2 - w.x * view.scale; view.y = cy - H / 2 - w.y * view.scale;
+      pinch.dist = dist;
+    } else if(e.touches.length === 1){
+      const p = tpos(e.touches[0]);
+      if(drag.node){ const w = toWorld(p.x, p.y); drag.node.x = w.x; drag.node.y = w.y; alpha = Math.max(alpha, 0.35); }
+      else if(drag.panning){ view.x += p.x - drag.lx; view.y += p.y - drag.ly; drag.lx = p.x; drag.ly = p.y; }
+    }
+    e.preventDefault();
+  }, { passive: false });
+  canvas.addEventListener('touchend', function(){
+    drag.node = null; drag.panning = false; pinch = null; hideTooltip();
+  });
+
+  // Кнопки управления: зум, центр/вписать всё, разворот на весь экран
+  function zoomBy(k){
+    const w = toWorld(W / 2, H / 2);
+    view.scale = Math.min(3.5, Math.max(0.2, view.scale * k));
+    view.x = -w.x * view.scale;
+    view.y = -w.y * view.scale;
+  }
+  const zoomInBtn = document.getElementById('graphZoomIn');
+  const zoomOutBtn = document.getElementById('graphZoomOut');
+  const centerBtn = document.getElementById('graphCenter');
+  const expandBtn = document.getElementById('graphExpand');
+  if(zoomInBtn) zoomInBtn.addEventListener('click', function(){ wake(); zoomBy(1.25); });
+  if(zoomOutBtn) zoomOutBtn.addEventListener('click', function(){ wake(); zoomBy(0.8); });
+  if(centerBtn) centerBtn.addEventListener('click', function(){ wake(); fitView(); });
+
+  if(expandBtn && card){
+    function setImmersive(on){
+      card.classList.toggle('graph-immersive', on);
+      expandBtn.textContent = on ? '⤡' : '⤢';
+      expandBtn.setAttribute('aria-label', on ? 'Свернуть' : 'Развернуть на весь экран');
+      wake();
+      requestAnimationFrame(function(){ resize(); fitView(); });
+    }
+    expandBtn.addEventListener('click', function(){
+      const on = !card.classList.contains('graph-immersive');
+      setImmersive(on);
+      try {
+        if(on && card.requestFullscreen){
+          card.requestFullscreen().then(function(){
+            if(screen.orientation && screen.orientation.lock){
+              screen.orientation.lock('landscape').catch(function(){});
+            }
+          }).catch(function(){});
+        } else if(!on && document.fullscreenElement){
+          document.exitFullscreen && document.exitFullscreen();
+        }
+      } catch(e){}
+    });
+    document.addEventListener('fullscreenchange', function(){
+      if(!document.fullscreenElement && card.classList.contains('graph-immersive')){
+        setImmersive(false);
+      }
+    });
+  }
+
+  window.addEventListener('resize', function(){ resize(); wake(); });
+
+  // На загрузке страницы контент выше (шрифты, графики, тепловая карта) ещё
+  // может доукладываться — реальный размер канваса меняется уже после первого
+  // resize(). ResizeObserver ловит это и досчитывает картинку заново, а не
+  // window.resize, который на такие изменения не реагирует.
+  if('ResizeObserver' in window){
+    let lastW = 0, lastH = 0;
+    const ro = new ResizeObserver(function(){
+      const w = wrap.clientWidth, h = canvas.clientHeight || H;
+      if(Math.abs(w - lastW) > 1 || Math.abs(h - lastH) > 1){
+        lastW = w; lastH = h;
+        resize();
+        if(settling) fitView();
+        wake();
+      }
+    });
+    ro.observe(wrap);
+  }
+
+  if('IntersectionObserver' in window){
+    const observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting && !running){
+          running = true;
+          resize();
+          fitView();
+          requestAnimationFrame(frame);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .15 });
+    observer.observe(canvas);
+  } else {
+    running = true;
+    resize();
+    fitView();
+    requestAnimationFrame(frame);
+  }
 })();
 </script>
 </body>

@@ -50,8 +50,18 @@ ONEYEAR_END = min(ONEYEAR_ANNIVERSARY, date.today())
 
 MONTH_SHORT_RU = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']
 MONTH_FULL_RU = [
-    'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
-    'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь',
+    'январь',
+    'февраль',
+    'март',
+    'апрель',
+    'май',
+    'июнь',
+    'июль',
+    'август',
+    'сентябрь',
+    'октябрь',
+    'ноябрь',
+    'декабрь',
 ]
 
 ONLINE_CITIES = {'online', 'онлайн'}
@@ -364,6 +374,14 @@ def build_word_cloud(all_events: list[dict], all_webinars: list[dict], limit: in
     return [{'text': word, 'count': count} for word, count in ranked]
 
 
+def _in_oneyear_range(item_date: date | None) -> bool:
+    return item_date is not None and ONEYEAR_START <= item_date <= ONEYEAR_END
+
+
+def _has_recent_video(item_date: date, item: dict, today: date) -> bool:
+    return item_date < today and bool(item.get('videos'))
+
+
 def build_year_stats(all_events: list[dict], all_webinars: list[dict]) -> dict[str, int]:
     """Честные итоговые цифры для карточек в шапке oneyear (за период года)."""
     today = date.today()
@@ -374,23 +392,23 @@ def build_year_stats(all_events: list[dict], all_webinars: list[dict]) -> dict[s
 
     for item in all_events:
         item_date = _parse_item_date(item)
-        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+        if not _in_oneyear_range(item_date):
             continue
         events_count += 1
         city = str(item.get('city', '')).strip()
         if not _is_online_city(city):
             offline_count += 1
             cities.add(city)
-        if item_date < today and item.get('videos'):
+        if _has_recent_video(item_date, item, today):
             videos_count += 1
 
     webinars_count = 0
     for item in all_webinars:
         item_date = _parse_item_date(item)
-        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+        if not _in_oneyear_range(item_date):
             continue
         webinars_count += 1
-        if item_date < today and item.get('videos'):
+        if _has_recent_video(item_date, item, today):
             videos_count += 1
 
     return {

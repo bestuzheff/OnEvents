@@ -46,31 +46,37 @@ ONEYEAR_END = date(2026, 8, 21)
 
 MONTH_SHORT_RU = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']
 
+ONLINE_CITIES = {'online', 'онлайн'}
+DEFAULT_ICON = 'default.jpg'
 
-def build_heatmap_data(all_events: list[dict], all_webinars: list[dict]) -> dict:
-    """Считает реальное количество мероприятий по дням для тепловой карты oneyear.
 
-    Возвращает данные в виде сетки календарных недель (столбцы) на 7 дней (строки),
-    выровненной по понедельникам, с количеством мероприятий на день и итогом за месяц.
-    """
-    counts_by_day: dict[date, int] = {}
-    for item in all_events + all_webinars:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if ONEYEAR_START <= item_date <= ONEYEAR_END:
-            counts_by_day[item_date] = counts_by_day.get(item_date, 0) + 1
+def _parse_item_date(item: dict) -> date | None:
+    """Дата мероприятия из YAML-записи или None, если поле отсутствует/битое."""
+    try:
+        return datetime.strptime(item['date'], '%Y-%m-%d').date()
+    except (KeyError, ValueError):
+        return None
 
-    month_totals: dict[tuple[int, int], int] = {}
+
+def _is_online_city(city: str) -> bool:
+    return not city or city.strip().lower() in ONLINE_CITIES
+
+
+def _month_totals(counts_by_day: dict[date, int]) -> dict[tuple[int, int], int]:
+    totals: dict[tuple[int, int], int] = {}
     for day, count in counts_by_day.items():
         key = (day.year, day.month)
-        month_totals[key] = month_totals.get(key, 0) + count
+        totals[key] = totals.get(key, 0) + count
+    return totals
 
-    grid_start = ONEYEAR_START - timedelta(days=ONEYEAR_START.weekday())  # понедельник недели старта
-    total_days = (ONEYEAR_END - grid_start).days + 1
-    weeks = (total_days + 6) // 7
 
+def _heatmap_cells_and_months(
+    grid_start: date,
+    weeks: int,
+    counts_by_day: dict[date, int],
+    month_totals: dict[tuple[int, int], int],
+) -> tuple[list[dict], list[dict]]:
+    """Ячейки сетки (по дням) и подписи месяцев (с шириной в колонках-неделях)."""
     cells = []
     months = []
     current_month_key = None
@@ -95,6 +101,27 @@ def build_heatmap_data(all_events: list[dict], all_webinars: list[dict]) -> dict
         else:
             months[-1]['span'] += 1
 
+    return cells, months
+
+
+def build_heatmap_data(all_events: list[dict], all_webinars: list[dict]) -> dict:
+    """Считает реальное количество мероприятий по дням для тепловой карты oneyear.
+
+    Возвращает данные в виде сетки календарных недель (столбцы) на 7 дней (строки),
+    выровненной по понедельникам, с количеством мероприятий на день и итогом за месяц.
+    """
+    counts_by_day: dict[date, int] = {}
+    for item in all_events + all_webinars:
+        item_date = _parse_item_date(item)
+        if item_date and ONEYEAR_START <= item_date <= ONEYEAR_END:
+            counts_by_day[item_date] = counts_by_day.get(item_date, 0) + 1
+
+    month_totals = _month_totals(counts_by_day)
+    grid_start = ONEYEAR_START - timedelta(days=ONEYEAR_START.weekday())  # понедельник недели старта
+    total_days = (ONEYEAR_END - grid_start).days + 1
+    weeks = (total_days + 6) // 7
+
+    cells, months = _heatmap_cells_and_months(grid_start, weeks, counts_by_day, month_totals)
     return {'weeks': weeks, 'cells': cells, 'months': months}
 
 
@@ -123,32 +150,24 @@ def month_range(start: date, end: date) -> list[tuple[int, int]]:
 
 def build_monthly_data(all_events: list[dict], all_webinars: list[dict]) -> list[dict]:
     """Считает реальную разбивку мероприятий по месяцам (офлайн/онлайн/вебинары) для графика oneyear."""
-    online_cities = {'online', 'онлайн'}
     buckets = {
         ym: {'total': 0, 'offline': 0, 'online': 0, 'webinars': 0} for ym in month_range(ONEYEAR_START, ONEYEAR_END)
     }
 
     for item in all_events:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+        item_date = _parse_item_date(item)
+        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
         key = (item_date.year, item_date.month)
         buckets[key]['total'] += 1
-        city = str(item.get('city', '')).strip().lower()
-        if city in online_cities:
+        if _is_online_city(str(item.get('city', ''))):
             buckets[key]['online'] += 1
         else:
             buckets[key]['offline'] += 1
 
     for item in all_webinars:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+        item_date = _parse_item_date(item)
+        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
         key = (item_date.year, item_date.month)
         buckets[key]['total'] += 1
@@ -162,18 +181,14 @@ def build_monthly_data(all_events: list[dict], all_webinars: list[dict]) -> list
 
 def build_geo_data(all_events: list[dict], top_n: int = 8) -> list[dict]:
     """Считает реальное число офлайн-мероприятий по городам для графика географии oneyear."""
-    online_cities = {'online', 'онлайн'}
     counts: dict[str, int] = {}
 
     for item in all_events:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+        item_date = _parse_item_date(item)
+        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
         city = str(item.get('city', '')).strip()
-        if not city or city.lower() in online_cities:
+        if _is_online_city(city):
             continue
         counts[city] = counts.get(city, 0) + 1
 
@@ -227,24 +242,20 @@ CITY_COLORS: dict[str, str] = {}
 
 def build_graph_data(all_events: list[dict]) -> list[dict]:
     """Список офлайн-мероприятий (город + логотип) для графа связей oneyear."""
-    online_cities = {'online', 'онлайн'}
     result = []
 
     for item in all_events:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+        item_date = _parse_item_date(item)
+        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
         city = str(item.get('city', '')).strip()
-        if not city or city.lower() in online_cities:
+        if _is_online_city(city):
             continue
         result.append(
             {
                 'title': item.get('title', ''),
                 'city': city,
-                'icon': '/img/events/' + item.get('icon', 'default.jpg'),
+                'icon': '/img/events/' + item.get('icon', DEFAULT_ICON),
                 'date': item['date'],
             }
         )
@@ -254,40 +265,33 @@ def build_graph_data(all_events: list[dict]) -> list[dict]:
 
 def build_recent_events(all_events: list[dict], all_webinars: list[dict], limit: int = 10) -> list[dict]:
     """Последние прошедшие мероприятия (события и вебинары) для oneyear."""
-    online_cities = {'online', 'онлайн'}
     today = date.today()
     items = []
 
     for item in all_events:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if item_date >= today:
+        item_date = _parse_item_date(item)
+        if not item_date or item_date >= today:
             continue
         city = str(item.get('city', '')).strip()
         items.append(
             {
                 'title': item.get('title', ''),
                 'date': item['date'],
-                'city': 'Онлайн' if not city or city.lower() in online_cities else city,
-                'icon': '/img/events/' + item.get('icon', 'default.jpg'),
+                'city': 'Онлайн' if _is_online_city(city) else city,
+                'icon': '/img/events/' + item.get('icon', DEFAULT_ICON),
             }
         )
 
     for item in all_webinars:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if item_date >= today:
+        item_date = _parse_item_date(item)
+        if not item_date or item_date >= today:
             continue
         items.append(
             {
                 'title': item.get('title', ''),
                 'date': item['date'],
                 'city': 'Онлайн',
-                'icon': '/img/webinars/' + item.get('pic', 'default.jpg'),
+                'icon': '/img/webinars/' + item.get('pic', DEFAULT_ICON),
             }
         )
 
@@ -320,6 +324,17 @@ WORD_RE = re.compile(r'[а-яё]+(?:-[а-яё]+)*|1с')
 _morph = pymorphy3.MorphAnalyzer()
 
 
+def _word_cloud_lemma(word: str) -> str | None:
+    """Начальная форма слова для облака тегов или None, если слово нужно пропустить."""
+    if word in WORD_CLOUD_STOPWORDS:
+        return None
+    if word != '1с' and len(word.replace('-', '')) < 3:
+        return None
+    lemma = word if word == '1с' else _morph.parse(word)[0].normal_form
+    lemma = WORD_LEMMA_OVERRIDES.get(lemma, lemma)
+    return None if lemma in WORD_CLOUD_STOPWORDS else lemma
+
+
 def build_word_cloud(all_events: list[dict], all_webinars: list[dict], limit: int = 50) -> list[dict]:
     """Самые частые слова из названий и описаний мероприятий (для облака тегов).
 
@@ -329,23 +344,14 @@ def build_word_cloud(all_events: list[dict], all_webinars: list[dict], limit: in
     counts: dict[str, int] = {}
 
     for item in all_events + all_webinars:
-        try:
-            item_date = datetime.strptime(item['date'], '%Y-%m-%d').date()
-        except (KeyError, ValueError):
-            continue
-        if not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+        item_date = _parse_item_date(item)
+        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
         text = (item.get('title', '') + ' ' + item.get('description', '')).lower()
         for word in WORD_RE.findall(text):
-            if word in WORD_CLOUD_STOPWORDS:
-                continue
-            if word != '1с' and len(word.replace('-', '')) < 3:
-                continue
-            lemma = word if word == '1с' else _morph.parse(word)[0].normal_form
-            lemma = WORD_LEMMA_OVERRIDES.get(lemma, lemma)
-            if lemma in WORD_CLOUD_STOPWORDS:
-                continue
-            counts[lemma] = counts.get(lemma, 0) + 1
+            lemma = _word_cloud_lemma(word)
+            if lemma:
+                counts[lemma] = counts.get(lemma, 0) + 1
 
     ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:limit]
     return [{'text': word, 'count': count} for word, count in ranked]

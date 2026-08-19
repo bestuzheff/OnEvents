@@ -83,6 +83,17 @@
         .logo-onevents {height: 32px; width: auto;}
         .header-right {display:flex; align-items:center; gap:1rem;}
         .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.25em;color:var(--header-text);cursor:pointer;}
+        .logo {text-decoration:none;}
+
+        /* Бургер-меню */
+        .burger-container {position:relative;}
+        .burger-menu-btn {display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; padding:.5rem; color:var(--header-text); font-size:1.5rem; box-sizing:border-box; width:2.5rem; height:2.5rem;}
+        .burger-menu-btn:hover {opacity:.8;}
+        .mobile-menu {display:none; position:absolute; top:calc(100% + .5rem); right:0; background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:.5rem; box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:999; min-width:180px;}
+        .mobile-menu nav {display:flex; flex-direction:column; gap:.25rem; width:100%;}
+        .mobile-menu nav a {display:block; padding:.5rem .75rem; color:var(--text); text-decoration:none; border-radius:4px; transition:all .2s; font-size:.95em;}
+        .mobile-menu nav a:hover {background:var(--border); color:var(--link);}
+        .mobile-menu.open {display:block;}
 
         .container {max-width:1100px;margin:2em auto;padding:0 1em;}
 
@@ -90,7 +101,9 @@
         .hero {
             text-align:center; padding:2.5em 1em 1.5em;
         }
-        .hero .cake {font-size:3em; line-height:1;}
+        .hero .cake {font-size:3em; line-height:1; display:inline-block; cursor:pointer; transition:transform .25s cubic-bezier(.34,1.56,.64,1); user-select:none;}
+        .hero .cake:hover {transform:scale(1.4);}
+        .confetti-piece {position:fixed; top:0; left:0; pointer-events:none; z-index:5000; border-radius:2px;}
         .hero h1 {margin:.4em 0 .2em; font-size:2.4em; line-height:1.15;}
         .hero .subtitle {color:var(--muted); font-size:1.05em; margin:0;}
         .hero .dates {margin-top:1em; display:inline-block; padding:.5em 1em; border:1px dashed var(--border); border-radius:8px; color:var(--muted);}
@@ -108,14 +121,14 @@
         }
         .calendar-card::before, .kpi::before {left:22%;}
         .calendar-card::after, .kpi::after {right:22%;}
-        .calendar-card {width:clamp(108px,22vw,150px); padding:1.1em .5em .9em;}
+        .calendar-card {width:clamp(132px,28vw,150px); padding:1.1em .5em .9em;}
         .calendar-left:hover {transform:scale(1.06) rotate(-4deg); box-shadow:0 10px 22px var(--cal-shadow-hover);}
         .calendar-right:hover {transform:scale(1.06) rotate(4deg); box-shadow:0 10px 22px var(--cal-shadow-hover);}
         .cal-month {display:block; color:var(--cal-month); font-weight:700; letter-spacing:.06em; font-size:.85em;}
         .cal-day {display:block; color:var(--cal-text); font-weight:800; font-size:2.6em; line-height:1.1; font-family:Georgia,'Times New Roman',serif;}
         .cal-year {display:block; color:var(--cal-year); font-size:.8em; margin-top:.15em;}
 
-        .days-ring {position:relative; width:clamp(96px,18vw,132px); height:clamp(96px,18vw,132px); flex:none; display:flex; align-items:center; justify-content:center;}
+        .days-ring {position:relative; width:clamp(104px,20vw,132px); height:clamp(104px,20vw,132px); flex:none; display:flex; align-items:center; justify-content:center;}
         .days-ring svg {position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg);}
         .days-ring .ring-progress {
             fill:none; stroke:#d1a13f; stroke-width:8; stroke-linecap:round;
@@ -140,17 +153,15 @@
         section h2 {font-size:1.4em;margin:0 0 1em;}
         .card {background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.5em;box-shadow:var(--shadow);}
         .grid-2 {display:grid;gap:1.5rem;grid-template-columns:1fr 1fr;}
+        .grid-2 > * {min-width:0; display:flex; flex-direction:column;}
+        .grid-2 > * > .card {flex:1;}
         @media (max-width:800px){ .grid-2 {grid-template-columns:1fr;} }
 
         /* Heatmap */
-        .heatmap-head {display:flex; align-items:center; justify-content:space-between; gap:1em; flex-wrap:wrap; margin-bottom:.3em;}
-        .heatmap-head h2 {margin:0;}
-        .heatmap-hash {color:var(--muted); font-weight:400;}
-        .heatmap-subtitle {color:var(--muted); margin:0 0 1.2em; font-size:.95em;}
-        .heatmap-wrap {--heat-cols:53; --heat-cell:13px;}
-        .heatmap-months {display:grid; grid-template-columns:repeat(var(--heat-cols), var(--heat-cell)); gap:3px; margin-bottom:.5em;}
+        .heatmap-wrap {--heat-cols:53; --heat-cell:13px; overflow-x:auto; padding-bottom:.3em;}
+        .heatmap-months {display:grid; grid-template-columns:repeat(var(--heat-cols), var(--heat-cell)); gap:2px; margin-bottom:.5em;}
         .heatmap-months span {color:var(--muted); font-size:.7em; overflow:hidden;}
-        .heatmap-grid {display:grid; grid-template-columns:repeat(var(--heat-cols), var(--heat-cell)); grid-template-rows:repeat(7, var(--heat-cell)); grid-auto-flow:column; gap:3px;}
+        .heatmap-grid {display:grid; grid-template-columns:repeat(var(--heat-cols), var(--heat-cell)); grid-template-rows:repeat(7, var(--heat-cell)); grid-auto-flow:column; gap:2px;}
         .heat-cell {width:var(--heat-cell); height:var(--heat-cell); border-radius:3px; background:var(--heat-0);
             opacity:0; transform:scale(.4); transition:transform .18s ease, box-shadow .18s ease;}
         .heat-cell.out {visibility:hidden;}
@@ -188,13 +199,13 @@
 
         /* Geo bars */
         .geo-bars {display:flex; flex-direction:column; gap:.65em;}
-        .geo-bar-row {display:flex; align-items:center; gap:.75em; cursor:default;}
-        .geo-bar-label {width:9.5em; flex:none; font-size:.85em; color:var(--text); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-        .geo-bar-track {flex:1; height:16px; background:var(--heat-0); border-radius:8px; overflow:hidden;}
+        .geo-bar-row {display:flex; align-items:center; gap:.75em; cursor:default; flex-wrap:wrap;}
+        .geo-bar-label {flex:none; width:var(--geo-label-w, auto); font-size:.85em; color:var(--text); text-align:right; white-space:nowrap;}
+        .geo-bar-track {flex:1; min-width:60px; height:16px; background:var(--heat-0); border-radius:8px; overflow:hidden;}
         .geo-bar-fill {height:100%; width:0; border-radius:8px; background:linear-gradient(90deg, var(--heat-2), var(--heat-4)); transition:width .8s cubic-bezier(.22,1,.36,1), filter .2s ease;}
         .geo-bar-row:hover .geo-bar-fill {filter:brightness(1.15);}
         .geo-bar-count {width:2.4em; flex:none; font-size:.8em; color:var(--muted); text-align:left;}
-        @media (max-width:560px){ .geo-bar-label {width:7em; font-size:.78em;} }
+        @media (max-width:560px){ .geo-bar-label {font-size:.78em;} }
 
         /* Graph */
         .graph-card {padding:0; overflow:hidden; position:relative;}
@@ -214,7 +225,7 @@
 
         /* Format ring */
         .format-ring-card {display:flex; align-items:center; justify-content:center; padding:2.5em 1em;}
-        .format-ring {position:relative; width:min(280px,70vw); height:min(280px,70vw); display:flex; align-items:center; justify-content:center; cursor:default;}
+        .format-ring {position:relative; width:100%; max-width:280px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; cursor:default;}
         .format-ring svg {position:absolute; inset:0; width:100%; height:100%; overflow:visible; transform:rotate(-90deg);}
         .format-ring circle {fill:none; stroke-width:22; transform-origin:60px 60px;}
         .format-track {stroke:var(--heat-0);}
@@ -226,14 +237,14 @@
 
         /* Recent events */
         .recent-events {list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.3em;}
-        .recent-event-row {display:flex; align-items:center; gap:.75em; padding:.5em .4em; border-radius:8px;
+        .recent-event-row {display:flex; align-items:flex-start; gap:.75em; padding:.5em .4em; border-radius:8px;
             opacity:0; transform:translateX(-8px); transition:background .15s ease, opacity .4s ease, transform .4s ease;}
         .recent-event-row.in {opacity:1; transform:translateX(0);}
         .recent-event-row:hover {background:var(--cal-bg);}
         .recent-event-thumb {width:38px; height:38px; flex:none; border-radius:50%; overflow:hidden; background:var(--cal-bg); display:flex; align-items:center; justify-content:center;}
         .recent-event-thumb img {width:100%; height:100%; object-fit:cover;}
         .recent-event-text {flex:1; min-width:0;}
-        .recent-event-title {display:block; font-size:.92em; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+        .recent-event-title {display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:.92em; color:var(--text); line-height:1.3;}
         .recent-event-meta {display:block; font-size:.8em; color:var(--muted); margin-top:.1em;}
 
         /* Word cloud */
@@ -258,13 +269,22 @@
 
 <header role="banner">
   <div class="header-inner">
-    <div class="logo">
+    <a class="logo" href="/" aria-label="OnEvents — на главную">
       <img class="logo-onevents" src="/icons/logo.png">
       OnEvents
-    </div>
+    </a>
     <div class="header-right">
-      <a href="/">На главную</a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
+      <div class="burger-container">
+        <button class="burger-menu-btn" id="burgerMenuBtn" type="button" aria-label="Открыть меню">☰</button>
+        <div class="mobile-menu" id="mobileMenu">
+          <nav>
+            <a href="/" class="mobile-menu-link">События</a>
+            <a href="/video/" class="mobile-menu-link">Видеозаписи</a>
+            <a href="/#about" class="mobile-menu-link">О проекте</a>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -307,10 +327,7 @@
   </div>
 
   <section>
-    <div class="heatmap-head">
-      <h2><span class="heatmap-hash">#</span> Мероприятия по месяцам</h2>
-    </div>
-    <p class="heatmap-subtitle">Каждый квадрат — день. Чем ярче — тем больше мероприятий в этот день.</p>
+    <h2>🔥 Мероприятия по месяцам</h2>
     <div class="card">
       <div class="heatmap-wrap" id="heatmapWrap">
         <div class="heatmap-months" id="heatmapMonths"></div>
@@ -330,10 +347,7 @@
   <script id="heatmapData" type="application/json">{{ heatmap_data }}</script>
 
   <section>
-    <div class="heatmap-head">
-      <h2><span class="heatmap-hash">#</span> Динамика по месяцам</h2>
-    </div>
-    <p class="heatmap-subtitle">Высота столбика — сколько мероприятий прошло в этот месяц.</p>
+    <h2>📈 Динамика по месяцам</h2>
     <div class="card">
       <div class="month-bars" id="monthBars"></div>
     </div>
@@ -341,21 +355,33 @@
   <script id="monthlyData" type="application/json">{{ monthly_data }}</script>
 
   <section>
-    <div class="heatmap-head">
-      <h2><span class="heatmap-hash">#</span> География</h2>
-    </div>
-    <p class="heatmap-subtitle">Длина полоски — сколько офлайн-мероприятий прошло в городе.</p>
-    <div class="card">
-      <div class="geo-bars" id="geoBars"></div>
+    <div class="grid-2">
+      <div>
+        <h2>📍 География</h2>
+        <div class="card">
+          <div class="geo-bars" id="geoBars"></div>
+        </div>
+      </div>
+      <div>
+        <h2>🎭 Формат мероприятий</h2>
+        <div class="card format-ring-card">
+          <div class="format-ring" id="formatRing">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="format-track" cx="60" cy="60" r="50"/>
+            </svg>
+            <div class="format-ring-label">
+              <span class="num" id="formatTotal">0</span>
+              <span class="lbl">мероприятий</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
   <script id="geoData" type="application/json">{{ geo_data }}</script>
 
   <section>
-    <div class="heatmap-head">
-      <h2><span class="heatmap-hash">#</span> Карта сообщества</h2>
-    </div>
-    <p class="heatmap-subtitle">Города — золотые кружки (крупнее — больше мероприятий), маленькие — сами мероприятия. Перетащите узел мышкой.</p>
+    <h2>🕸️ Карта сообщества</h2>
     <div class="card graph-card">
       <canvas id="graphCanvas"></canvas>
       <div class="graph-controls">
@@ -371,42 +397,15 @@
   <script id="cityColors" type="application/json">{{ city_colors }}</script>
 
   <section>
-    <div class="grid-2">
-      <div>
-        <div class="heatmap-head">
-          <h2><span class="heatmap-hash">#</span> Формат мероприятий</h2>
-        </div>
-        <p class="heatmap-subtitle">Наведите на сегмент — расскажем подробнее.</p>
-        <div class="card format-ring-card">
-          <div class="format-ring" id="formatRing">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <circle class="format-track" cx="60" cy="60" r="50"/>
-            </svg>
-            <div class="format-ring-label">
-              <span class="num" id="formatTotal">0</span>
-              <span class="lbl">мероприятий</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="heatmap-head">
-          <h2><span class="heatmap-hash">#</span> Последние мероприятия</h2>
-        </div>
-        <p class="heatmap-subtitle">То, что уже прошло совсем недавно.</p>
-        <div class="card">
-          <ul class="recent-events" id="recentEvents"></ul>
-        </div>
-      </div>
+    <h2>🕓 Последние мероприятия</h2>
+    <div class="card">
+      <ul class="recent-events" id="recentEvents"></ul>
     </div>
   </section>
   <script id="recentEventsData" type="application/json">{{ recent_events }}</script>
 
   <section>
-    <div class="heatmap-head">
-      <h2><span class="heatmap-hash">#</span> Облако тегов</h2>
-    </div>
-    <p class="heatmap-subtitle">Самые частые слова из названий и описаний мероприятий — крупнее слово, чаще оно встречается.</p>
+    <h2>☁️ Облако тегов</h2>
     <div class="card">
       <div class="word-cloud" id="wordCloud"></div>
     </div>
@@ -461,6 +460,81 @@
     else if(saved==='light'){icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}
     else{icon.textContent = isDark() ? '☀️' : '🌙';}
   }catch(e){}
+})();
+
+(function burgerMenu(){
+  const burgerBtn = document.getElementById('burgerMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if(!burgerBtn || !mobileMenu) return;
+
+  burgerBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    mobileMenu.classList.toggle('open');
+    burgerBtn.textContent = burgerBtn.textContent === '☰' ? '✕' : '☰';
+  });
+
+  document.addEventListener('click', function(e){
+    if(!mobileMenu.contains(e.target) && e.target !== burgerBtn){
+      mobileMenu.classList.remove('open');
+      burgerBtn.textContent = '☰';
+    }
+  });
+
+  mobileMenu.querySelectorAll('.mobile-menu-link').forEach(function(link){
+    link.addEventListener('click', function(){
+      mobileMenu.classList.remove('open');
+      burgerBtn.textContent = '☰';
+    });
+  });
+})();
+
+// Пасхалка: конфетти при наведении на торт в шапке года
+(function cakeConfetti(){
+  const cake = document.querySelector('.hero .cake');
+  if(!cake) return;
+
+  const colors = ['#d1a13f', '#e8a86b', '#b8503c', '#7fb3d5', '#e6a4c4', '#8fbf8f'];
+  let lastFired = 0;
+
+  function burst(){
+    const now = Date.now();
+    if(now - lastFired < 600) return; // не спамим при повторных наведениях
+    lastFired = now;
+
+    const rect = cake.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    for(let i = 0; i < 28; i++){
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      const w = 5 + Math.random() * 5;
+      el.style.width = w + 'px';
+      el.style.height = (w * 0.4 + Math.random() * w * 0.6) + 'px';
+      el.style.left = cx + 'px';
+      el.style.top = cy + 'px';
+      document.body.appendChild(el);
+
+      const angle = Math.PI + Math.random() * Math.PI; // веером вверх
+      const speed = 120 + Math.random() * 160;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      const rot = (Math.random() - 0.5) * 720;
+      const duration = 1100 + Math.random() * 700;
+
+      const anim = el.animate([
+        { transform: 'translate(-50%,-50%) translate(0,0) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(-50%,-50%) translate(' + (vx * 0.5) + 'px,' + (vy * 0.35) + 'px) rotate(' + (rot * 0.5) + 'deg)', opacity: 1, offset: 0.4 },
+        { transform: 'translate(-50%,-50%) translate(' + vx + 'px,' + (vy + 260) + 'px) rotate(' + rot + 'deg)', opacity: 0 },
+      ], { duration: duration, easing: 'cubic-bezier(.2,.6,.4,1)' });
+      anim.onfinish = function(){ el.remove(); };
+    }
+  }
+
+  cake.addEventListener('mouseenter', burst);
+  cake.addEventListener('touchstart', burst, { passive: true });
 })();
 
 (function kpiCountUp(){
@@ -527,7 +601,10 @@
 
     heatData.months.forEach(function(m){
       const span = document.createElement('span');
-      span.textContent = m.label;
+      // Слишком узкому месяцу (обычно первому или последнему — там всего
+      // пара дней года) буквы не помещаются и подпись переносится на вторую
+      // строку — в таком случае просто не подписываем.
+      span.textContent = m.span >= 3 ? m.label : '';
       span.style.gridColumn = 'span ' + m.span;
       monthsEl.appendChild(span);
     });
@@ -571,13 +648,28 @@
     });
 
     function resize(){
-      const gap = 3;
+      const gap = 2;
       const available = wrapEl.clientWidth;
-      const cell = Math.max(6, Math.floor((available - (heatData.weeks - 1) * gap) / heatData.weeks));
+      // Комфортный минимум ячейки: если 53 колонки в него не помещаются,
+      // не сжимаем до нечитаемых точек — карта просто скроллится по горизонтали
+      // (у .heatmap-wrap есть overflow-x:auto).
+      const cell = Math.max(9, Math.floor((available - (heatData.weeks - 1) * gap) / heatData.weeks));
       wrapEl.style.setProperty('--heat-cell', cell + 'px');
     }
     resize();
     window.addEventListener('resize', resize);
+
+    // Как и в графе: при загрузке контент выше (шрифты, другие блоки) может
+    // доукладываться уже после первого resize() — ResizeObserver ловит
+    // реальное изменение ширины контейнера и пересчитывает картинку.
+    if('ResizeObserver' in window){
+      let lastW = 0;
+      const ro = new ResizeObserver(function(){
+        const w = wrapEl.clientWidth;
+        if(Math.abs(w - lastW) > 1){ lastW = w; resize(); }
+      });
+      ro.observe(wrapEl);
+    }
 
     if('IntersectionObserver' in window){
       const observer = new IntersectionObserver(function(entries){
@@ -753,6 +845,14 @@
       row.addEventListener('mouseleave', hideTooltip);
       barsEl.appendChild(row);
     });
+
+    // Все полоски должны начинаться в одном месте — подписи выравниваем
+    // по ширине самой длинной (а не жёстко фиксированным значением).
+    let maxLabelWidth = 0;
+    barsEl.querySelectorAll('.geo-bar-label').forEach(function(el){
+      maxLabelWidth = Math.max(maxLabelWidth, el.offsetWidth);
+    });
+    barsEl.style.setProperty('--geo-label-w', maxLabelWidth + 'px');
 
     if('IntersectionObserver' in window){
       const observer = new IntersectionObserver(function(entries){

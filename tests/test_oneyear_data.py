@@ -1,4 +1,5 @@
 from datetime import date
+from unittest.mock import patch
 
 import create_web
 
@@ -109,20 +110,22 @@ class TestBuildMonthlyData:
         webinars = [make_webinar(date='2025-09-17')]
 
         data = create_web.build_monthly_data(events, webinars)
-        sept = next(m for m in data if m['label'] == 'сен' and m['year'] == 2025)
+        sept = next(m for m in data if m['label'] == 'сен')
 
         assert sept['total'] == 3
         assert sept['offline'] == 1
         assert sept['online'] == 1
         assert sept['webinars'] == 1
 
-    def test_covers_full_year_range(self):
+    def test_covers_all_months_jan_to_dec(self):
         data = create_web.build_monthly_data([], [])
-        assert len(data) == 13
-        assert data[0]['label'] == 'авг'
-        assert data[0]['year'] == 2025
-        assert data[-1]['label'] == 'авг'
-        assert data[-1]['year'] == 2026
+        assert [m['label'] for m in data] == create_web.MONTH_SHORT_RU
+
+    def test_aggregates_same_month_across_years(self):
+        events = [make_event(date='2025-08-25', city='Москва'), make_event(date='2026-08-05', city='Москва')]
+        data = create_web.build_monthly_data(events, [])
+        august = next(m for m in data if m['label'] == 'авг')
+        assert august['total'] == 2
 
 
 class TestBuildGeoData:
@@ -245,3 +248,41 @@ class TestBuildWordCloud:
         events = [make_event(date='2025-09-15', title='', description=description)]
         data = create_web.build_word_cloud(events, [], limit=10)
         assert len(data) == 10
+
+
+class TestBuildYearStats:
+    def test_counts_offline_online_and_cities(self):
+        events = [
+            make_event(date='2025-09-15', city='Москва'),
+            make_event(date='2025-09-16', city='Москва'),
+            make_event(date='2025-09-17', city='Онлайн'),
+        ]
+        webinars = [make_webinar(date='2025-09-18')]
+
+        stats = create_web.build_year_stats(events, webinars)
+
+        assert stats['total'] == 4
+        assert stats['events'] == 3
+        assert stats['webinars'] == 1
+        assert stats['offline'] == 2
+        assert stats['cities'] == 1
+
+    def test_ignores_items_outside_range(self):
+        events = [make_event(date='2020-01-01')]
+        stats = create_web.build_year_stats(events, [])
+        assert stats == {'total': 0, 'events': 0, 'webinars': 0, 'offline': 0, 'cities': 0, 'videos': 0}
+
+    def test_counts_videos_only_for_past_events(self):
+        past = make_event(date='2025-09-01', city='Москва')
+        past['videos'] = [{'description': 'запись'}]
+        future = make_event(date='2026-06-01', city='Москва')
+        future['videos'] = [{'description': 'запись'}]
+
+        # "Сегодня" фиксируем, чтобы тест не зависел от реальной даты запуска.
+        with patch('create_web.date') as mock_date:
+            mock_date.today.return_value = date(2026, 1, 1)
+            stats_future = create_web.build_year_stats([future], [])
+            stats_past = create_web.build_year_stats([past], [])
+
+        assert stats_future['videos'] == 0
+        assert stats_past['videos'] == 1

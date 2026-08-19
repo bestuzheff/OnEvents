@@ -7,7 +7,7 @@
     <meta name="description" content="OnEvents исполнился один год. Итоги года: события, вебинары, города и сообщество 1С.">
     <link rel="canonical" href="https://onevents.ru/oneyear/">
     <meta property="og:title" content="OnEvents — один год | Итоги года">
-    <meta property="og:description" content="154 мероприятия, 20 городов, сообщество 1С — итоги первого года проекта OnEvents.">
+    <meta property="og:description" content="{{ stat_total }} {{ meta_events_word }}, {{ stat_cities }} {{ meta_cities_word }}, сообщество 1С — итоги первого года проекта OnEvents.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://onevents.ru/oneyear/">
     <meta property="og:image" content="https://onevents.ru/icons/web-app-manifest-192x192.png">
@@ -141,10 +141,12 @@
         .days-ring-label .lbl {display:block; font-size:.75em; color:var(--muted);}
 
         /* KPI */
-        .kpi-grid {display:grid;gap:1.25rem 1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin:2em 0;}
-        .kpi {padding:1.6em 1em 1.1em;}
-        .kpi:hover {transform:scale(1.05) rotate(-3deg); box-shadow:0 10px 22px var(--cal-shadow-hover);}
-        .kpi:nth-child(even):hover {transform:scale(1.05) rotate(3deg);}
+        .kpi-grid {display:grid;gap:2.2rem 1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin:2em 0 3.2em;}
+        .kpi {padding:1.6em 1em 1.1em; position:relative; z-index:1;}
+        .kpi:hover {transform:scale(1.14) rotate(-3deg); box-shadow:0 14px 28px var(--cal-shadow-hover); z-index:2;}
+        .kpi:nth-child(even):hover {transform:scale(1.14) rotate(3deg);}
+        .kpi-hint {position:absolute; left:1em; right:1em; top:100%; margin-top:.5em; font-size:.72em; line-height:1.3; color:var(--cal-year); opacity:0; pointer-events:none; transition:opacity .2s ease;}
+        .kpi:hover .kpi-hint {opacity:1;}
         .kpi .lbl {display:block; color:var(--cal-month); font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:.85em; margin-bottom:.3em;}
         .kpi .num {display:block; font-size:2.3em;font-weight:800;line-height:1.1; font-family:Georgia,'Times New Roman',serif; color:var(--cal-text);}
 
@@ -293,37 +295,37 @@
   <div class="hero">
     <div class="cake">🎂</div>
     <h1>OnEvents — один год</h1>
-    <p class="subtitle">Год назад появился календарь событий и вебинаров по 1С.<br>Смотрим, что получилось.</p>
+    <p class="subtitle">Год назад появился календарь событий и вебинаров по 1С<br>Смотрим, что получилось</p>
     <div class="year-duo">
       <div class="calendar-card calendar-left" id="calLeft">
-        <span class="cal-month">АВГУСТ</span>
-        <span class="cal-day">21</span>
-        <span class="cal-year">2025</span>
+        <span class="cal-month">{{ start_month }}</span>
+        <span class="cal-day">{{ start_day }}</span>
+        <span class="cal-year">{{ start_year }}</span>
       </div>
       <div class="days-ring ring-empty" id="daysRing">
         <svg viewBox="0 0 120 120" aria-hidden="true">
           <circle class="ring-progress" cx="60" cy="60" r="54"/>
         </svg>
         <div class="days-ring-label">
-          <span class="num">365</span>
-          <span class="lbl">дней</span>
+          <span class="num">{{ period_days }}</span>
+          <span class="lbl">{{ period_days_label }}</span>
         </div>
       </div>
       <div class="calendar-card calendar-right" id="calRight">
-        <span class="cal-month">АВГУСТ</span>
-        <span class="cal-day">21</span>
-        <span class="cal-year">2026</span>
+        <span class="cal-month">{{ end_month }}</span>
+        <span class="cal-day">{{ end_day }}</span>
+        <span class="cal-year">{{ end_year }}</span>
       </div>
     </div>
   </div>
 
   <div class="kpi-grid">
-    <div class="kpi"><div class="lbl">Мероприятия</div><div class="num">154</div></div>
-    <div class="kpi"><div class="lbl">События</div><div class="num">134</div></div>
-    <div class="kpi"><div class="lbl">Вебинары</div><div class="num">20</div></div>
-    <div class="kpi"><div class="lbl">Города</div><div class="num">20</div></div>
-    <div class="kpi"><div class="lbl">Офлайн-встречи</div><div class="num">111</div></div>
-    <div class="kpi"><div class="lbl">Видеозаписи</div><div class="num">9</div></div>
+    <div class="kpi"><div class="lbl">Всего</div><div class="num">{{ stat_total }}</div><div class="kpi-hint">события и вебинары суммарно</div></div>
+    <div class="kpi"><div class="lbl">Оффлайн</div><div class="num">{{ stat_offline }}</div><div class="kpi-hint">очные встречи в городах</div></div>
+    <div class="kpi"><div class="lbl">Вебинары</div><div class="num">{{ stat_webinars }}</div><div class="kpi-hint">прямые эфиры на сайте</div></div>
+    <div class="kpi"><div class="lbl">Встречи</div><div class="num">{{ stat_events }}</div><div class="kpi-hint">офлайн и онлайн, без вебинаров</div></div>
+    <div class="kpi"><div class="lbl">Видеозаписи</div><div class="num">{{ stat_videos }}</div><div class="kpi-hint">мероприятия с записью</div></div>
+    <div class="kpi"><div class="lbl">Города</div><div class="num">{{ stat_cities }}</div><div class="kpi-hint">городов с офлайн-встречами</div></div>
   </div>
 
   <section>
@@ -397,20 +399,20 @@
   <script id="cityColors" type="application/json">{{ city_colors }}</script>
 
   <section>
-    <h2>🕓 Последние мероприятия</h2>
-    <div class="card">
-      <ul class="recent-events" id="recentEvents"></ul>
-    </div>
-  </section>
-  <script id="recentEventsData" type="application/json">{{ recent_events }}</script>
-
-  <section>
-    <h2>☁️ Облако тегов</h2>
+    <h2>☁️ Самые частые слова</h2>
     <div class="card">
       <div class="word-cloud" id="wordCloud"></div>
     </div>
   </section>
   <script id="wordCloudData" type="application/json">{{ word_cloud }}</script>
+
+  <section>
+    <h2>🕓 Последние прошедшие мероприятия</h2>
+    <div class="card">
+      <ul class="recent-events" id="recentEvents"></ul>
+    </div>
+  </section>
+  <script id="recentEventsData" type="application/json">{{ recent_events }}</script>
 
   <section class="thanks">
     <h2>Спасибо сообществу 💛</h2>
@@ -726,7 +728,7 @@
       const breakdown = parts.length ? parts.join(' · ') : 'нет мероприятий';
       tooltip.innerHTML =
         '<span class="tt-day">' + m.total + ' ' + pluralize(m.total, eventForms) + '</span>' +
-        '<span class="tt-month">в ' + monthPrepositional[monthIndex] + ' ' + m.year + '</span>' +
+        '<span class="tt-month">в ' + monthPrepositional[monthIndex] + '</span>' +
         '<span class="tt-month">' + breakdown + '</span>';
       tooltip.classList.add('visible');
       const rect = barEl.getBoundingClientRect();
@@ -896,6 +898,8 @@
       return forms[2];
     }
     const eventForms = ['мероприятие', 'мероприятия', 'мероприятий'];
+    const totalLabelEl = ringEl.querySelector('.format-ring-label .lbl');
+    if(totalLabelEl) totalLabelEl.textContent = pluralize(total, eventForms);
 
     const segments = [
       { key: 'offline', label: 'Офлайн', desc: 'митапы, конференции, встречи сообщества', color: 'var(--heat-4)', value: totals.offline },
@@ -1154,6 +1158,13 @@
     const parts = iso.split('-');
     return parseInt(parts[2], 10) + ' ' + monthGenitive[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
   }
+  function pluralize(n, forms){
+    const mod10 = n % 10, mod100 = n % 100;
+    if(mod10 === 1 && mod100 !== 11) return forms[0];
+    if(mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1];
+    return forms[2];
+  }
+  const eventForms = ['мероприятие','мероприятия','мероприятий'];
 
   // Группируем мероприятия по городам
   const cityCounts = {};
@@ -1168,20 +1179,29 @@
   // каждый кадр — иначе анимация подтормаживает.
   const THUMB = 200;
   const thumbCache = {};
-  function loadThumb(src){
+  function loadThumb(src, mode){
     if(thumbCache[src] !== undefined) return thumbCache[src];
     thumbCache[src] = null;
     const img = new Image();
     img.onload = function(){
       const iw = img.naturalWidth || 1, ih = img.naturalHeight || 1;
-      // Вписываем по диагонали, а не по сторонам квадрата: маска — круг,
-      // и угол прямоугольного герба вылезает за окружность, если просто
-      // уместить его в квадрат THUMB×THUMB.
-      const scale = THUMB / Math.sqrt(iw * iw + ih * ih);
-      const dw = iw * scale, dh = ih * scale;
       const c = document.createElement('canvas');
       c.width = THUMB; c.height = THUMB;
-      c.getContext('2d').drawImage(img, (THUMB - dw) / 2, (THUMB - dh) / 2, dw, dh);
+      const ctx2d = c.getContext('2d');
+      if(mode === 'cover'){
+        // Логотипы мероприятий: точность не так важна, как то, чтобы не
+        // торчал угол белого фона — просто заполняем весь кружок целиком.
+        const scale = Math.max(THUMB / iw, THUMB / ih);
+        const dw = iw * scale, dh = ih * scale;
+        ctx2d.drawImage(img, (THUMB - dw) / 2, (THUMB - dh) / 2, dw, dh);
+      } else {
+        // Гербы городов: вписываем ТОЧНО по диагонали — маска круглая, и
+        // угол/край герба (как текст на щите Светлогорска) обрежется при
+        // любом запасе больше нуля.
+        const scale = THUMB / Math.sqrt(iw * iw + ih * ih);
+        const dw = iw * scale, dh = ih * scale;
+        ctx2d.drawImage(img, (THUMB - dw) / 2, (THUMB - dh) / 2, dw, dh);
+      }
       thumbCache[src] = c;
       wake();
     };
@@ -1211,7 +1231,7 @@
     const cn = cityNodes[ev.city];
     const angle = Math.random() * Math.PI * 2;
     const dist = cn.r + 16 + Math.random() * 18;
-    loadThumb(ev.icon);
+    loadThumb(ev.icon, 'cover');
     const n = {
       type: 'event', title: ev.title, city: ev.city, date: ev.date, imgSrc: ev.icon, r: EVENT_R,
       x: cn.x + Math.cos(angle) * dist, y: cn.y + Math.sin(angle) * dist, vx: 0, vy: 0, hoverT: 0,
@@ -1425,7 +1445,7 @@
   document.body.appendChild(tooltip);
   function showTooltip(n, clientX, clientY){
     const html = n.type === 'city'
-      ? '<span class="tt-day">' + n.city + '</span><span class="tt-month">' + n.count + ' мероприятий</span>'
+      ? '<span class="tt-day">' + n.city + '</span><span class="tt-month">' + n.count + ' ' + pluralize(n.count, eventForms) + '</span>'
       : '<span class="tt-day">' + n.title + '</span><span class="tt-month">' + n.city + ' · ' + formatDate(n.date) + '</span>';
     tooltip.innerHTML = html;
     tooltip.classList.add('visible');

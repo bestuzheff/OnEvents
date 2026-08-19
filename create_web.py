@@ -40,11 +40,19 @@ OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
 VIDEO_OUTPUT_FILE = OUTPUT_DIR / 'video' / 'index.html'  # HTML файл страницы видеозаписей
 ONEYEAR_OUTPUT_FILE = OUTPUT_DIR / 'oneyear' / 'index.html'  # HTML файл страницы итогов года
 
-# Период "первого года" для страницы итогов (oneyear)
+# Период "первого года" для страницы итогов (oneyear).
+# Годовщина считается от начала (ровно год спустя), а показываем только то, что уже
+# реально прошло: пока не наступила годовщина, конец периода — сегодняшняя дата сборки,
+# чтобы все цифры и графики на странице честно совпадали с "N дней" в шапке.
 ONEYEAR_START = date(2025, 8, 21)
-ONEYEAR_END = date(2026, 8, 21)
+ONEYEAR_ANNIVERSARY = date(ONEYEAR_START.year + 1, ONEYEAR_START.month, ONEYEAR_START.day)
+ONEYEAR_END = min(ONEYEAR_ANNIVERSARY, date.today())
 
 MONTH_SHORT_RU = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']
+MONTH_FULL_RU = [
+    'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
+    'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь',
+]
 
 ONLINE_CITIES = {'online', 'онлайн'}
 DEFAULT_ICON = 'default.jpg'
@@ -149,34 +157,33 @@ def month_range(start: date, end: date) -> list[tuple[int, int]]:
 
 
 def build_monthly_data(all_events: list[dict], all_webinars: list[dict]) -> list[dict]:
-    """Считает реальную разбивку мероприятий по месяцам (офлайн/онлайн/вебинары) для графика oneyear."""
-    buckets = {
-        ym: {'total': 0, 'offline': 0, 'online': 0, 'webinars': 0} for ym in month_range(ONEYEAR_START, ONEYEAR_END)
-    }
+    """Считает реальную разбивку мероприятий по месяцам (офлайн/онлайн/вебинары) для графика oneyear.
+
+    Суммирует по номеру месяца без привязки к году, чтобы график шёл в привычном
+    порядке январь → декабрь, даже когда период охватывает две календарные половины года.
+    """
+    buckets = {month: {'total': 0, 'offline': 0, 'online': 0, 'webinars': 0} for month in range(1, 13)}
 
     for item in all_events:
         item_date = _parse_item_date(item)
         if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
-        key = (item_date.year, item_date.month)
-        buckets[key]['total'] += 1
+        bucket = buckets[item_date.month]
+        bucket['total'] += 1
         if _is_online_city(str(item.get('city', ''))):
-            buckets[key]['online'] += 1
+            bucket['online'] += 1
         else:
-            buckets[key]['offline'] += 1
+            bucket['offline'] += 1
 
     for item in all_webinars:
         item_date = _parse_item_date(item)
         if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
-        key = (item_date.year, item_date.month)
-        buckets[key]['total'] += 1
-        buckets[key]['webinars'] += 1
+        bucket = buckets[item_date.month]
+        bucket['total'] += 1
+        bucket['webinars'] += 1
 
-    return [
-        {'label': MONTH_SHORT_RU[month - 1], 'year': year, **buckets[(year, month)]}
-        for year, month in month_range(ONEYEAR_START, ONEYEAR_END)
-    ]
+    return [{'label': MONTH_SHORT_RU[month - 1], **buckets[month]} for month in range(1, 13)]
 
 
 def build_geo_data(all_events: list[dict], top_n: int = 8) -> list[dict]:
@@ -355,6 +362,45 @@ def build_word_cloud(all_events: list[dict], all_webinars: list[dict], limit: in
 
     ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:limit]
     return [{'text': word, 'count': count} for word, count in ranked]
+
+
+def build_year_stats(all_events: list[dict], all_webinars: list[dict]) -> dict[str, int]:
+    """Честные итоговые цифры для карточек в шапке oneyear (за период года)."""
+    today = date.today()
+    events_count = 0
+    offline_count = 0
+    cities: set[str] = set()
+    videos_count = 0
+
+    for item in all_events:
+        item_date = _parse_item_date(item)
+        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+            continue
+        events_count += 1
+        city = str(item.get('city', '')).strip()
+        if not _is_online_city(city):
+            offline_count += 1
+            cities.add(city)
+        if item_date < today and item.get('videos'):
+            videos_count += 1
+
+    webinars_count = 0
+    for item in all_webinars:
+        item_date = _parse_item_date(item)
+        if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
+            continue
+        webinars_count += 1
+        if item_date < today and item.get('videos'):
+            videos_count += 1
+
+    return {
+        'total': events_count + webinars_count,
+        'events': events_count,
+        'webinars': webinars_count,
+        'offline': offline_count,
+        'cities': len(cities),
+        'videos': videos_count,
+    }
 
 
 def generate_sitemap() -> str:
@@ -541,6 +587,7 @@ def main() -> None:
     graph_data = build_graph_data(all_events)
     recent_events = build_recent_events(all_events, all_webinars)
     word_cloud = build_word_cloud(all_events, all_webinars)
+    year_stats = build_year_stats(all_events, all_webinars)
     oneyear_template = ONEYEAR_TEMPLATE_FILE.read_text(encoding='utf-8')
     oneyear_html = (
         oneyear_template.replace('{{ heatmap_data }}', json.dumps(heatmap_data, ensure_ascii=False))
@@ -551,6 +598,22 @@ def main() -> None:
         .replace('{{ city_colors }}', json.dumps(CITY_COLORS, ensure_ascii=False))
         .replace('{{ recent_events }}', json.dumps(recent_events, ensure_ascii=False))
         .replace('{{ word_cloud }}', json.dumps(word_cloud, ensure_ascii=False))
+        .replace('{{ stat_total }}', str(year_stats['total']))
+        .replace('{{ stat_events }}', str(year_stats['events']))
+        .replace('{{ stat_webinars }}', str(year_stats['webinars']))
+        .replace('{{ stat_cities }}', str(year_stats['cities']))
+        .replace('{{ stat_offline }}', str(year_stats['offline']))
+        .replace('{{ stat_videos }}', str(year_stats['videos']))
+        .replace('{{ start_month }}', MONTH_FULL_RU[ONEYEAR_START.month - 1].upper())
+        .replace('{{ start_day }}', str(ONEYEAR_START.day))
+        .replace('{{ start_year }}', str(ONEYEAR_START.year))
+        .replace('{{ end_month }}', MONTH_FULL_RU[ONEYEAR_END.month - 1].upper())
+        .replace('{{ end_day }}', str(ONEYEAR_END.day))
+        .replace('{{ end_year }}', str(ONEYEAR_END.year))
+        .replace('{{ period_days }}', str((ONEYEAR_END - ONEYEAR_START).days))
+        .replace('{{ period_days_label }}', ru_plural((ONEYEAR_END - ONEYEAR_START).days, 'день', 'дня', 'дней'))
+        .replace('{{ meta_events_word }}', ru_plural(year_stats['total'], 'мероприятие', 'мероприятия', 'мероприятий'))
+        .replace('{{ meta_cities_word }}', ru_plural(year_stats['cities'], 'город', 'города', 'городов'))
     )
     ONEYEAR_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     ONEYEAR_OUTPUT_FILE.write_text(oneyear_html, encoding='utf-8')

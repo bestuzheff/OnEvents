@@ -13,6 +13,7 @@ def test_generate_sitemap():
     assert 'https://onevents.ru/' in result
     assert 'https://onevents.ru/video/' in result
     assert 'https://onevents.ru/rss/rss.xml' in result
+    assert 'https://onevents.ru/oneyear/' in result
     assert date.today().isoformat() in result
     assert '<changefreq>daily</changefreq>' in result
 
@@ -109,7 +110,8 @@ class TestCreateWeb:
 
         mock_copytree.assert_any_call('img', 'site/img', dirs_exist_ok=True)
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
-        mock_copy.assert_called_once_with('web/sw.js', create_web.OUTPUT_DIR / 'sw.js')
+        mock_copy.assert_any_call('web/sw.js', create_web.OUTPUT_DIR / 'sw.js')
+        mock_copy.assert_any_call(create_web.ONEYEAR_TEMPLATE_FILE, create_web.ONEYEAR_OUTPUT_FILE)
 
         assert mock_generate_event_calendars.call_count == 2
 

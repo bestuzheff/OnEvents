@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>OnEvents — один год | Итоги года</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="OnEvents исполнился один год. Итоги года: события, вебинары, города и сообщество 1С.">
+    <link rel="canonical" href="https://onevents.ru/oneyear/">
+    <meta property="og:title" content="OnEvents — один год | Итоги года">
+    <meta property="og:description" content="154 мероприятия, 20 городов, сообщество 1С — итоги первого года проекта OnEvents.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://onevents.ru/oneyear/">
+    <meta property="og:image" content="https://onevents.ru/icons/web-app-manifest-192x192.png">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="OnEvents">
+    <meta name="twitter:card" content="summary">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="shortcut icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="OnEvents">
+    <link rel="manifest" href="/icons/site.webmanifest">
+    <meta name="theme-color" content="#1f2428">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        :root {
+            --bg:#fafafa; --text:#111; --muted:#666;
+            --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
+            --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
+            --link:#0b76ef;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg:#0f1115; --text:#e6e6e6; --muted:#a0a0a0;
+                --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
+                --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
+                --link:#7cb3ff;
+            }
+        }
+        .dark-theme {
+            --bg:#0f1115; --text:#e6e6e6; --muted:#a0a0a0;
+            --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
+            --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
+            --link:#7cb3ff;
+        }
+        .light-theme {
+            --bg:#fafafa; --text:#111; --muted:#666;
+            --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
+            --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
+            --link:#0b76ef;
+        }
+
+        * { box-sizing: border-box; }
+        body {font-family:'JetBrains Mono', monospace;margin:0;padding:0;background:var(--bg);color:var(--text);word-break:break-word;transition:background .2s,color .2s;line-height:1.55;}
+        a {color:var(--link);} a:hover {color:#a2c8ff !important;}
+        header a {color:var(--header-text);} header a:hover {color:#a2c8ff !important; text-decoration:underline;}
+
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--header-bg); color: var(--header-text);
+            padding: 1em;
+        }
+        .header-inner {max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;}
+        .logo {font-size:1.75em;font-weight:bold; display:flex; align-items:center; gap:.5rem;}
+        .logo-onevents {height: 32px; width: auto;}
+        .header-right {display:flex; align-items:center; gap:1rem;}
+        .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.25em;color:var(--header-text);cursor:pointer;}
+
+        .container {max-width:1100px;margin:2em auto;padding:0 1em;}
+
+        /* Hero */
+        .hero {
+            text-align:center; padding:2.5em 1em 1.5em;
+        }
+        .hero .cake {font-size:3em; line-height:1;}
+        .hero h1 {margin:.4em 0 .2em; font-size:2.4em; line-height:1.15;}
+        .hero .subtitle {color:var(--muted); font-size:1.05em; margin:0;}
+        .hero .dates {margin-top:1em; display:inline-block; padding:.5em 1em; border:1px dashed var(--border); border-radius:8px; color:var(--muted);}
+
+        /* KPI */
+        .kpi-grid {display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin:2em 0;}
+        .kpi {background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.25em 1em;text-align:center;box-shadow:var(--shadow);}
+        .kpi .num {font-size:2.3em;font-weight:bold;line-height:1.1;}
+        .kpi .lbl {color:var(--muted);font-size:.85em;margin-top:.4em;}
+
+        /* Cards for charts */
+        section {margin:2.5em 0;}
+        section h2 {font-size:1.4em;margin:0 0 1em;}
+        .card {background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.5em;box-shadow:var(--shadow);}
+        .chart-box {position:relative; width:100%;}
+        .chart-box.tall {height:420px;}
+        .chart-box.medium {height:340px;}
+        .chart-box.small {height:300px;}
+        .grid-2 {display:grid;gap:1.5rem;grid-template-columns:1fr 1fr;}
+        @media (max-width:800px){ .grid-2 {grid-template-columns:1fr;} }
+
+        /* Thanks */
+        .thanks {text-align:center; max-width:640px; margin:0 auto;}
+        .thanks p {color:var(--muted);}
+
+        footer {background:var(--footer-bg);color:var(--footer-text);text-align:center;padding:1em;margin-top:2em;font-size:.9em;}
+        footer a {color:var(--footer-text);}
+    </style>
+</head>
+<body>
+<script>(function initTheme(){try{const saved=localStorage.getItem('theme');const root=document.documentElement;if(saved==='dark'){root.classList.add('dark-theme');}else if(saved==='light'){root.classList.add('light-theme');}}catch(e){}})();</script>
+
+<header role="banner">
+  <div class="header-inner">
+    <div class="logo">
+      <img class="logo-onevents" src="/icons/logo.png">
+      OnEvents
+    </div>
+    <div class="header-right">
+      <a href="/">На главную</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="hero">
+    <div class="cake">🎂</div>
+    <h1>OnEvents — один год</h1>
+    <p class="subtitle">Год назад появился календарь событий и вебинаров по 1С.<br>Смотрим, что получилось.</p>
+    <div class="dates">21 августа 2025 — 21 августа 2026</div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="num">154</div><div class="lbl">мероприятия в календаре</div></div>
+    <div class="kpi"><div class="num">134</div><div class="lbl">события</div></div>
+    <div class="kpi"><div class="num">20</div><div class="lbl">вебинаров</div></div>
+    <div class="kpi"><div class="num">20</div><div class="lbl">городов</div></div>
+    <div class="kpi"><div class="num">111</div><div class="lbl">офлайн-встреч</div></div>
+    <div class="kpi"><div class="num">9</div><div class="lbl">с видеозаписями</div></div>
+  </div>
+
+  <section>
+    <h2>📈 Мероприятия по месяцам (первый год)</h2>
+    <div class="card">
+      <div class="chart-box tall"><canvas id="monthsChart"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>📍 География</h2>
+    <div class="card">
+      <div class="chart-box medium"><canvas id="citiesChart"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🎭 Формат мероприятий</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="chart-box small"><canvas id="formatChart"></canvas></div>
+      </div>
+      <div class="card">
+        <ul style="margin:0;padding-left:1.25em;line-height:2;">
+          <li>Офлайн — митапы, конференции, встречи сообщества</li>
+          <li>Онлайн — события с онлайн-трансляцией</li>
+          <li>Вебинары — прямой эфир на сайте</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="thanks">
+    <h2>Спасибо сообществу 💛</h2>
+    <p>Этот год был бы невозможен без всех, кто добавлял события, делился анонсами, смотрел вебинары и присылал идеи на почту. Спасибо, что делаете календарь 1С живым.</p>
+    <p>
+      <a href="https://t.me/OnEvents" target="_blank">Telegram</a> ·
+      <a href="https://github.com/bestuzheff/OnEvents" target="_blank">GitHub</a> ·
+      <a href="https://vk.com/onevents_ru" target="_blank">ВКонтакте</a> ·
+      <a href="https://max.ru/id541000083625_biz" target="_blank">MAX</a>
+    </p>
+  </section>
+</main>
+
+<footer role="contentinfo"><small>© OnEvents, 2026. <a href="/">На главную</a></small></footer>
+
+<script>
+(function themeToggle(){
+  const btn=document.getElementById('themeToggle');
+  const icon=document.getElementById('themeIcon');
+  const root=document.documentElement;
+  function isDark(){
+    if(root.classList.contains('dark-theme')) return true;
+    if(root.classList.contains('light-theme')) return false;
+    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  function setTheme(mode){
+    if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='☀️';}
+    else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='🌙';}
+    try{localStorage.setItem('theme',mode);}catch(e){}
+    applyChartTheme();
+  }
+  btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});
+  try{
+    const saved=localStorage.getItem('theme');
+    if(saved==='dark'){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}
+    else if(saved==='light'){icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}
+    else{icon.textContent = isDark() ? '☀️' : '🌙';}
+  }catch(e){}
+})();
+</script>
+
+<script>
+(function charts(){
+  function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function isDark(){
+    const root=document.documentElement;
+    if(root.classList.contains('dark-theme')) return true;
+    if(root.classList.contains('light-theme')) return false;
+    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+
+  const months = ["Авг'25","Сен'25","Окт'25","Ноя'25","Дек'25","Янв'26","Фев'26","Мар'26","Апр'26","Май'26","Июн'26","Июл'26","Авг'26"];
+  const monthData = [2,12,18,23,14,2,8,16,17,12,6,9,3];
+
+  const cities = ["Москва","Санкт-Петербург","Новосибирск","Иркутск","Владивосток","Краснодар","Ульяновск","Воронеж","Липецк","Екатеринбург","Ещё 10 городов"];
+  const cityData = [38,38,5,4,4,3,3,2,2,2,10];
+
+  const allCharts = [];
+
+  function mkCommon(){
+    const c = isDark() ? { text: cssVar('--text'), muted: cssVar('--muted'), border: cssVar('--border') }
+                       : { text: cssVar('--text'), muted: cssVar('--muted'), border: cssVar('--border') };
+    return c;
+  }
+
+  const blue = '#0b76ef', green = '#78b777', orange = '#e8932c';
+
+  // 1. По месяцам
+  const monthsChart = new Chart(document.getElementById('monthsChart'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [{ label: 'Мероприятий', data: monthData, backgroundColor: blue, borderRadius: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { beginAtZero: true, ticks: { stepSize: 5 } }
+      }
+    }
+  });
+  allCharts.push(monthsChart);
+
+  // 2. Города
+  const citiesChart = new Chart(document.getElementById('citiesChart'), {
+    type: 'bar',
+    data: {
+      labels: cities,
+      datasets: [{ label: 'Событий', data: cityData, backgroundColor: green, borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { beginAtZero: true, grid: { display: false } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+  allCharts.push(citiesChart);
+
+  // 3. Формат
+  const formatChart = new Chart(document.getElementById('formatChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Офлайн', 'Онлайн', 'Вебинары'],
+      datasets: [{ data: [111, 23, 20], backgroundColor: [blue, green, orange], borderWidth: 0 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+  allCharts.push(formatChart);
+
+  window.applyChartTheme = function(){
+    const col = mkCommon();
+    const tickColor = col.muted, gridColor = col.border, labelColor = col.text;
+    allCharts.forEach(ch => {
+      if(ch.options.scales){
+        if(ch.options.scales.x){ ch.options.scales.x.ticks = Object.assign({}, ch.options.scales.x.ticks, {color: tickColor}); ch.options.scales.x.grid = Object.assign({}, ch.options.scales.x.grid, {color: gridColor}); }
+        if(ch.options.scales.y){ ch.options.scales.y.ticks = Object.assign({}, ch.options.scales.y.ticks, {color: tickColor}); ch.options.scales.y.grid = Object.assign({}, ch.options.scales.y.grid, {color: gridColor}); }
+      }
+      if(ch.options.plugins && ch.options.plugins.legend){ ch.options.plugins.legend.labels = Object.assign({}, ch.options.plugins.legend.labels, {color: labelColor}); }
+      ch.update();
+    });
+  };
+  applyChartTheme();
+})();
+</script>
+</body>
+</html>

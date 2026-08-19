@@ -24,6 +24,7 @@ COPY json_export/ /app/json_export/
 RUN mkdir -p /app/web
 COPY web/index.html /app/web/index.html
 COPY web/video.html /app/web/video.html
+COPY web/oneyear.html /app/web/oneyear.html
 COPY web/sw.js /app/web/sw.js
 RUN mkdir -p /app/img
 COPY img/ /app/img/

@@ -31,9 +31,11 @@ EVENTS_DIR = Path('events')  # Папка с YAML файлами событий
 WEBINARS_DIR = Path('webinars')  # Папка с YAML файлами вебинаров
 TEMPLATE_FILE = Path('web/index.html')  # HTML шаблон сайта
 VIDEO_TEMPLATE_FILE = Path('web/video.html')  # HTML шаблон страницы видеозаписей
+ONEYEAR_TEMPLATE_FILE = Path('web/oneyear.html')  # HTML шаблон страницы итогов года
 OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
 VIDEO_OUTPUT_FILE = OUTPUT_DIR / 'video' / 'index.html'  # HTML файл страницы видеозаписей
+ONEYEAR_OUTPUT_FILE = OUTPUT_DIR / 'oneyear' / 'index.html'  # HTML файл страницы итогов года
 
 
 def generate_sitemap() -> str:
@@ -57,6 +59,12 @@ def generate_sitemap() -> str:
     <lastmod>{today_iso}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://onevents.ru/oneyear/</loc>
+    <lastmod>{today_iso}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>"""
 
@@ -206,6 +214,10 @@ def main() -> None:
     )
     VIDEO_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     VIDEO_OUTPUT_FILE.write_text(video_html, encoding='utf-8')
+
+    # Генерируем страницу итогов года
+    ONEYEAR_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(ONEYEAR_TEMPLATE_FILE, ONEYEAR_OUTPUT_FILE)
 
 
 if __name__ == '__main__':

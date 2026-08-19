@@ -7,8 +7,6 @@ import json
 import re
 import shutil
 from datetime import date, datetime, timedelta
-from html import render_event, render_video_card, render_webinar
-from html.calendars import render_public_calendars, render_webinars_calendar
 from pathlib import Path
 
 import pymorphy3
@@ -28,6 +26,8 @@ from json_export import (
     export_webinars_to_json,
 )
 from rss import generate_rss
+from webhtml import render_event, render_video_card, render_webinar
+from webhtml.calendars import render_public_calendars, render_webinars_calendar
 
 # Пути к директориям и файлам
 EVENTS_DIR = Path('events')  # Папка с YAML файлами событий

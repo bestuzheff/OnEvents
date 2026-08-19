@@ -1,9 +1,10 @@
-from html.cards import (
+from unittest.mock import patch
+
+from webhtml.cards import (
     generate_event_id,
     render_event,
     render_webinar,
 )
-from unittest.mock import patch
 
 
 class TestHtmlRendering:
@@ -14,9 +15,9 @@ class TestHtmlRendering:
 
         assert result == 'event-2026-05-11_conf'
 
-    @patch('html.cards.map_link')
-    @patch('html.cards.add_utm_marks')
-    @patch('html.cards.format_time_until_ru')
+    @patch('webhtml.cards.map_link')
+    @patch('webhtml.cards.add_utm_marks')
+    @patch('webhtml.cards.format_time_until_ru')
     def test_render_event_full(
         self,
         mock_format_time,
@@ -49,9 +50,9 @@ class TestHtmlRendering:
         assert 'data-city="Москва"' in result
         assert 'id="event-conf.yml"' in result
 
-    @patch('html.cards.map_link')
-    @patch('html.cards.add_utm_marks')
-    @patch('html.cards.format_time_until_ru')
+    @patch('webhtml.cards.map_link')
+    @patch('webhtml.cards.add_utm_marks')
+    @patch('webhtml.cards.format_time_until_ru')
     def test_render_event_without_optional_fields(
         self,
         mock_format_time,
@@ -111,9 +112,9 @@ class TestHtmlRendering:
 
         assert 'src="img/webinars/test.png"' in result
 
-    @patch('html.cards.map_link')
-    @patch('html.cards.add_utm_marks')
-    @patch('html.cards.format_time_until_ru')
+    @patch('webhtml.cards.map_link')
+    @patch('webhtml.cards.add_utm_marks')
+    @patch('webhtml.cards.format_time_until_ru')
     def test_render_event_without_address(
         self,
         mock_format_time,

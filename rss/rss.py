@@ -6,12 +6,12 @@
 import xml.sax.saxutils as saxutils
 from datetime import datetime, timezone
 from email.utils import format_datetime
-from html import generate_event_id
 
 import pytz
 from babel.dates import format_date
 
 from utils.url import get_timezone_for_event
+from webhtml import generate_event_id
 
 
 def generate_rss(all_events: list[dict]) -> str:

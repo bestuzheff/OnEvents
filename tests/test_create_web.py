@@ -111,7 +111,6 @@ class TestCreateWeb:
         mock_copytree.assert_any_call('img', 'site/img', dirs_exist_ok=True)
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
         mock_copy.assert_any_call('web/sw.js', create_web.OUTPUT_DIR / 'sw.js')
-        mock_copy.assert_any_call(create_web.ONEYEAR_TEMPLATE_FILE, create_web.ONEYEAR_OUTPUT_FILE)
 
         assert mock_generate_event_calendars.call_count == 2
 
@@ -127,11 +126,14 @@ class TestCreateWeb:
 
         assert mock_write_text.called
 
-        final_html = mock_write_text.call_args_list[-2][0][0]
+        final_html = mock_write_text.call_args_list[-3][0][0]
 
         assert '<div>EVENT</div>' in final_html
         assert '<div>WEBINAR</div>' in final_html
         assert '11 мая 2026' in final_html
+
+        oneyear_html = mock_write_text.call_args_list[-1][0][0]
+        assert oneyear_html == mock_read_text.return_value
 
     @patch('builtins.print')
     @patch('create_web.yaml.safe_load')

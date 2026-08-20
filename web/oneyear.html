@@ -139,6 +139,18 @@
         .days-ring-label {position:relative; text-align:center;}
         .days-ring-label .num {display:block; font-size:1.6em; font-weight:800; color:var(--text);}
         .days-ring-label .lbl {display:block; font-size:.75em; color:var(--muted);}
+        @media (max-width:480px){
+            .year-duo {gap:.5rem;}
+            .days-ring {width:clamp(52px,15vw,76px); height:clamp(52px,15vw,76px);}
+            .days-ring-label .num {font-size:1.05em;}
+            .days-ring-label .lbl {font-size:.58em;}
+        }
+        @media (max-width:360px){
+            .year-duo {gap:.35rem;}
+            .days-ring {width:44px; height:44px;}
+            .days-ring-label .num {font-size:.85em;}
+            .days-ring-label .lbl {font-size:.5em;}
+        }
 
         /* KPI */
         .kpi-grid {display:grid;gap:2.2rem 1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin:2em 0 3.2em;}
@@ -630,6 +642,12 @@
       tooltip.style.top = top + 'px';
     }
     function hideTooltip(){ tooltip.classList.remove('visible'); }
+    // На тач-устройствах mouseleave не срабатывает после тапа — подсказка
+    // виснет, пока не тапнут мимо ячейки или не проскроллят страницу.
+    document.addEventListener('touchstart', function(e){
+      if(!e.target.closest('.heat-cell')) hideTooltip();
+    }, { passive: true });
+    window.addEventListener('scroll', hideTooltip, { passive: true });
 
     heatData.cells.forEach(function(info){
       const cell = document.createElement('div');
@@ -728,7 +746,7 @@
       const breakdown = parts.length ? parts.join(' · ') : 'нет мероприятий';
       tooltip.innerHTML =
         '<span class="tt-day">' + m.total + ' ' + pluralize(m.total, eventForms) + '</span>' +
-        '<span class="tt-month">в ' + monthPrepositional[monthIndex] + '</span>' +
+        '<span class="tt-month">в ' + monthPrepositional[monthIndex] + ' ' + m.year + '</span>' +
         '<span class="tt-month">' + breakdown + '</span>';
       tooltip.classList.add('visible');
       const rect = barEl.getBoundingClientRect();
@@ -741,6 +759,10 @@
       tooltip.style.top = top + 'px';
     }
     function hideTooltip(){ tooltip.classList.remove('visible'); }
+    document.addEventListener('touchstart', function(e){
+      if(!e.target.closest('.month-bar')) hideTooltip();
+    }, { passive: true });
+    window.addEventListener('scroll', hideTooltip, { passive: true });
 
     monthly.forEach(function(m){
       const col = document.createElement('div');
@@ -820,6 +842,10 @@
       tooltip.style.top = top + 'px';
     }
     function hideTooltip(){ tooltip.classList.remove('visible'); }
+    document.addEventListener('touchstart', function(e){
+      if(!e.target.closest('.geo-bar-row')) hideTooltip();
+    }, { passive: true });
+    window.addEventListener('scroll', hideTooltip, { passive: true });
 
     geo.forEach(function(g){
       const row = document.createElement('div');
@@ -981,6 +1007,10 @@
       if(hit) showTooltip(hit, e.clientX, e.clientY); else hideTooltip();
     });
     ringEl.addEventListener('mouseleave', function(){ setActive(null); hideTooltip(); });
+    document.addEventListener('touchstart', function(e){
+      if(!ringEl.contains(e.target)){ setActive(null); hideTooltip(); }
+    }, { passive: true });
+    window.addEventListener('scroll', function(){ setActive(null); hideTooltip(); }, { passive: true });
 
     function animate(){
       const duration = 900;
@@ -1095,6 +1125,10 @@
       tooltip.style.top = (rect.top - ttRect.height - 8) + 'px';
     }
     function hideTooltip(){ tooltip.classList.remove('visible'); }
+    document.addEventListener('touchstart', function(e){
+      if(!e.target.closest('.word-cloud-item')) hideTooltip();
+    }, { passive: true });
+    window.addEventListener('scroll', hideTooltip, { passive: true });
 
     shuffled.forEach(function(w){
       const weight = Math.sqrt(w.count);

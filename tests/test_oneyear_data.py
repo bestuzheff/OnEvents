@@ -117,15 +117,17 @@ class TestBuildMonthlyData:
         assert sept['online'] == 1
         assert sept['webinars'] == 1
 
-    def test_covers_all_months_jan_to_dec(self):
+    def test_covers_start_to_end_chronologically(self):
         data = create_web.build_monthly_data([], [])
-        assert [m['label'] for m in data] == create_web.MONTH_SHORT_RU
+        expected = create_web.month_range(create_web.ONEYEAR_START, create_web.ONEYEAR_END)
+        assert [(m['year'], create_web.MONTH_SHORT_RU.index(m['label']) + 1) for m in data] == expected
 
-    def test_aggregates_same_month_across_years(self):
+    def test_keeps_same_month_in_different_years_separate(self):
         events = [make_event(date='2025-08-25', city='Москва'), make_event(date='2026-08-05', city='Москва')]
         data = create_web.build_monthly_data(events, [])
-        august = next(m for m in data if m['label'] == 'авг')
-        assert august['total'] == 2
+        august_buckets = [m for m in data if m['label'] == 'авг']
+        assert sum(m['total'] for m in august_buckets) == 2
+        assert all(m['total'] <= 1 for m in august_buckets)
 
 
 class TestBuildGeoData:

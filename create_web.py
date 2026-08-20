@@ -169,16 +169,17 @@ def month_range(start: date, end: date) -> list[tuple[int, int]]:
 def build_monthly_data(all_events: list[dict], all_webinars: list[dict]) -> list[dict]:
     """Считает реальную разбивку мероприятий по месяцам (офлайн/онлайн/вебинары) для графика oneyear.
 
-    Суммирует по номеру месяца без привязки к году, чтобы график шёл в привычном
-    порядке январь → декабрь, даже когда период охватывает две календарные половины года.
+    Идёт хронологически от ONEYEAR_START до ONEYEAR_END, а не календарным годом,
+    чтобы график совпадал с реальным периодом "первого года" (август → август).
     """
-    buckets = {month: {'total': 0, 'offline': 0, 'online': 0, 'webinars': 0} for month in range(1, 13)}
+    months = month_range(ONEYEAR_START, ONEYEAR_END)
+    buckets = {key: {'total': 0, 'offline': 0, 'online': 0, 'webinars': 0} for key in months}
 
     for item in all_events:
         item_date = _parse_item_date(item)
         if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
-        bucket = buckets[item_date.month]
+        bucket = buckets[(item_date.year, item_date.month)]
         bucket['total'] += 1
         if _is_online_city(str(item.get('city', ''))):
             bucket['online'] += 1
@@ -189,11 +190,11 @@ def build_monthly_data(all_events: list[dict], all_webinars: list[dict]) -> list
         item_date = _parse_item_date(item)
         if not item_date or not (ONEYEAR_START <= item_date <= ONEYEAR_END):
             continue
-        bucket = buckets[item_date.month]
+        bucket = buckets[(item_date.year, item_date.month)]
         bucket['total'] += 1
         bucket['webinars'] += 1
 
-    return [{'label': MONTH_SHORT_RU[month - 1], **buckets[month]} for month in range(1, 13)]
+    return [{'label': MONTH_SHORT_RU[month - 1], 'year': year, **buckets[(year, month)]} for year, month in months]
 
 
 def build_geo_data(all_events: list[dict], top_n: int = 8) -> list[dict]:

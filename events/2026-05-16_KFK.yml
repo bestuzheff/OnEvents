@@ -17,3 +17,9 @@ videos:
         url: "https://www.youtube.com/watch?v=Weas9J9A1zI"
       - platform: "VK Видео"
         url: "https://vkvideo.ru/video-233393032_456239037"   
+  - description: "Игорь Апресов: WebSocket - протокол и возможности 1С"
+    links:
+      - platform: "YouTube"
+        url: "https://www.youtube.com/watch?v=1o-B8f-SOpk"
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-233393032_456239039"   

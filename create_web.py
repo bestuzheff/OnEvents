@@ -35,6 +35,7 @@ WEBINARS_DIR = Path('webinars')  # Папка с YAML файлами вебин�
 TEMPLATE_FILE = Path('web/index.html')  # HTML шаблон сайта
 VIDEO_TEMPLATE_FILE = Path('web/video.html')  # HTML шаблон страницы видеозаписей
 ONEYEAR_TEMPLATE_FILE = Path('web/oneyear.html')  # HTML шаблон страницы итогов года
+SW_TEMPLATE_FILE = Path('web/sw.js')  # Шаблон Service Worker
 OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
 VIDEO_OUTPUT_FILE = OUTPUT_DIR / 'video' / 'index.html'  # HTML файл страницы видеозаписей
@@ -511,7 +512,10 @@ def main() -> None:
     # Копируем статические файлы (картинки и иконки)
     shutil.copytree('img', 'site/img', dirs_exist_ok=True)
     shutil.copytree('icons', 'site/icons', dirs_exist_ok=True)
-    shutil.copy('web/sw.js', OUTPUT_DIR / 'sw.js')
+    # Версия кеша Service Worker — дата сборки: сайт пересобирается ежедневно,
+    # так меняется сам sw.js и старые кеши сбрасываются в activate
+    sw_js = SW_TEMPLATE_FILE.read_text(encoding='utf-8').replace('{{ cache_version }}', date.today().isoformat())
+    (OUTPUT_DIR / 'sw.js').write_text(sw_js, encoding='utf-8')
 
     # Генерируем ICS календари
     calendar_dir = OUTPUT_DIR / 'calendar'

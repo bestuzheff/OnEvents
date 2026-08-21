@@ -1,6 +1,9 @@
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = '{{ cache_version }}';
 const STATIC_CACHE = 'onevents-static-' + CACHE_VERSION;
 const PAGE_CACHE = 'onevents-page-' + CACHE_VERSION;
+
+// Сколько ждём сеть на навигации, прежде чем отдать закешированную страницу
+const NETWORK_TIMEOUT_MS = 3000;
 
 var STATIC_ASSETS = [
   '/',
@@ -39,6 +42,43 @@ self.addEventListener('activate', function (event) {
   self.clients.claim();
 });
 
+// Навигация: сначала сеть, чтобы страница всегда была свежей.
+// Кеш подставляем, только если сеть недоступна или не ответила за NETWORK_TIMEOUT_MS.
+function navigateNetworkFirst(request) {
+  return caches.open(PAGE_CACHE).then(function (cache) {
+    return new Promise(function (resolve) {
+      var settled = false;
+
+      function settle(response) {
+        if (settled || !response) {
+          return;
+        }
+        settled = true;
+        resolve(response);
+      }
+
+      var timer = setTimeout(function () {
+        cache.match(request).then(settle);
+      }, NETWORK_TIMEOUT_MS);
+
+      fetch(request)
+        .then(function (response) {
+          clearTimeout(timer);
+          if (response.ok) {
+            cache.put(request, response.clone());
+          }
+          settle(response);
+        })
+        .catch(function () {
+          clearTimeout(timer);
+          cache.match(request).then(function (cached) {
+            settle(cached || Response.error());
+          });
+        });
+    });
+  });
+}
+
 self.addEventListener('fetch', function (event) {
   var url = new URL(event.request.url);
 
@@ -51,19 +91,7 @@ self.addEventListener('fetch', function (event) {
   }
 
   if (event.request.mode === 'navigate') {
-    event.respondWith(
-      caches.open(PAGE_CACHE).then(function (cache) {
-        return cache.match(event.request).then(function (cached) {
-          var fetched = fetch(event.request).then(function (response) {
-            if (response.ok) {
-              cache.put(event.request, response.clone());
-            }
-            return response;
-          });
-          return cached || fetched;
-        });
-      })
-    );
+    event.respondWith(navigateNetworkFirst(event.request));
     return;
   }
 

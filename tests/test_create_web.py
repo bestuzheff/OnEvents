@@ -24,6 +24,24 @@ def test_service_worker_template_is_versioned():
     assert '{{ cache_version }}' in template
 
 
+def test_build_static_version_tracks_content(tmp_path, monkeypatch):
+    assets = tmp_path / 'assets'
+    (assets / 'nested').mkdir(parents=True)
+    (assets / 'nested' / 'logo.png').write_bytes(b'one')
+    monkeypatch.setattr(create_web, 'STATIC_CACHE_DIRS', (str(assets),))
+
+    first = create_web.build_static_version()
+    assert create_web.build_static_version() == first
+
+    (assets / 'nested' / 'logo.png').write_bytes(b'two')
+    second = create_web.build_static_version()
+    assert second != first
+
+    # Мусор вроде .DS_Store не должен менять версию кеша
+    (assets / '.DS_Store').write_bytes(b'junk')
+    assert create_web.build_static_version() == second
+
+
 class TestCreateWeb:
     @patch('create_web.render_webinars_calendar')
     @patch('create_web.render_public_calendars')
@@ -117,7 +135,8 @@ class TestCreateWeb:
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
         sw_js = mock_write_text.call_args_list[0][0][0]
         assert '{{ cache_version }}' not in sw_js
-        assert date.today().isoformat() in sw_js
+        assert create_web.build_static_version() in sw_js
+        assert date.today().isoformat() not in sw_js
 
         assert mock_generate_event_calendars.call_count == 2
 

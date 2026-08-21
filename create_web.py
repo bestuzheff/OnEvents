@@ -3,7 +3,9 @@
 Собирает YAML файлы событий и вебинаров, генерирует HTML, календари, RSS и JSON.
 """
 
+import hashlib
 import json
+import os
 import re
 import shutil
 from datetime import date, datetime, timedelta
@@ -36,6 +38,7 @@ TEMPLATE_FILE = Path('web/index.html')  # HTML шаблон сайта
 VIDEO_TEMPLATE_FILE = Path('web/video.html')  # HTML шаблон страницы видеозаписей
 ONEYEAR_TEMPLATE_FILE = Path('web/oneyear.html')  # HTML шаблон страницы итогов года
 SW_TEMPLATE_FILE = Path('web/sw.js')  # Шаблон Service Worker
+STATIC_CACHE_DIRS = ('icons', 'img')  # Статика, которую Service Worker кеширует надолго
 OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
 VIDEO_OUTPUT_FILE = OUTPUT_DIR / 'video' / 'index.html'  # HTML файл страницы видеозаписей
@@ -423,6 +426,25 @@ def build_year_stats(all_events: list[dict], all_webinars: list[dict]) -> dict[s
     }
 
 
+def build_static_version() -> str:
+    """Версия кеша Service Worker — хеш содержимого статики.
+
+    Считаем именно по файлам, а не по дате сборки: сайт пересобирается ежедневно,
+    но иконки и картинки меняются редко, и незачем сбрасывать кеш у пользователей,
+    когда сбрасывать нечего. Страницы от версии не зависят — они идут network-first.
+    """
+    paths = []
+    for directory in STATIC_CACHE_DIRS:
+        for root, _, files in os.walk(directory):
+            paths.extend(Path(root) / name for name in files if not name.startswith('.'))
+
+    digest = hashlib.sha256()
+    for path in sorted(paths):
+        digest.update(path.as_posix().encode('utf-8'))
+        digest.update(path.read_bytes())
+    return digest.hexdigest()[:12]
+
+
 def generate_sitemap() -> str:
     today_iso = date.today().isoformat()
     return f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -512,9 +534,7 @@ def main() -> None:
     # Копируем статические файлы (картинки и иконки)
     shutil.copytree('img', 'site/img', dirs_exist_ok=True)
     shutil.copytree('icons', 'site/icons', dirs_exist_ok=True)
-    # Версия кеша Service Worker — дата сборки: сайт пересобирается ежедневно,
-    # так меняется сам sw.js и старые кеши сбрасываются в activate
-    sw_js = SW_TEMPLATE_FILE.read_text(encoding='utf-8').replace('{{ cache_version }}', date.today().isoformat())
+    sw_js = SW_TEMPLATE_FILE.read_text(encoding='utf-8').replace('{{ cache_version }}', build_static_version())
     (OUTPUT_DIR / 'sw.js').write_text(sw_js, encoding='utf-8')
 
     # Генерируем ICS календари

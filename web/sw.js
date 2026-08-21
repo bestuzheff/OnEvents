@@ -1,6 +1,11 @@
+// Версия — хеш содержимого icons/ и img/: эта статика отдаётся из кеша,
+// поэтому её и нужно инвалидировать при изменении.
 const CACHE_VERSION = '{{ cache_version }}';
 const STATIC_CACHE = 'onevents-static-' + CACHE_VERSION;
-const PAGE_CACHE = 'onevents-page-' + CACHE_VERSION;
+
+// Кеш страниц не версионируем: страницы идут network-first, и здесь лежит
+// только офлайн-копия, которую каждый успешный ответ сети перезаписывает.
+const PAGE_CACHE = 'onevents-page';
 
 // Сколько ждём сеть на навигации, прежде чем отдать закешированную страницу
 const NETWORK_TIMEOUT_MS = 3000;

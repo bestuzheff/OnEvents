@@ -50,7 +50,6 @@ class TestCreateWeb:
     @patch('create_web.generate_webinars_public_calendar')
     @patch('create_web.generate_public_calendars')
     @patch('create_web.generate_event_calendars')
-    @patch('create_web.shutil.copy')
     @patch('create_web.shutil.copytree')
     @patch('create_web.format_date')
     @patch('create_web.yaml.safe_load')
@@ -69,7 +68,6 @@ class TestCreateWeb:
         mock_yaml_load,
         mock_format_date,
         mock_copytree,
-        mock_copy,
         mock_generate_event_calendars,
         mock_generate_public_calendars,
         mock_generate_webinars_public_calendar,
@@ -109,7 +107,8 @@ class TestCreateWeb:
         ]
 
         mock_read_text.return_value = (
-            '{{ events }}\n{{ webinars }}\n{{ public_calendars }}\n{{ webinars_calendar }}\n{{ builddate }}'
+            '{{ events }}\n{{ webinars }}\n{{ public_calendars }}\n{{ webinars_calendar }}\n'
+            '{{ builddate }}\n{{ cache_version }}'
         )
 
         mock_render_event.return_value = '<div>EVENT</div>'
@@ -129,7 +128,10 @@ class TestCreateWeb:
 
         mock_copytree.assert_any_call('img', 'site/img', dirs_exist_ok=True)
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
-        mock_copy.assert_any_call('web/sw.js', create_web.OUTPUT_DIR / 'sw.js')
+        sw_js = mock_write_text.call_args_list[0][0][0]
+        assert '{{ cache_version }}' not in sw_js
+        assert create_web.build_static_version() in sw_js
+        assert date.today().isoformat() not in sw_js
 
         assert mock_generate_event_calendars.call_count == 2
 
@@ -180,7 +182,6 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
-            patch('create_web.shutil.copy'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),
@@ -225,7 +226,6 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
-            patch('create_web.shutil.copy'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),

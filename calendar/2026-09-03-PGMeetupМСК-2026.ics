@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:6c32a045-9896-44f4-9743-974da004eb2b@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260903T173000
+DTEND;TZID=Europe/Moscow:20260903T220000
+SUMMARY:PGMeetup.МСК 2026 (3 сентября)
+DESCRIPTION:Очный митап Postgres Pro: логическая репликация и катастрофоустойчивые кластеры BiHA\, аналитика через Table Access Method в AXE 2.0\, мажорное обновление кластера для 1С и миграция больших баз из Oracle.\n\nСсылка: https://pgconf.ru/030926\n\nВремя: 17:30-22:00\n\nПоказать на карте: https://clck.ru/3VE9KX
+LOCATION:Москва, Берсеневская наб., 6, стр. 3, 4 этаж
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

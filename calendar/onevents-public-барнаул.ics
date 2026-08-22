@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Барнаул - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-барнаул.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260822T151410Z
+DTSTAMP:20260822T151410Z
+BEGIN:VEVENT
+UID:d04e27b1-5dc4-4b9b-beb9-5934269a2d51@onevents.ru
+DTSTART:20260917T183000
+DTEND:20260917T220000
+SUMMARY:PGMeetup.БРН 2026 (17 сентября)
+DESCRIPTION:Очный митап Postgres Pro: оптимизация запросов в Postgres Pro Enterprise\, каскадная репликация в BiHA и экономия железа и времени для тестов 1С.\n\nСсылка: https://pgconf.ru/170926\n\nВремя: 18:30-22:00\n\nПоказать на карте: https://clck.ru/3VE9KZ
+LOCATION:Барнаул, Комсомольский пр., 104Б, 2 этаж, Urban Event Hall
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

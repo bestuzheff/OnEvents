@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:e40183b2-4041-4ed0-a3f1-5dbf3be8f931@onevents.ru
+DTSTART;TZID=Europe/Moscow:20270217T090000
+DTEND;TZID=Europe/Moscow:20270217T180000
+SUMMARY:ЕСТЬРЕСУРС ERP AI FORUM 2027 (17 февраля)
+DESCRIPTION:ЕстьРесурс ERP AI Forum возвращается в 2027 году в удвоенном масштабе — два дня практических докладов\, живого общения и передовых AI-решений для автоматизации бизнеса на платформе 1С. Ссылка на регистрацию появится позже.\n\nСсылка: \n\nВремя: 09:00-18:00
+LOCATION:Москва
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:61a11048-7622-4425-a971-d602d14ae79c@onevents.ru
+DTSTART;TZID=Europe/Moscow:20270218T090000
+DTEND;TZID=Europe/Moscow:20270218T180000
+SUMMARY:ЕСТЬРЕСУРС ERP AI FORUM 2027 (18 февраля)
+DESCRIPTION:ЕстьРесурс ERP AI Forum возвращается в 2027 году в удвоенном масштабе — два дня практических докладов\, живого общения и передовых AI-решений для автоматизации бизнеса на платформе 1С. Ссылка на регистрацию появится позже.\n\nСсылка: \n\nВремя: 09:00-18:00
+LOCATION:Москва
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

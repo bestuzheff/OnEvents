@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Asia/Novosibirsk
+BEGIN:VEVENT
+UID:386aa768-cf83-48c2-9621-1dbbb1a9e70c@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20261203T173000
+DTEND;TZID=Asia/Novosibirsk:20261203T220000
+SUMMARY:PGMeetup.НСК 2026 (3 декабря)
+DESCRIPTION:Очный митап Postgres Pro: аналитические запросы в Postgres Pro AXE\, истории из жизни PostgreSQL\, миграция с MySQL с минимальным простоем и устройство WAL-файлов.\n\nСсылка: https://pgconf.ru/031226\n\nВремя: 17:30-22:00\n\nПоказать на карте: https://clck.ru/3VE9Kc
+LOCATION:Новосибирск, Пл. Карла Маркса, 1/1, MIROTEL, конференц-зал «Мадрид»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

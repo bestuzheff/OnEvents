@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:a2c7bcf8-d302-4ef6-8626-7337c8ed453a@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261001T183000
+DTEND;TZID=Europe/Moscow:20261001T220000
+SUMMARY:PGMeetup.СПб 2026 (1 октября)
+DESCRIPTION:Очный митап Postgres Pro: бэкапы многокластерных систем\, замена Redis на Postgres Pro KVik и переход с MS SQL на Postgres в связке с 1С.\n\nСсылка: https://pgconf.ru/011026\n\nВремя: 18:30-22:00\n\nПоказать на карте: https://clck.ru/3VE9Ka
+LOCATION:Санкт-Петербург, Арсенальная наб., 1, Comnata Mars
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

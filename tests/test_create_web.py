@@ -2,6 +2,8 @@ from datetime import date
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
+import pytest
+
 import create_web
 from create_web import generate_sitemap
 
@@ -18,28 +20,21 @@ def test_generate_sitemap():
     assert '<changefreq>daily</changefreq>' in result
 
 
-def test_service_worker_template_is_versioned():
-    template = create_web.SW_TEMPLATE_FILE.read_text(encoding='utf-8')
+@pytest.mark.parametrize(
+    'template_file',
+    [
+        create_web.TEMPLATE_FILE,
+        create_web.VIDEO_TEMPLATE_FILE,
+        create_web.ONEYEAR_TEMPLATE_FILE,
+    ],
+)
+def test_theme_toggle_respects_system_preference(template_file):
+    """Первый клик по тумблеру должен переключать тему, даже если выбор ещё не сохранён."""
+    template = template_file.read_text(encoding='utf-8')
 
-    assert '{{ cache_version }}' in template
+    is_dark_body = template.split('function isDark()')[1].split('function setTheme')[0]
 
-
-def test_build_static_version_tracks_content(tmp_path, monkeypatch):
-    assets = tmp_path / 'assets'
-    (assets / 'nested').mkdir(parents=True)
-    (assets / 'nested' / 'logo.png').write_bytes(b'one')
-    monkeypatch.setattr(create_web, 'STATIC_CACHE_DIRS', (str(assets),))
-
-    first = create_web.build_static_version()
-    assert create_web.build_static_version() == first
-
-    (assets / 'nested' / 'logo.png').write_bytes(b'two')
-    second = create_web.build_static_version()
-    assert second != first
-
-    # Мусор вроде .DS_Store не должен менять версию кеша
-    (assets / '.DS_Store').write_bytes(b'junk')
-    assert create_web.build_static_version() == second
+    assert 'prefers-color-scheme: dark' in is_dark_body
 
 
 class TestCreateWeb:

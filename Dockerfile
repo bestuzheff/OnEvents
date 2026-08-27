@@ -15,8 +15,8 @@ RUN mkdir -p /app/utils
 COPY utils/ /app/utils/
 RUN mkdir -p /app/ics_calendars
 COPY ics_calendars/ /app/ics_calendars/
-RUN mkdir -p /app/html
-COPY html/ /app/html/
+RUN mkdir -p /app/webhtml
+COPY webhtml/ /app/webhtml/
 RUN mkdir -p /app/rss
 COPY rss/ /app/rss/
 RUN mkdir -p /app/json_export

@@ -2,6 +2,8 @@ from datetime import date
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
+import pytest
+
 import create_web
 from create_web import generate_sitemap
 
@@ -18,6 +20,23 @@ def test_generate_sitemap():
     assert '<changefreq>daily</changefreq>' in result
 
 
+@pytest.mark.parametrize(
+    'template_file',
+    [
+        create_web.TEMPLATE_FILE,
+        create_web.VIDEO_TEMPLATE_FILE,
+        create_web.ONEYEAR_TEMPLATE_FILE,
+    ],
+)
+def test_theme_toggle_respects_system_preference(template_file):
+    """Первый клик по тумблеру должен переключать тему, даже если выбор ещё не сохранён."""
+    template = template_file.read_text(encoding='utf-8')
+
+    is_dark_body = template.split('function isDark()')[1].split('function setTheme')[0]
+
+    assert 'prefers-color-scheme: dark' in is_dark_body
+
+
 class TestCreateWeb:
     @patch('create_web.render_webinars_calendar')
     @patch('create_web.render_public_calendars')
@@ -31,7 +50,6 @@ class TestCreateWeb:
     @patch('create_web.generate_webinars_public_calendar')
     @patch('create_web.generate_public_calendars')
     @patch('create_web.generate_event_calendars')
-    @patch('create_web.shutil.copy')
     @patch('create_web.shutil.copytree')
     @patch('create_web.format_date')
     @patch('create_web.yaml.safe_load')
@@ -50,7 +68,6 @@ class TestCreateWeb:
         mock_yaml_load,
         mock_format_date,
         mock_copytree,
-        mock_copy,
         mock_generate_event_calendars,
         mock_generate_public_calendars,
         mock_generate_webinars_public_calendar,
@@ -90,7 +107,8 @@ class TestCreateWeb:
         ]
 
         mock_read_text.return_value = (
-            '{{ events }}\n{{ webinars }}\n{{ public_calendars }}\n{{ webinars_calendar }}\n{{ builddate }}'
+            '{{ events }}\n{{ webinars }}\n{{ public_calendars }}\n{{ webinars_calendar }}\n'
+            '{{ builddate }}\n{{ cache_version }}'
         )
 
         mock_render_event.return_value = '<div>EVENT</div>'
@@ -110,8 +128,10 @@ class TestCreateWeb:
 
         mock_copytree.assert_any_call('img', 'site/img', dirs_exist_ok=True)
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
-        mock_copy.assert_any_call('web/sw.js', create_web.OUTPUT_DIR / 'sw.js')
-        mock_copy.assert_any_call(create_web.ONEYEAR_TEMPLATE_FILE, create_web.ONEYEAR_OUTPUT_FILE)
+        sw_js = mock_write_text.call_args_list[0][0][0]
+        assert '{{ cache_version }}' not in sw_js
+        assert create_web.build_static_version() in sw_js
+        assert date.today().isoformat() not in sw_js
 
         assert mock_generate_event_calendars.call_count == 2
 
@@ -127,11 +147,14 @@ class TestCreateWeb:
 
         assert mock_write_text.called
 
-        final_html = mock_write_text.call_args_list[-2][0][0]
+        final_html = mock_write_text.call_args_list[-3][0][0]
 
         assert '<div>EVENT</div>' in final_html
         assert '<div>WEBINAR</div>' in final_html
         assert '11 мая 2026' in final_html
+
+        oneyear_html = mock_write_text.call_args_list[-1][0][0]
+        assert oneyear_html == mock_read_text.return_value
 
     @patch('builtins.print')
     @patch('create_web.yaml.safe_load')
@@ -159,7 +182,6 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
-            patch('create_web.shutil.copy'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),
@@ -204,7 +226,6 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
-            patch('create_web.shutil.copy'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),

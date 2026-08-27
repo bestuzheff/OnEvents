@@ -103,6 +103,9 @@
         .header-inner {max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
         .logo {font-size:1.75em;font-weight:bold; display: flex; align-items: center;}
         .logo-onevents {height: 32px; width: auto;}
+        .logo-oneyear {margin-left:.4em; font-size:.5em; line-height:1; text-decoration:none; display:inline-flex; align-items:center; gap:.35em; font-weight:700; color:#a2c8ff; border:1px solid #a2c8ff; border-radius:999px; padding:.3em .6em; transition:transform .2s cubic-bezier(.34,1.56,.64,1), background .2s ease;}
+        .logo-oneyear-emoji {font-size:1.5em; line-height:1;}
+        .logo-oneyear:hover {transform:scale(1.06); text-decoration:none; background:rgba(162,200,255,.15);}
         
         @media (max-width: 600px) {
             .header-inner {
@@ -118,6 +121,12 @@
             }
             .logo-onevents {
                 height: 28px;
+            }
+            .logo-oneyear span:not(.logo-oneyear-emoji) {
+                display: none;
+            }
+            .logo-oneyear {
+                padding: .3em .45em;
             }
             #headerControls {
                 display: flex;
@@ -197,7 +206,7 @@
         }
 
         .container {max-width:1000px;margin:2em auto;padding:0 1em;}
-        article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);} 
+        article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);}
         .card-header {display:flex;align-items:flex-start;gap:.75em;margin-bottom:.75em;flex-wrap:wrap;}
         .card-header-main {display:flex;align-items:flex-start;gap:.75em;flex:1;min-width:0;}
         .event-info {display:flex;flex-direction:column;gap:.35em;flex:1;min-width:0;}
@@ -342,6 +351,10 @@
     <div class="logo">
       <img class="logo-onevents" src="icons/logo.png">
       OnEvents
+      <a href="/oneyear/" class="logo-oneyear" title="Нам исполнился год — нажмите, чтобы узнать подробнее">
+        <span class="logo-oneyear-emoji">🎂</span>
+        <span>Нам 1 год</span>
+      </a>
     </div>
     <div id="headerControls" style="display: flex; align-items: center; gap: 1rem;">
       <label for="cityFilter" class="sr-only">Фильтр по городу</label>
@@ -432,7 +445,7 @@
 
 <footer role="contentinfo"><small>© OnEvents, 2026. Дата актуальности: {{ builddate }}</small></footer>
 
-<script>(function themeToggle(){const btn=document.getElementById('themeToggle');const icon=document.getElementById('themeIcon');const root=document.documentElement;function isDark(){return root.classList.contains('dark-theme');}function setTheme(mode){if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='☀️';}else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='🌙';}try{localStorage.setItem('theme',mode);}catch(e){}}btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});try{const saved=localStorage.getItem('theme');if(saved==='dark'){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else if(saved==='light'){icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}else{if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else{icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}}}catch(e){}})();</script>
+<script>(function themeToggle(){const btn=document.getElementById('themeToggle');const icon=document.getElementById('themeIcon');const root=document.documentElement;function isDark(){if(root.classList.contains('dark-theme'))return true;if(root.classList.contains('light-theme'))return false;return !!(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);}function setTheme(mode){if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='☀️';}else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='🌙';}try{localStorage.setItem('theme',mode);}catch(e){}}btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});try{const saved=localStorage.getItem('theme');if(saved==='dark'){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else if(saved==='light'){icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}else{if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else{icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}}}catch(e){}})();</script>
 <script>
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function(e) {

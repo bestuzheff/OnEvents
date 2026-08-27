@@ -1,0 +1,12 @@
+id: "a6c5eb4e-dfac-4a6d-b482-fa4197e4b1ff"
+title: "Желтый клуб Владивосток"
+date: "2026-09-04"
+city: "Владивосток"
+address: "ул. Светланская 33, 3 этаж — коворкинг Дом"
+icon: "yc_vlad.jpg"
+description: "4 сентября 2026 года пройдет шестой митап по счету и первый по ИИ в 1С Желтого клуба во Владивостоке. В программе встречи: два доклада, пицца, общение с единомышленниками."
+registration_url: "https://zheltyy-klub-vladivostok.timepad.ru/event/4153024"
+sessions:
+  - date: "2026-09-04"
+    start_time: "19:00"
+    end_time: "21:00"

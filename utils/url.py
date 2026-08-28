@@ -3,13 +3,35 @@
 Содержит функции для сокращения ссылок, создания ссылок на карты, добавления UTM-меток.
 """
 
+import json
 import urllib.parse
+from pathlib import Path
 
 import requests
 
+URL_CACHE_FILE = Path('data/url_cache.json')
+
+
+def _load_url_cache() -> dict[str, str]:
+    if not URL_CACHE_FILE.exists():
+        return {}
+    return json.loads(URL_CACHE_FILE.read_text(encoding='utf-8'))
+
+
+def _save_url_cache(cache: dict[str, str]) -> None:
+    URL_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    temporary_file = URL_CACHE_FILE.with_suffix('.tmp')
+    temporary_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    temporary_file.replace(URL_CACHE_FILE)
+
+
+def _is_valid_shortened_url(url: str) -> bool:
+    parsed = urllib.parse.urlparse(url)
+    return parsed.scheme == 'https' and parsed.netloc == 'clck.ru' and parsed.path not in ('', '/')
+
 
 def shorten_url(url: str) -> str:
-    """Сокращает URL через сервис clck.ru.
+    """Возвращает URL из локального кеша или сокращает его через clck.ru.
 
     Args:
         url: Исходный длинный URL.
@@ -18,16 +40,26 @@ def shorten_url(url: str) -> str:
         Сокращенный URL или исходный URL, если сокращение не удалось.
 
     Note:
-        Использует бесплатный сервис clck.ru для сокращения ссылок.
+        Успешные ответы сохраняются в data/url_cache.json для следующих сборок.
+        Использует бесплатный сервис clck.ru для сокращения новых ссылок.
         Таймаут запроса - 5 секунд.
     """
     if not url:
         return url
 
+    cache = _load_url_cache()
+    if url in cache:
+        return cache[url]
+
     try:
         response = requests.get('https://clck.ru/--', params={'url': url}, timeout=5)
         if response.status_code == 200:
-            return response.text.strip()
+            shortened_url = response.text.strip()
+            if not _is_valid_shortened_url(shortened_url):
+                return url
+            cache[url] = shortened_url
+            _save_url_cache(cache)
+            return shortened_url
         return url
     except Exception:
         return url

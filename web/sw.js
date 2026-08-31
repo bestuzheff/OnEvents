@@ -11,7 +11,6 @@ const PAGE_CACHE = 'onevents-page';
 const NETWORK_TIMEOUT_MS = 3000;
 
 var STATIC_ASSETS = [
-  '/',
   '/icons/site.webmanifest',
   '/icons/favicon-96x96.png',
   '/icons/favicon.svg',
@@ -20,6 +19,27 @@ var STATIC_ASSETS = [
   '/icons/web-app-manifest-192x192.png',
   '/icons/web-app-manifest-512x512.png'
 ];
+
+function isCacheableStaticAsset(url) {
+  return url.pathname.startsWith('/img/') || url.pathname.startsWith('/icons/');
+}
+
+// Удаляем из текущего кеша страницы и экспорты, сохранённые прежней версией worker.
+function pruneStaticCache() {
+  return caches.open(STATIC_CACHE).then(function (cache) {
+    return cache.keys().then(function (requests) {
+      return Promise.all(
+        requests
+          .filter(function (request) {
+            return !isCacheableStaticAsset(new URL(request.url));
+          })
+          .map(function (request) {
+            return cache.delete(request);
+          })
+      );
+    });
+  });
+}
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
@@ -32,17 +52,20 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('activate', function (event) {
   event.waitUntil(
-    caches.keys().then(function (keys) {
-      return Promise.all(
-        keys
-          .filter(function (key) {
-            return key !== STATIC_CACHE && key !== PAGE_CACHE;
-          })
-          .map(function (key) {
-            return caches.delete(key);
-          })
-      );
-    })
+    Promise.all([
+      pruneStaticCache(),
+      caches.keys().then(function (keys) {
+        return Promise.all(
+          keys
+            .filter(function (key) {
+              return key.startsWith('onevents-') && key !== STATIC_CACHE && key !== PAGE_CACHE;
+            })
+            .map(function (key) {
+              return caches.delete(key);
+            })
+        );
+      })
+    ])
   );
   self.clients.claim();
 });
@@ -100,16 +123,21 @@ self.addEventListener('fetch', function (event) {
     return;
   }
 
+  if (!isCacheableStaticAsset(url)) {
+    // JSON, RSS, ICS и прочие изменяемые ресурсы браузер получает напрямую из сети.
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then(function (cached) {
-      return cached || fetch(event.request).then(function (response) {
-        if (response.ok) {
-          var clone = response.clone();
-          caches.open(STATIC_CACHE).then(function (cache) {
+    caches.open(STATIC_CACHE).then(function (cache) {
+      return cache.match(event.request).then(function (cached) {
+        return cached || fetch(event.request).then(function (response) {
+          if (response.ok) {
+            var clone = response.clone();
             cache.put(event.request, clone);
-          });
-        }
-        return response;
+          }
+          return response;
+        });
       });
     })
   );

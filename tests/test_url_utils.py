@@ -1,13 +1,23 @@
+import json
 from unittest.mock import Mock, patch
 
 import pytest
 
+import utils.url
 from utils.url import (
     add_utm_marks,
     get_timezone_for_event,
     map_link,
     shorten_url,
 )
+
+
+@pytest.fixture(autouse=True)
+def url_cache_file(tmp_path, monkeypatch):
+    cache_file = tmp_path / 'url_cache.json'
+    cache_file.write_text('{}', encoding='utf-8')
+    monkeypatch.setattr(utils.url, 'URL_CACHE_FILE', cache_file, raising=False)
+    return cache_file
 
 
 @pytest.mark.parametrize(
@@ -49,6 +59,35 @@ def test_shorten_url_success(mock_get):
         params={'url': 'https://example.com/very-long-url'},
         timeout=5,
     )
+
+
+@patch('utils.url.requests.get')
+def test_shorten_url_returns_cached_url_without_request(mock_get, url_cache_file):
+    long_url = 'https://example.com/repeated-address'
+    url_cache_file.write_text(json.dumps({long_url: 'https://clck.ru/cached'}), encoding='utf-8')
+
+    assert shorten_url(long_url) == 'https://clck.ru/cached'
+    mock_get.assert_not_called()
+
+
+@patch('utils.url.requests.get')
+def test_shorten_url_caches_successful_response(mock_get, url_cache_file):
+    long_url = 'https://example.com/new-address'
+    mock_response = Mock(status_code=200, text='https://clck.ru/new\n')
+    mock_get.return_value = mock_response
+
+    assert shorten_url(long_url) == 'https://clck.ru/new'
+    assert json.loads(url_cache_file.read_text(encoding='utf-8')) == {long_url: 'https://clck.ru/new'}
+
+
+@pytest.mark.parametrize('response_text', ['', 'temporary error', '<html>error</html>', 'https://example.com/not-clck'])
+@patch('utils.url.requests.get')
+def test_shorten_url_does_not_cache_invalid_success_response(mock_get, response_text, url_cache_file):
+    long_url = 'https://example.com/new-address'
+    mock_get.return_value = Mock(status_code=200, text=response_text)
+
+    assert shorten_url(long_url) == long_url
+    assert json.loads(url_cache_file.read_text(encoding='utf-8')) == {}
 
 
 @patch('utils.url.requests.get')

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:3de45849-75df-4979-9ed7-e27bf843c376@onevents.ru
+DTSTART:20260913T160000
+DTEND:20260913T193000
+SUMMARY:Желтый клуб Липецк (13 сентября)
+DESCRIPTION:Приглашаем вас отпраздновать День программиста в виртуальной реальности: вас ждёт масштабный доклад Александра Андреева о том\, как ИИ изменит индустрию в ближайшие 10 лет\, оживлённая дискуссия о завтрашнем дне разработки\, командный VR-баттл на выживание\, а также пицца\, неформальное общение и заряд позитива на весь вечер — регистрируйтесь сейчас!\n\nСсылка: https://soobshchestvo-razrabotchi.timepad.ru/event/4166022\n\nВремя: 16:00-19:30\n\nПоказать на карте: https://clck.ru/3VYQ8F
+LOCATION:Липецк, ул. Кривенкова, 26, ТЦ Весна
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

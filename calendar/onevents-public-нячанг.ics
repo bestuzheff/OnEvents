@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Нячанг - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-нячанг.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260905T200146Z
+DTSTAMP:20260905T200146Z
+BEGIN:VEVENT
+UID:75baab45-14dc-4aad-89f5-9cee4302d116@onevents.ru
+DTSTART:20250915T200000
+DTEND:20250915T020000
+SUMMARY:ИТ Кунг-фу Ужин (15 сентября)
+DESCRIPTION:ИТ Кунг-фу Ужин состоится в Нячанге 30 июля в 20:00\, Red Buffalo Hub - Hon Chong. Без докладов\, вход свободный\, каждый платит сам за себя 🐼 Приходи! Обсудим все хайповые тренды в 1С и не только.\n\nСсылка: https://t.me/kungfu_conf/122\n\nВремя: 20:00-2:00
+LOCATION:Нячанг
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

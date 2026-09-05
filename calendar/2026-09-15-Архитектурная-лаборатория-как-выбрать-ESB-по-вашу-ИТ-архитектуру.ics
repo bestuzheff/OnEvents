@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:699c531e-37c1-4d51-a20a-86a27ef980f3@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260915T110000
+DTEND;TZID=Europe/Moscow:20260915T150000
+SUMMARY:Архитектурная лаборатория: как выбрать ESB по вашу ИТ-архитектуру (15 сентября)
+DESCRIPTION:На конференции эксперты расскажут\, как выбрать российскую интеграционную шину\, на какие критерии ориентироваться при сравнении ESB-решений и зачем перед полноценным внедрением проводить пилотный проект\, а также поделятся практическим опытом запуска пилота с внешним подрядчиком и силами внутренней команды.\n\nСсылка: https://белыйкод.рф/event/\n\nВремя: 11:00-15:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

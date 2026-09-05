@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Видеозаписи прошедших событий | OnEvents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Видеозаписи прошедших событий и вебинаров по 1С.">
+    <link rel="canonical" href="https://onevents.ru/video/">
+    <link rel="alternate" type="application/rss+xml" title="События 1С — OnEvents" href="https://onevents.ru/rss/rss.xml">
+    <meta property="og:title" content="Видеозаписи прошедших событий | OnEvents">
+    <meta property="og:description" content="Видеозаписи прошедших событий и вебинаров по 1С.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://onevents.ru/video/">
+    <meta property="og:image" content="https://onevents.ru/icons/web-app-manifest-192x192.png">
+    <meta property="og:image:width" content="192">
+    <meta property="og:image:height" content="192">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="OnEvents">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Видеозаписи прошедших событий | OnEvents">
+    <meta name="twitter:description" content="Видеозаписи прошедших событий и вебинаров по 1С.">
+    <meta name="twitter:image" content="https://onevents.ru/icons/web-app-manifest-192x192.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "OnEvents",
+      "url": "https://onevents.ru/",
+      "description": "Актуальные события и конференции по 1С в городах России.",
+      "inLanguage": "ru",
+      "publisher": {
+        "@type": "Organization",
+        "name": "OnEvents",
+        "url": "https://onevents.ru/"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="shortcut icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="OnEvents">
+    <link rel="manifest" href="/icons/site.webmanifest">
+    <meta name="theme-color" content="#1f2428">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14">
+    <!-- Yandex.Metrika counter --> <script type="text/javascript">     (function(m,e,t,r,i,k,a){         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};         m[i].l=1*new Date();         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103858050', 'ym');      ym(103858050, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true}); </script> <noscript><div><img src="https://mc.yandex.ru/watch/103858050" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+    <style>
+        html { scroll-behavior: smooth; }
+        .sr-only {position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
+
+        :root {
+            --bg:#fafafa; --text:#111; --muted:#666;
+            --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
+            --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
+            --link:#0b76ef;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg:#0f1115; --text:#e6e6e6; --muted:#a0a0a0;
+                --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
+                --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
+                --link:#7cb3ff;
+            }
+        }
+        .dark-theme {
+            --bg:#0f1115; --text:#e6e6e6; --muted:#a0a0a0;
+            --card-bg:#161a22; --border:#2a2f3a; --shadow:0 2px 6px rgba(0,0,0,.35);
+            --header-bg:#0b0e14; --header-text:#e6e6e6; --footer-bg:#0b0e14; --footer-text:#a6a6a6;
+            --link:#7cb3ff;
+        }
+        .light-theme {
+            --bg:#fafafa; --text:#111; --muted:#666;
+            --card-bg:#fff; --border:#ddd; --shadow:0 2px 4px rgba(0,0,0,.1);
+            --header-bg:#222; --header-text:#fff; --footer-bg:#222; --footer-text:#ccc;
+            --link:#0b76ef;
+        }
+
+        body {font-family:'JetBrains Mono', monospace;margin:0;padding:0;background:var(--bg);color:var(--text);word-break:break-word;transition:background .2s,color .2s;}
+        a {color:var(--link);} a:hover {color:#a2c8ff !important;}
+        header a {color:var(--header-text);} header a:hover {color:#a2c8ff !important; text-decoration:underline;}
+
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--header-bg); color: var(--header-text);
+            padding: 1em;
+        }
+        .header-inner {max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+        .logo {font-size:1.75em;font-weight:bold; display: flex; align-items: center;}
+        .logo-onevents {height: 32px; width: auto;}
+
+        @media (max-width: 600px) {
+            .header-inner {
+                flex-direction: row;
+                align-items: center;
+                gap: .75rem;
+                flex-wrap: nowrap;
+            }
+            .logo {
+                font-size: 1.75em;
+                width: auto;
+                justify-content: flex-start;
+            }
+            .logo-onevents {
+                height: 28px;
+            }
+            #headerControls {
+                display: flex;
+                width: auto;
+                margin-left: auto;
+                justify-content: flex-end;
+                gap: .5rem;
+                flex-wrap: nowrap;
+            }
+        }
+        nav {display:flex;gap:1em;align-items:center;}
+        .theme-toggle {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;}
+        .install-btn {appearance:none;background:transparent;border:none;padding:0;margin:0;line-height:1;font-size:1.15em;color:var(--header-text);cursor:pointer;display:none}
+        .install-btn.visible {display:inline-flex;align-items:center}
+
+        /* Бургер-меню */
+        .burger-container {
+            position: relative;
+        }
+        .burger-menu-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--header-text);
+            font-size: 1.5rem;
+            box-sizing: border-box;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        .burger-menu-btn:hover {
+            opacity: 0.8;
+        }
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 999;
+            min-width: 180px;
+        }
+        .mobile-menu nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            width: 100%;
+        }
+        .mobile-menu nav a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95em;
+        }
+        .mobile-menu nav a:hover {
+            background: var(--border);
+            color: var(--link);
+        }
+        .mobile-menu.open {
+            display: block;
+        }
+        nav.main-nav {
+            display: none;
+        }
+
+        .container {max-width:1000px;margin:2em auto;padding:0 1em;}
+        article.card {background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.25em;margin-bottom:1.5em;box-shadow:var(--shadow);}
+        .card-header {display:flex;align-items:flex-start;gap:.75em;margin-bottom:.75em;flex-wrap:wrap;}
+        .card-header-main {display:flex;align-items:flex-start;gap:.75em;flex:1;min-width:0;}
+        .event-info {display:flex;flex-direction:column;gap:.35em;flex:1;min-width:0;}
+        .card-title {margin:0;font-size:1.5em;}
+        .meta-item {font-size:.95em;color:var(--muted);display:flex;align-items:baseline;margin:.15em 0;}
+        .meta-item .icon {margin-right:.35em;}
+        footer {background:var(--footer-bg);color:var(--footer-text);text-align:center;padding:1em;margin-top:2em;font-size:.9em;}
+
+        .grid {display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+
+        .icon svg {width:20px;height:20px;fill:currentColor;}
+
+        #about { scroll-margin-top: 80px; }
+
+        /* Стили для ссылок на видео */
+        .video-links {
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+        .video-links h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.05em;
+        }
+        .video-links ul {
+            margin: 0;
+            padding-left: 1.25em;
+        }
+        .video-links li {
+            margin-bottom: 0.35rem;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+<div id="top"></div>
+<script>(function initTheme(){try{const saved=localStorage.getItem('theme');const root=document.documentElement;if(saved==='dark'){root.classList.add('dark-theme');}else if(saved==='light'){root.classList.add('light-theme');}}catch(e){}})();</script>
+
+<header role="banner">
+  <div class="header-inner">
+    <div class="logo">
+      <img class="logo-onevents" src="/icons/logo.png">
+      OnEvents
+    </div>
+    <div id="headerControls" style="display: flex; align-items: center; gap: 1rem;">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Переключить тему"><span id="themeIcon">🌓</span></button>
+      <button class="install-btn" id="installBtn" type="button" aria-label="Установить приложение" title="Установить приложение">📲</button>
+      <div class="burger-container">
+        <button class="burger-menu-btn" id="burgerMenuBtn" type="button" aria-label="Открыть меню">☰</button>
+        <div class="mobile-menu" id="mobileMenu">
+          <nav>
+            <a href="/" class="mobile-menu-link">События</a>
+            <a href="#top" class="mobile-menu-link">Видеозаписи</a>
+            <a href="/#webinars" class="mobile-menu-link">Прямой эфир</a>
+            <a href="/#public-calendars" class="mobile-menu-link">Календари</a>
+            <a href="#about" class="mobile-menu-link">О проекте</a>
+            <a href="https://onevents.ru/rss/rss.xml" class="mobile-menu-link">RSS</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="sr-only">Видеозаписи прошедших событий</h1>
+
+  <div id="events">
+    
+    <article class="card" data-city="Online">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «1C-RarusTechDay 2026»"
+               src="/img/events/rarus.png" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">1C-RarusTechDay 2026</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-07-16">16 июля 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Online</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>1C-RarusTechDay 2026 (<a href="https://www.youtube.com/playlist?list=PLa5r3r1XQ5IY" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/playlist/-24129970_37" target="_blank">VK Видео</a>, <a href="https://rutube.ru/plst/1683767" target="_blank">RUTUBE</a>, <a href="https://rarus.ru/events/20260716-1c-rarustechday-2026-812895" target="_blank">Rarus</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Санкт-Петербург">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «КУНГ-ФУ МИТАП: LLM Wiki для 1С»"
+               src="/img/events/kfk.jpg" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">КУНГ-ФУ МИТАП: LLM Wiki для 1С</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-07-16">16 июля 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Санкт-Петербург, ул. Рубинштейна, д. 27, (RUBICON)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>Алексей Корякин: LLM Wiki как память проекта. Skills как способ с ней работать (<a href="https://vkvideo.ru/video-233393032_456239041" target="_blank">VK Видео</a>, <a href="https://youtu.be/jwZr39IQEl0" target="_blank">YouTube</a>)</li>
+<li>Павел Королев: LLM Wiki как память проекта: практика на реальном проекте (<a href="https://vkvideo.ru/video-233393032_456239042" target="_blank">VK Видео</a>, <a href="https://youtu.be/ov1_KeZ7_lo" target="_blank">YouTube</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Санкт-Петербург">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «Желтый клуб Питер»"
+               src="/img/events/yc_spb.jpg" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">Желтый клуб Питер</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-05-28">28 мая 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Санкт-Петербург, ул. Рубинштейна, д. 27, парадная 1, RUBICON</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>Павел Чегодаев: ИИ - из чата в IDE и CLI (<a href="https://youtu.be/fqZ3p-sPCMo" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/video-232435421_456239052" target="_blank">VK Видео</a>)</li>
+<li>Артем Соболевский: Опыт создания собственного решения на интерфейсе 8.5 (<a href="https://youtu.be/4eJiExruTZQ" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/video-232435421_456239050" target="_blank">VK Видео</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Екатеринбург">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «Кунг-фу конфа Екатеринбург»"
+               src="/img/events/kfk.jpg" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">Кунг-фу конфа Екатеринбург</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-05-16">16 мая 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Екатеринбург, ул. Хохрякова, 1А, Отель TENET</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>Владимир Харин: От вайб-кодинга к инженерному подходу: ИИ-агенты в разработке на 1С (<a href="https://www.youtube.com/watch?v=Weas9J9A1zI" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/video-233393032_456239037" target="_blank">VK Видео</a>)</li>
+<li>Игорь Апресов: WebSocket - протокол и возможности 1С (<a href="https://www.youtube.com/watch?v=1o-B8f-SOpk" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/video-233393032_456239039" target="_blank">VK Видео</a>)</li>
+<li>Дмитрий Сидоренко: Практический WebSocket - сервер и клиент на JS, потом дружим с 1С (<a href="https://www.youtube.com/watch?v=QVrWsWP9lL4" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/video-233393032_456239032" target="_blank">VK Видео</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Краснодар">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «1С DAY MAGNIT DAY»"
+               src="/img/events/magnit_tech.jpg" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">1С DAY MAGNIT DAY</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-05-16">16 мая 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Краснодар, ул Солнечная, д 15/5, Офис Магнит</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>Записи докладов (<a href="https://vkvideo.ru/video-234058735_456239032" target="_blank">VK Видео</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Москва">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «Ozon Tech Community 1C Meetup»"
+               src="/img/events/ozontech.png" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">Ozon Tech Community 1C Meetup</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-04-23">23 апреля 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Москва, ул. Бауманская 11, стр.8, лофт Casa Picassa (Кандинский и Шиле)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>Запись трансляции (<a href="https://www.youtube.com/watch?v=Npxtk6aNVZI" target="_blank">YouTube</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Москва">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «1С DevCon 2026»"
+               src="/img/events/logo1c.png" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">1С DevCon 2026</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-04-04">4 апреля 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Москва, Дмитровское шоссе, 9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>Записи докладов (<a href="https://vkvideo.ru/playlist/-198342647_26" target="_blank">VK Видео</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Санкт-Петербург">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «Желтый клуб Питер»"
+               src="/img/events/yc_spb.jpg" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">Желтый клуб Питер</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-03-12">12 марта 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Санкт-Петербург, ул. Малая Посадская 7/4, 2 этаж, Эквиум Лофт</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>Андрей Соколов: «Как съесть XML с JSON, и не поперхнуться» (<a href="https://youtu.be/o8ras_BflLk" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/video-232435421_456239041" target="_blank">VK Видео</a>)</li>
+<li>Дмитрий Чекменев: «Изучение стандартов разработки 1С в команде» (<a href="https://youtu.be/1ZQMK37ji5s" target="_blank">YouTube</a>, <a href="https://vkvideo.ru/video-232435421_456239044" target="_blank">VK Видео</a>)</li></ul>
+      </div>
+    </article>
+    
+
+    <article class="card" data-city="Москва">
+      <div class="card-header">
+        <div class="card-header-main">
+          <img class="logo-img" alt="Логотип «INFOSTART TEAM EVENT 2026»"
+               src="/img/events/ite_2026.jpg" width="72" height="72"
+               loading="lazy"
+               style="border-radius:15%; object-fit:cover;">
+          <div class="event-info">
+            <h2 class="card-title" style="margin:0 0 .25em 0;">INFOSTART TEAM EVENT 2026</h2>
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <time datetime="2026-03-12">12 марта 2026</time>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📌</span>
+              <span>Москва, Конгресс-центр ЦМТ, Краснопресненская наб., 12, 4-й подъезд</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="video-links">
+        <ul><li>АМФИТЕАТР (<a href="https://vkvideo.ru/playlist/-42867005_71" target="_blank">VK Видео</a>)</li>
+<li>КОНГРЕСС ЗАЛ 1 (<a href="https://vkvideo.ru/playlist/-42867005_70" target="_blank">VK Видео</a>)</li>
+<li>КОНГРЕСС ЗАЛ 2 (<a href="https://vkvideo.ru/playlist/-42867005_77" target="_blank">VK Видео</a>)</li>
+<li>КОНГРЕСС ЗАЛ 3 (<a href="https://vkvideo.ru/playlist/-42867005_73" target="_blank">VK Видео</a>)</li>
+<li>ПРЕСС-ЗАЛ (<a href="https://vkvideo.ru/playlist/-42867005_76" target="_blank">VK Видео</a>)</li></ul>
+      </div>
+    </article>
+    
+  </div>
+
+
+  <!-- Блок О проекте -->
+  <section id="about">
+    <h2>О проекте</h2>
+
+    <article class="card">
+      <div class="card-header"><span class="icon">🎯</span><h3 class="card-title">Миссия проекта</h3></div>
+      <p>Мы создаем единое информационное пространство для всех, кто работает с платформой 1С:Предприятие. Наша цель — быть верным компасом в океане событий 1С, помогая находить интересные мероприятия и укреплять профессиональные связи.</p>
+    </article>
+
+    <h3>Что мы предлагаем</h3>
+    <div class="grid">
+      <article class="card"><div class="card-header"><span class="icon">📅</span><h4 class="card-title">Календарь событий</h4></div><p>Актуальная информация о предстоящих конференциях, митапах и встречах сообщества.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🤝</span><h4 class="card-title">Сообщество</h4></div><p>Возможность найти единомышленников и поделиться своим опытом с коллегами.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🌐</span><h4 class="card-title">Открытость</h4></div><p>Проект с открытым исходным кодом, где каждый может внести свой вклад.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">💬</span><h4 class="card-title">Telegram</h4></div><p>Все события дублируем и в <a href="https://t.me/OnEvents" target="_blank">Telegram</a> — подписывайтесь!</p></article>
+      <article class="card"><div class="card-header"><span class="icon">💬</span><h4 class="card-title">MAX</h4></div><p>Завели канал в <a href="https://max.ru/id541000083625_biz" target="_blank">MAX</a> — подписывайтесь!</p></article>
+      <article class="card"><div class="card-header"><span class="icon">💬</span><h4 class="card-title">ВКонтакте</h4></div><p>Теперь у нас есть группа <a href="https://vk.com/onevents_ru" target="_blank">ВКонтакте</a></p></article>
+    </div>
+
+    <h3>Как это работает</h3>
+    <div class="grid">
+      <article class="card"><div class="card-header"><span class="icon">📝</span><h4 class="card-title">Создание</h4></div><p>Создайте файл с описанием события в соответствующей папке.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🔍</span><h4 class="card-title">Проверка</h4></div><p>Наша команда проверит корректность информации.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">🚀</span><h4 class="card-title">Публикация</h4></div><p>Событие появится на сайте и станет доступно сообществу.</p></article>
+      <article class="card"><div class="card-header"><span class="icon">😎</span><h4 class="card-title">Для ленивых</h4></div><p>Просто пришлите данные о событии нам на почту.</p></article>
+    </div>
+
+    <article class="card">
+      <div class="card-header"><span class="icon">📬</span><h3 class="card-title">Контакты</h3></div>
+      <ul>
+        <li><a href="https://github.com/bestuzheff/OnEvents" target="_blank">GitHub</a></li>
+        <li><a href="mailto:info@onevents.ru">info@onevents.ru</a></li>
+        <li><a href="https://t.me/OnEvents" target="_blank">Telegram</a></li>
+        <li><a href="https://max.ru/id541000083625_biz" target="_blank">MAX</a></li>
+        <li><a href="https://vk.com/onevents_ru" target="_blank">ВКонтакте</a></li>
+        <li><a href="https://t.me/Un_tru" target="_blank">@Un_tru</a></li>
+        <li><a href="https://t.me/bestuzheff" target="_blank">@bestuzheff</a></li>
+      </ul>
+    </article>
+  </section>
+</main>
+
+<footer role="contentinfo"><small>© OnEvents, 2026. Дата актуальности: 5 сентября 2026</small></footer>
+
+<script>(function themeToggle(){const btn=document.getElementById('themeToggle');const icon=document.getElementById('themeIcon');const root=document.documentElement;function isDark(){if(root.classList.contains('dark-theme'))return true;if(root.classList.contains('light-theme'))return false;return !!(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);}function setTheme(mode){if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='☀️';}else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='🌙';}try{localStorage.setItem('theme',mode);}catch(e){}}btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});try{const saved=localStorage.getItem('theme');if(saved==='dark'){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else if(saved==='light'){icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}else{if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else{icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}}}catch(e){}})();</script>
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function(e) {
+    const targetId = this.getAttribute("href").substring(1);
+    if (!targetId) return;
+
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      e.preventDefault();
+
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : 0;
+
+      const isMobile = window.innerWidth <= 600;
+      const extraOffset = isMobile ? 40 : 20;
+
+      const targetPosition = targetEl.offsetTop - headerHeight - extraOffset;
+
+      window.scrollTo({
+        top: Math.max(0, targetPosition),
+        behavior: "smooth"
+      });
+
+      history.pushState(null, "", "#" + targetId);
+    }
+  });
+});
+</script>
+
+<script>
+(function burgerMenu() {
+  const burgerBtn = document.getElementById('burgerMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  if (!burgerBtn || !mobileMenu) return;
+
+  burgerBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    mobileMenu.classList.toggle('open');
+
+    const icon = this.textContent;
+    this.textContent = icon === '☰' ? '✕' : '☰';
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!mobileMenu.contains(e.target) && e.target !== burgerBtn) {
+      mobileMenu.classList.remove('open');
+      burgerBtn.textContent = '☰';
+    }
+  });
+
+  mobileMenu.querySelectorAll('.mobile-menu-link').forEach(link => {
+    link.addEventListener('click', function() {
+      mobileMenu.classList.remove('open');
+      burgerBtn.textContent = '☰';
+    });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function (reg) {
+        reg.addEventListener('updatefound', function () {
+          var newWorker = reg.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', function () {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('OnEvents: доступна новая версия, обновите страницу.');
+              }
+            });
+          }
+        });
+      })
+      .catch(function (err) {
+        console.log('OnEvents: Service Worker не зарегистрирован:', err);
+      });
+  }
+
+  var deferredPrompt;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    var btn = document.getElementById('installBtn');
+    if (btn) { btn.classList.add('visible'); }
+  });
+
+  var installBtn = document.getElementById('installBtn');
+  if (installBtn) {
+    installBtn.addEventListener('click', function () {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function (result) {
+          if (result.outcome === 'accepted') {
+            installBtn.classList.remove('visible');
+          }
+          deferredPrompt = null;
+        });
+      }
+    });
+  }
+
+  window.addEventListener('appinstalled', function () {
+    if (installBtn) { installBtn.classList.remove('visible'); }
+    deferredPrompt = null;
+  });
+})();
+</script>
+</body>
+</html>

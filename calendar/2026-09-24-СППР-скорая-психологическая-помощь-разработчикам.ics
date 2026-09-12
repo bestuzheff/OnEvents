@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:96b7b919-fd25-4416-a24f-0583d543a4f4@onevents.ru
+DTSTART:20260924T193000
+DTEND:20260924T220000
+SUMMARY:СППР+ — скорая психологическая помощь разработчикам.  (24 сентября)
+DESCRIPTION:О чём же мы решили поболтать?\nПоговорить мы хотели о страхе: сокращений\, не успеть за технологиями и не справиться с новыми вызовами\, а также о нашем любимом синдроме самозванца. Сразу предупреждаю\, это будет 18+ история\, возможно применение ёмких слов несущих в себе концентрат смыслов.\n\nКогда?\n24 сентября\, 19:30 МСК\n\nГде?\nОнлайн\, либо Youtube\, либо VK Video Live\, а может и там и там.Проведу голосование для выбора площадки.\n\nКто?\nИосиф Правец\nМедведь\nРоман Данилов\n\n\nСсылка: https://t.me/pravets_IT/487\n\nВремя: 19:30-22:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

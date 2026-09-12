@@ -1,0 +1,44 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:События 1С. Екатеринбург - OnEvents
+X-WR-CALDESC:Календарь 1С событий от OnEvents
+X-WR-TIMEZONE:Europe/Moscow
+X-WR-URL:https://onevents.ru/calendar/onevents-public-екатеринбург.ics
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+LAST-MODIFIED:20260912T075455Z
+DTSTAMP:20260912T075455Z
+BEGIN:VEVENT
+UID:9102dac3-d359-46b8-a0e9-0b4bbe868552@onevents.ru
+DTSTART:20260424T190000
+DTEND:20260424T220000
+SUMMARY:Т1 ЛАМПА: 1С (24 апреля)
+DESCRIPTION:Митап для программистов\, аналитиков и других специалистов из сферы 1С. Послушаем хардовые (и не только) доклады от экспертов по 1С-разработке и аналитике\, разберем реальные кейсы\, проведем уютный вечер в кругу коллег.\n\nСсылка: https://pro.t1.ru/event/AoOgLIEW\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3StCuf
+LOCATION:Екатеринбург, ул. Верх-Исетский бульвар, д. 15/4 (Синара Центр)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ec299945-fbb8-453d-9539-03909cd50680@onevents.ru
+DTSTART:20260516T090000
+DTEND:20260516T190000
+SUMMARY:Кунг-фу конфа Екатеринбург (16 мая)
+DESCRIPTION:Кунг-фу конфа - мероприятие с сильными спикерами из индустрии (архитекторами\, ведущими разработчиками и практиками)\, где в формате «без воды» вы получите применимые на практике знания и погрузитесь в атмосферу профессионального комьюнити. (Предварительная запись)\n\nСсылка: https://kungfu-conf.ru/ekb2026\n\nВремя: 09:00-19:00\n\nПоказать на карте: https://clck.ru/3TNBHS
+LOCATION:Екатеринбург, ул. Хохрякова, 1А, Отель TENET
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:40be36f5-b1e2-42f0-95e7-1b2131326cd6@onevents.ru
+DTSTART:20260917T190000
+DTEND:20260917T220000
+SUMMARY:Желтый Клуб Екатеринбург (17 сентября)
+DESCRIPTION:Первая встреча Желтого клуба в Екатеринбурге! Встречаемся\, чтобы разобраться в LLM для 1С: Дмитрий Сидоренко научит выбирать и приручать локальные модели\, Никита Жеребцов поделится опытом внедрения ИИ на примере «Накидки»\, а в перерыве — пицца и общение с коллегами.\n\nСсылка: https://yellowclub-ekb.timepad.ru/event/4173043\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3Vj3UH
+LOCATION:Екатеринбург, Добролюбова 16, 'Автограф', зал Big hall
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

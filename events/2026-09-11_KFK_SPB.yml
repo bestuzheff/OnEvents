@@ -10,4 +10,8 @@ sessions:
   - date: "2026-09-11"
     start_time: "19:00"
     end_time: "22:00"
-
+videos: 
+  - description: "Запись онлайн трансляции"
+    links:
+      - platform: "Kinescope"
+        url: "https://kinescope.io/iXoRGmQKV1h9fqh5fsxwDm"

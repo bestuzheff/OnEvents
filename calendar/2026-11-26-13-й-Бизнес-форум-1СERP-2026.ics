@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:bcb442c6-e47b-43ba-9f24-605e5d3ce2ca@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261126T093000
+DTEND;TZID=Europe/Moscow:20261126T220000
+SUMMARY:13-й Бизнес-форум 1С:ERP 2026 (26 ноября)
+DESCRIPTION:Фирма «1С» приглашает пользователей\, потенциальных клиентов и партнеров принять участие в 13-м Бизнес-форуме 1С:ERP\, посвященном внедрениям и развитию решений и сервисов «1С» для корпоративного рынка\, предприятий крупного и среднего масштаба.\n\nСсылка: https://1c.ru/bf/default.jsp?ysclid=mu12slre7j283040645\n\nВремя: 09:30-22:00\n\nПоказать на карте: https://clck.ru/3VpSX9
+LOCATION:Москва, ул. Верхняя аллея, д. 6, стр. 1, Выставочный комплекс «Тимирязев Центр»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

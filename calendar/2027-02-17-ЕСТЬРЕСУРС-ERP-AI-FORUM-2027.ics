@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:638def17-0d27-4f14-a30d-cb1ca0fa68cc@onevents.ru
+DTSTART;TZID=Europe/Moscow:20270217T090000
+DTEND;TZID=Europe/Moscow:20270217T220000
+SUMMARY:ЕСТЬРЕСУРС ERP AI FORUM 2027 (17 февраля)
+DESCRIPTION:ЕСТЬРЕСУРС ERP AI FORUM 2027 — профессиональный форум о практическом применении искусственного интеллекта в автоматизации бизнеса на платформе 1С. В программе — кейсы экспертов\, реальные сценарии внедрения ИИ\, аналитика\, разработка\, управление ERP-проектами и живое общение с профессиональным сообществом.\n\nСсылка: https://esresforum.ru/\n\nВремя: 09:00-22:00\n\nПоказать на карте: https://clck.ru/3VpZEa
+LOCATION:Москва, Большой бул., 42, стр. 1, Технопарк Сколково
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:d496dae0-aeb9-4339-a268-9cd4ee4cfbf4@onevents.ru
+DTSTART;TZID=Europe/Moscow:20270218T090000
+DTEND;TZID=Europe/Moscow:20270218T130000
+SUMMARY:ЕСТЬРЕСУРС ERP AI FORUM 2027 (18 февраля)
+DESCRIPTION:ЕСТЬРЕСУРС ERP AI FORUM 2027 — профессиональный форум о практическом применении искусственного интеллекта в автоматизации бизнеса на платформе 1С. В программе — кейсы экспертов\, реальные сценарии внедрения ИИ\, аналитика\, разработка\, управление ERP-проектами и живое общение с профессиональным сообществом.\n\nСсылка: https://esresforum.ru/\n\nВремя: 09:00-13:00\n\nПоказать на карте: https://clck.ru/3VpZEa
+LOCATION:Москва, Большой бул., 42, стр. 1, Технопарк Сколково
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

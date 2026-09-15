@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:5adace85-38c9-4108-945a-2b6d714d3df0@onevents.ru
+DTSTART:20260916T143000
+DTEND:20260916T160000
+SUMMARY:1С + ИИ\, экономим и оптимизируем контекст с Code Index (16 сентября)
+DESCRIPTION:На прошлом стриме Константин Коробов рассказал\, как ускорил анализ кода с 20 минут до 10 секунд. Как? Разберёмся вместе на новом стриме. В гостях Сергей Костяков\, автор CODE INDEX\, программист с опытом более 15 лет в 1С\, 20+ лет в T-SQL и годом плотной практики с ИИ. Обсудим\, как правильно скормить нейросети код\, чтобы она понимала проект и не сжигала контекст впустую.\n\n🔖Стрим в СРЕДУ 16.09.2026 в 14:30\nYouTube | ВК-Видео | Рутуб | Телеграм\n\n\nСсылка: https://youtube.com/live/CXbI1eKvkpc\n\nВремя: 14:30-16:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,13 @@
+id: "fce4e4bc-4a3f-4962-8def-8a9e0243e3db"
+title: "Жёлтый клуб Москва"
+date: "2026-10-01"
+city: "Москва"
+address: "улица Малая Почтовая, д. 2/2, стр. 1 (м. Бауманская)"
+icon: "yc_msk.jpg"
+description: "Доклады Владимира Акимова о развитии и масштабировании мульт-агентных систем и Юрия Лазаренко об ООП в 1С, мастер-класс Ивана Карло по 1C: Platform Tools и общение с коллегами."
+registration_url: "https://zheltyy-klub-moskva.timepad.ru/event/4201378"
+sessions:
+  - date: "2026-10-01"
+    start_time: "19:00"
+    end_time: "22:00"
+

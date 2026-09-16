@@ -27,7 +27,7 @@ def russian_count_form(value: int | float, forms: tuple[str, str, str]) -> str:
     n = abs(int(value))
     n_mod100 = n % 100
 
-    # Исключение для чисел 11-14 (向他们 "дней")
+    # Исключение для чисел 11-14 ("дней")
     if 11 <= n_mod100 <= 14:
         return forms[2]
 

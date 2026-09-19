@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Asia/Novosibirsk
+BEGIN:VEVENT
+UID:48054792-d195-4f17-b2c7-80365ca4e8b0@onevents.ru
+DTSTART;TZID=Asia/Novosibirsk:20260923T190000
+DTEND;TZID=Asia/Novosibirsk:20260923T220000
+SUMMARY:1C Meetup (23 сентября)
+DESCRIPTION:Приглашаем 1С-разработчиков\, тестировщиков и аналитиков на бесплатный митап! В программе полезные доклады\, общение с экспертами и возможность перенять полезные практики. А ещё — мини-квиз с призами!\n\nСсылка: https://koronatech.ru/events/257\n\nВремя: 19:00-22:00\n\nПоказать на карте: https://clck.ru/3VqRgG
+LOCATION:Новосибирск, Николаева 12/1
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

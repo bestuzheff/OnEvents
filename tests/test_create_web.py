@@ -50,6 +50,7 @@ class TestCreateWeb:
     @patch('create_web.generate_webinars_public_calendar')
     @patch('create_web.generate_public_calendars')
     @patch('create_web.generate_event_calendars')
+    @patch('create_web.shutil.copy2')
     @patch('create_web.shutil.copytree')
     @patch('create_web.format_date')
     @patch('create_web.yaml.safe_load')
@@ -68,6 +69,7 @@ class TestCreateWeb:
         mock_yaml_load,
         mock_format_date,
         mock_copytree,
+        mock_copy2,
         mock_generate_event_calendars,
         mock_generate_public_calendars,
         mock_generate_webinars_public_calendar,
@@ -128,6 +130,7 @@ class TestCreateWeb:
 
         mock_copytree.assert_any_call('img', 'site/img', dirs_exist_ok=True)
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
+        mock_copy2.assert_called_once_with(create_web.EVENT_DATES_FILE, create_web.OUTPUT_DIR / 'event-dates.js')
         sw_js = mock_write_text.call_args_list[0][0][0]
         assert '{{ cache_version }}' not in sw_js
         assert create_web.build_static_version() in sw_js
@@ -182,6 +185,7 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
+            patch('create_web.shutil.copy2'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),
@@ -226,6 +230,7 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
+            patch('create_web.shutil.copy2'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),

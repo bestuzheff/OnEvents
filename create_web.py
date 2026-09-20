@@ -38,6 +38,7 @@ TEMPLATE_FILE = Path('web/index.html')  # HTML шаблон сайта
 VIDEO_TEMPLATE_FILE = Path('web/video.html')  # HTML шаблон страницы видеозаписей
 ONEYEAR_TEMPLATE_FILE = Path('web/oneyear.html')  # HTML шаблон страницы итогов года
 SW_TEMPLATE_FILE = Path('web/sw.js')  # Шаблон Service Worker
+EVENT_DATES_FILE = Path('web/event-dates.js')
 STATIC_CACHE_DIRS = ('icons', 'img')  # Статика, которую Service Worker кеширует надолго
 OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
@@ -534,6 +535,7 @@ def main() -> None:
     # Копируем статические файлы (картинки и иконки)
     shutil.copytree('img', 'site/img', dirs_exist_ok=True)
     shutil.copytree('icons', 'site/icons', dirs_exist_ok=True)
+    shutil.copy2(EVENT_DATES_FILE, OUTPUT_DIR / EVENT_DATES_FILE.name)
     sw_js = SW_TEMPLATE_FILE.read_text(encoding='utf-8').replace('{{ cache_version }}', build_static_version())
     (OUTPUT_DIR / 'sw.js').write_text(sw_js, encoding='utf-8')
 
@@ -610,15 +612,11 @@ def main() -> None:
             video_items.append((webinar, 'webinar'))
 
     video_items.sort(key=lambda x: x[0]['date'], reverse=True)
-    video_cards_html = '\n'.join(
-        render_video_card(ev, ev_type) for ev, ev_type in video_items
-    )
+    video_cards_html = '\n'.join(render_video_card(ev, ev_type) for ev, ev_type in video_items)
 
     video_template = VIDEO_TEMPLATE_FILE.read_text(encoding='utf-8')
-    video_html = (
-        video_template
-        .replace('{{ eventsvideo }}', video_cards_html)
-        .replace('{{ builddate }}', today_date_str)
+    video_html = video_template.replace('{{ eventsvideo }}', video_cards_html).replace(
+        '{{ builddate }}', today_date_str
     )
     VIDEO_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     VIDEO_OUTPUT_FILE.write_text(video_html, encoding='utf-8')

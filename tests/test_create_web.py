@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
@@ -18,6 +18,13 @@ def test_generate_sitemap():
     assert 'https://onevents.ru/oneyear/' in result
     assert date.today().isoformat() in result
     assert '<changefreq>daily</changefreq>' in result
+
+
+def test_html_keeps_previous_date_for_users_in_western_timezones():
+    build_date = date(2026, 9, 20)
+
+    assert create_web.include_event_in_html(build_date - timedelta(days=1), build_date)
+    assert not create_web.include_event_in_html(build_date - timedelta(days=2), build_date)
 
 
 @pytest.mark.parametrize(

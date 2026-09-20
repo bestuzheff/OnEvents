@@ -477,15 +477,22 @@ def generate_sitemap() -> str:
 </urlset>"""
 
 
+def include_event_in_html(event_date: date, build_date: date) -> bool:
+    """Сохраняет предыдущую дату, чтобы браузер учёл часовой пояс пользователя."""
+    return event_date >= build_date - timedelta(days=1)
+
+
 def main() -> None:
     # Читаем HTML шаблон
     template = TEMPLATE_FILE.read_text(encoding='utf-8')
 
     # Списки для хранения событий
     all_events = []  # Все события (включая прошедшие)
-    events = []  # Только предстоящие события для карточек
+    events = []  # Только предстоящие события для экспортов
+    html_events = []  # С запасом для локальной даты пользователя
     all_webinars = []  # Все вебинары (включая прошедшие)
     webinars = []  # Только предстоящие вебинары для карточек
+    build_date = datetime.today().date()
 
     # Читаем события из YAML файлов
     for file in EVENTS_DIR.glob('*.yml'):
@@ -501,14 +508,17 @@ def main() -> None:
 
             # Добавляем в соответствующие списки
             all_events.append(data)
-            if event_date >= datetime.today().date():
+            if event_date >= build_date:
                 events.append(data)
+            if include_event_in_html(event_date, build_date):
+                html_events.append(data)
         except Exception as e:
             print(f'Ошибка при чтении файла {file.name}: {e}')
 
     # Сортируем события по дате
     all_events.sort(key=lambda e: e['date'])
     events.sort(key=lambda e: e['date'])
+    html_events.sort(key=lambda e: e['date'])
 
     # Читаем вебинары из YAML файлов
     for file in WEBINARS_DIR.glob('*.yml'):
@@ -520,7 +530,7 @@ def main() -> None:
 
             webinar_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
             all_webinars.append(data)
-            if webinar_date >= datetime.today().date():
+            if webinar_date >= build_date:
                 webinars.append(data)
         except Exception as e:
             print(f'Ошибка при чтении файла {file.name}: {e}')
@@ -544,7 +554,7 @@ def main() -> None:
     calendar_dir.mkdir(exist_ok=True)
 
     # Создаем индивидуальные календари для событий и вебинаров
-    generate_event_calendars(events, calendar_dir)
+    generate_event_calendars(html_events, calendar_dir)
     generate_event_calendars(webinars, calendar_dir)
 
     # Создаем публичные календари (общий и по городам)
@@ -577,7 +587,7 @@ def main() -> None:
     robots_file.write_text(robots_content, encoding='utf-8')
 
     # Генерируем HTML карточки событий и вебинаров
-    events_html = '\n'.join(render_event(e) for e in events)
+    events_html = '\n'.join(render_event(e) for e in html_events)
     webinar_html = '\n'.join(render_webinar(e) for e in webinars)
     public_calendars_html = render_public_calendars(public_calendars)
     webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)

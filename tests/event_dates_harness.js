@@ -3,7 +3,7 @@ const fs = require('node:fs');
 
 assert.equal(fs.existsSync('web/event-dates.js'), true, 'web/event-dates.js must exist');
 
-const {formatTimeUntil, updateEventDates} = require('../web/event-dates.js');
+const {formatTimeUntil, startEventDates, updateEventDates} = require('../web/event-dates.js');
 
 function localDate(year, month, day) {
   return new Date(year, month - 1, day);
@@ -38,3 +38,28 @@ assert.equal(past.card.removed, true);
 assert.equal(today.card.removed, false);
 assert.equal(today.label.textContent, '(сегодня)');
 assert.equal(future.label.textContent, '(через 3 дня)');
+
+const midnightEvent = eventCard('2026-09-21');
+const midnightRoot = {
+  querySelectorAll: function () { return [midnightEvent.time]; }
+};
+const dates = [
+  new Date(2026, 8, 20, 23, 59, 59),
+  new Date(2026, 8, 21, 0, 0, 1)
+];
+let scheduledCallback;
+let scheduledDelay;
+
+startEventDates(
+  midnightRoot,
+  function () { return dates.shift(); },
+  function (callback, delay) {
+    scheduledCallback = callback;
+    scheduledDelay = delay;
+  }
+);
+
+assert.equal(midnightEvent.label.textContent, '(завтра)');
+assert.equal(scheduledDelay, 2000);
+scheduledCallback();
+assert.equal(midnightEvent.label.textContent, '(сегодня)');

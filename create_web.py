@@ -491,59 +491,37 @@ def select_html_events(events: list[dict], build_date: date) -> list[dict]:
     ]
 
 
+def load_records(directory: Path, build_date: date) -> tuple[list[dict], list[dict]]:
+    """Читает YAML-записи и возвращает все и только предстоящие."""
+    all_records = []
+    upcoming_records = []
+
+    for file in directory.glob('*.yml'):
+        try:
+            with open(file, encoding='utf-8') as f:
+                data = yaml.safe_load(f)
+
+            data['filename'] = file.stem
+            record_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+            all_records.append(data)
+            if record_date >= build_date:
+                upcoming_records.append(data)
+        except Exception as e:
+            print(f'Ошибка при чтении файла {file.name}: {e}')
+
+    all_records.sort(key=lambda record: record['date'])
+    upcoming_records.sort(key=lambda record: record['date'])
+    return all_records, upcoming_records
+
+
 def main() -> None:
     # Читаем HTML шаблон
     template = TEMPLATE_FILE.read_text(encoding='utf-8')
 
-    # Списки для хранения событий
-    all_events = []  # Все события (включая прошедшие)
-    events = []  # Только предстоящие события для экспортов
-    all_webinars = []  # Все вебинары (включая прошедшие)
-    webinars = []  # Только предстоящие вебинары для карточек
     build_date = datetime.today().date()
-
-    # Читаем события из YAML файлов
-    for file in EVENTS_DIR.glob('*.yml'):
-        try:
-            with open(file, encoding='utf-8') as f:
-                data = yaml.safe_load(f)
-
-            # Добавляем имя файла для формирования ID события
-            data['filename'] = file.stem
-
-            # Парсим дату события
-            event_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
-
-            # Добавляем в соответствующие списки
-            all_events.append(data)
-            if event_date >= build_date:
-                events.append(data)
-        except Exception as e:
-            print(f'Ошибка при чтении файла {file.name}: {e}')
-
-    # Сортируем события по дате
-    all_events.sort(key=lambda e: e['date'])
-    events.sort(key=lambda e: e['date'])
+    all_events, events = load_records(EVENTS_DIR, build_date)
     html_events = select_html_events(all_events, build_date)
-
-    # Читаем вебинары из YAML файлов
-    for file in WEBINARS_DIR.glob('*.yml'):
-        try:
-            with open(file, encoding='utf-8') as f:
-                data = yaml.safe_load(f)
-
-            data['filename'] = file.stem
-
-            webinar_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
-            all_webinars.append(data)
-            if webinar_date >= build_date:
-                webinars.append(data)
-        except Exception as e:
-            print(f'Ошибка при чтении файла {file.name}: {e}')
-
-    # Сортируем вебинары по дате
-    all_webinars.sort(key=lambda e: e['date'])
-    webinars.sort(key=lambda e: e['date'])
+    all_webinars, webinars = load_records(WEBINARS_DIR, build_date)
 
     # Создаем директорию для сайта
     OUTPUT_DIR.mkdir(exist_ok=True)

@@ -482,6 +482,15 @@ def include_event_in_html(event_date: date, build_date: date) -> bool:
     return event_date >= build_date - timedelta(days=1)
 
 
+def select_html_events(events: list[dict], build_date: date) -> list[dict]:
+    """Отбирает карточки с однодневным запасом для клиентской фильтрации."""
+    return [
+        event
+        for event in events
+        if include_event_in_html(datetime.strptime(event['date'], '%Y-%m-%d').date(), build_date)
+    ]
+
+
 def main() -> None:
     # Читаем HTML шаблон
     template = TEMPLATE_FILE.read_text(encoding='utf-8')
@@ -489,7 +498,6 @@ def main() -> None:
     # Списки для хранения событий
     all_events = []  # Все события (включая прошедшие)
     events = []  # Только предстоящие события для экспортов
-    html_events = []  # С запасом для локальной даты пользователя
     all_webinars = []  # Все вебинары (включая прошедшие)
     webinars = []  # Только предстоящие вебинары для карточек
     build_date = datetime.today().date()
@@ -510,15 +518,13 @@ def main() -> None:
             all_events.append(data)
             if event_date >= build_date:
                 events.append(data)
-            if include_event_in_html(event_date, build_date):
-                html_events.append(data)
         except Exception as e:
             print(f'Ошибка при чтении файла {file.name}: {e}')
 
     # Сортируем события по дате
     all_events.sort(key=lambda e: e['date'])
     events.sort(key=lambda e: e['date'])
-    html_events.sort(key=lambda e: e['date'])
+    html_events = select_html_events(all_events, build_date)
 
     # Читаем вебинары из YAML файлов
     for file in WEBINARS_DIR.glob('*.yml'):

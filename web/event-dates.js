@@ -6,7 +6,12 @@
   }
 
   if (root && root.document) {
-    api.startEventDates(root.document, function () { return new Date(); }, root.setTimeout.bind(root));
+    api.startEventDates(
+      root.document,
+      function () { return new Date(); },
+      root.setTimeout.bind(root),
+      function () { root.document.dispatchEvent(new root.Event('eventdateschange')); }
+    );
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   var DAY_MS = 24 * 60 * 60 * 1000;
@@ -90,10 +95,13 @@
     });
   }
 
-  function startEventDates(documentRoot, nowProvider, setTimer) {
+  function startEventDates(documentRoot, nowProvider, setTimer, onUpdate) {
     function refresh() {
       var now = nowProvider();
       updateEventDates(documentRoot, now);
+      if (onUpdate) {
+        onUpdate();
+      }
       var nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
       setTimer(refresh, nextDay.getTime() - now.getTime() + 1000);
     }

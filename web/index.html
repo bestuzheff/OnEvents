@@ -486,15 +486,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   function buildOptions(){
     const sel = document.getElementById(SELECT_ID);
     if(!sel) return;
-    const existing = new Set(Array.from(sel.options).map(o=>o.value));
+    const selected = sel.value;
+    while(sel.options.length > 1){ sel.remove(1); }
     uniqueCities().forEach(city => {
-      if(!existing.has(city)){
-        const opt = document.createElement('option');
-        opt.value = city;
-        opt.textContent = city;
-        sel.appendChild(opt);
-      }
+      const opt = document.createElement('option');
+      opt.value = city;
+      opt.textContent = city;
+      sel.appendChild(opt);
     });
+    if(Array.from(sel.options).some(o => o.value === selected)){
+      sel.value = selected;
+    } else {
+      sel.value = '';
+      saveSelected('');
+    }
   }
   function applyFilter(city){
     const cards = getCards();
@@ -544,6 +549,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     sel.addEventListener('change', onChange);
     applyFilter(sel.value || '');
   }
+  function refresh(){
+    const sel = document.getElementById(SELECT_ID);
+    if(!sel) return;
+    buildOptions();
+    applyFilter(sel.value || '');
+  }
+  document.addEventListener('eventdateschange', refresh);
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
   } else {

@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const vm = require('node:vm');
 
 assert.equal(fs.existsSync('web/event-dates.js'), true, 'web/event-dates.js must exist');
 
@@ -63,3 +64,46 @@ assert.equal(midnightEvent.label.textContent, '(завтра)');
 assert.equal(scheduledDelay, 2000);
 scheduledCallback();
 assert.equal(midnightEvent.label.textContent, '(сегодня)');
+
+const template = fs.readFileSync('web/index.html', 'utf8');
+const cityFilterBody = template
+  .split('(function cityFilterInit(){')[1]
+  .split('})();')[0];
+const documentListeners = {};
+let cityCards = [
+  {city: 'Москва', style: {}, getAttribute: function () { return this.city; }},
+  {city: 'Казань', style: {}, getAttribute: function () { return this.city; }}
+];
+const citySelect = {
+  value: 'Москва',
+  options: [{value: ''}],
+  appendChild: function (option) { this.options.push(option); },
+  remove: function (index) { this.options.splice(index, 1); },
+  addEventListener: function () {}
+};
+const cityDocument = {
+  readyState: 'complete',
+  addEventListener: function (name, callback) { documentListeners[name] = callback; },
+  createElement: function () { return {}; },
+  getElementById: function (id) { return id === 'cityFilter' ? citySelect : null; },
+  querySelectorAll: function (selector) {
+    return selector === 'article.card[data-city]' ? cityCards : [];
+  }
+};
+const cityStorage = {
+  value: 'Москва',
+  getItem: function () { return this.value; },
+  setItem: function (key, value) { this.value = value; }
+};
+
+vm.runInNewContext(
+  '(function cityFilterInit(){' + cityFilterBody + '})();',
+  {Array, Set, document: cityDocument, localStorage: cityStorage, window: {innerWidth: 1200}}
+);
+
+assert.deepEqual(citySelect.options.map(function (option) { return option.value; }), ['', 'Казань', 'Москва']);
+cityCards = cityCards.filter(function (card) { return card.city !== 'Москва'; });
+documentListeners.eventdateschange();
+assert.deepEqual(citySelect.options.map(function (option) { return option.value; }), ['', 'Казань']);
+assert.equal(citySelect.value, '');
+assert.equal(cityStorage.value, '');

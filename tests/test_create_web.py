@@ -101,7 +101,7 @@ class TestCreateWeb:
         mock_yaml_load.side_effect = [
             {
                 'title': 'Конференция',
-                'date': '2099-01-01',
+                'date': (date.today() - timedelta(days=1)).isoformat(),
                 'city': 'Москва',
                 'description': 'Описание события',
                 'icon': 'event.png',
@@ -144,9 +144,11 @@ class TestCreateWeb:
         assert date.today().isoformat() not in sw_js
 
         assert mock_generate_event_calendars.call_count == 2
+        generated_event_calendars = mock_generate_event_calendars.call_args_list[0].args[0]
+        assert generated_event_calendars[0]['title'] == 'Конференция'
 
         mock_export_events.assert_called_once()
-        mock_export_upcoming_events.assert_called_once()
+        assert mock_export_upcoming_events.call_args.args[0] == []
         mock_export_webinars.assert_called_once()
         mock_export_upcoming_webinars.assert_called_once()
 

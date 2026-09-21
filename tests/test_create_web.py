@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
@@ -18,6 +18,13 @@ def test_generate_sitemap():
     assert 'https://onevents.ru/oneyear/' in result
     assert date.today().isoformat() in result
     assert '<changefreq>daily</changefreq>' in result
+
+
+def test_html_keeps_previous_date_for_users_in_western_timezones():
+    build_date = date(2026, 9, 20)
+
+    assert create_web.include_event_in_html(build_date - timedelta(days=1), build_date)
+    assert not create_web.include_event_in_html(build_date - timedelta(days=2), build_date)
 
 
 @pytest.mark.parametrize(
@@ -50,6 +57,7 @@ class TestCreateWeb:
     @patch('create_web.generate_webinars_public_calendar')
     @patch('create_web.generate_public_calendars')
     @patch('create_web.generate_event_calendars')
+    @patch('create_web.shutil.copy2')
     @patch('create_web.shutil.copytree')
     @patch('create_web.format_date')
     @patch('create_web.yaml.safe_load')
@@ -68,6 +76,7 @@ class TestCreateWeb:
         mock_yaml_load,
         mock_format_date,
         mock_copytree,
+        mock_copy2,
         mock_generate_event_calendars,
         mock_generate_public_calendars,
         mock_generate_webinars_public_calendar,
@@ -92,7 +101,7 @@ class TestCreateWeb:
         mock_yaml_load.side_effect = [
             {
                 'title': 'Конференция',
-                'date': '2099-01-01',
+                'date': (date.today() - timedelta(days=1)).isoformat(),
                 'city': 'Москва',
                 'description': 'Описание события',
                 'icon': 'event.png',
@@ -128,15 +137,18 @@ class TestCreateWeb:
 
         mock_copytree.assert_any_call('img', 'site/img', dirs_exist_ok=True)
         mock_copytree.assert_any_call('icons', 'site/icons', dirs_exist_ok=True)
+        mock_copy2.assert_called_once_with(create_web.EVENT_DATES_FILE, create_web.OUTPUT_DIR / 'event-dates.js')
         sw_js = mock_write_text.call_args_list[0][0][0]
         assert '{{ cache_version }}' not in sw_js
         assert create_web.build_static_version() in sw_js
         assert date.today().isoformat() not in sw_js
 
         assert mock_generate_event_calendars.call_count == 2
+        generated_event_calendars = mock_generate_event_calendars.call_args_list[0].args[0]
+        assert generated_event_calendars[0]['title'] == 'Конференция'
 
         mock_export_events.assert_called_once()
-        mock_export_upcoming_events.assert_called_once()
+        assert mock_export_upcoming_events.call_args.args[0] == []
         mock_export_webinars.assert_called_once()
         mock_export_upcoming_webinars.assert_called_once()
 
@@ -182,6 +194,7 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
+            patch('create_web.shutil.copy2'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),
@@ -226,6 +239,7 @@ class TestCreateWeb:
 
         with (
             patch('create_web.shutil.copytree'),
+            patch('create_web.shutil.copy2'),
             patch('create_web.generate_event_calendars'),
             patch('create_web.generate_public_calendars'),
             patch('create_web.generate_webinars_public_calendar'),

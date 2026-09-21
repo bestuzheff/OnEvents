@@ -440,6 +440,7 @@
 <footer role="contentinfo"><small>© OnEvents, 2026. Дата актуальности: {{ builddate }}</small></footer>
 
 <script>(function themeToggle(){const btn=document.getElementById('themeToggle');const icon=document.getElementById('themeIcon');const root=document.documentElement;function isDark(){if(root.classList.contains('dark-theme'))return true;if(root.classList.contains('light-theme'))return false;return !!(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);}function setTheme(mode){if(mode==='dark'){root.classList.remove('light-theme');root.classList.add('dark-theme');btn.setAttribute('aria-pressed','true');icon.textContent='☀️';}else{root.classList.remove('dark-theme');root.classList.add('light-theme');btn.setAttribute('aria-pressed','false');icon.textContent='🌙';}try{localStorage.setItem('theme',mode);}catch(e){}}btn.addEventListener('click',function(e){e.preventDefault();setTheme(isDark()?'light':'dark');});try{const saved=localStorage.getItem('theme');if(saved==='dark'){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else if(saved==='light'){icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}else{if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){icon.textContent='☀️';btn.setAttribute('aria-pressed','true');}else{icon.textContent='🌙';btn.setAttribute('aria-pressed','false');}}}catch(e){}})();</script>
+<script src="/event-dates.js"></script>
 <script>
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function(e) {
@@ -485,15 +486,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   function buildOptions(){
     const sel = document.getElementById(SELECT_ID);
     if(!sel) return;
-    const existing = new Set(Array.from(sel.options).map(o=>o.value));
+    const selected = sel.value;
+    while(sel.options.length > 1){ sel.remove(1); }
     uniqueCities().forEach(city => {
-      if(!existing.has(city)){
-        const opt = document.createElement('option');
-        opt.value = city;
-        opt.textContent = city;
-        sel.appendChild(opt);
-      }
+      const opt = document.createElement('option');
+      opt.value = city;
+      opt.textContent = city;
+      sel.appendChild(opt);
     });
+    if(Array.from(sel.options).some(o => o.value === selected)){
+      sel.value = selected;
+    } else {
+      sel.value = '';
+      saveSelected('');
+    }
   }
   function applyFilter(city){
     const cards = getCards();
@@ -543,6 +549,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     sel.addEventListener('change', onChange);
     applyFilter(sel.value || '');
   }
+  function refresh(){
+    const sel = document.getElementById(SELECT_ID);
+    if(!sel) return;
+    buildOptions();
+    applyFilter(sel.value || '');
+  }
+  document.addEventListener('eventdateschange', refresh);
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
   } else {

@@ -17,14 +17,11 @@ class TestHtmlRendering:
 
     @patch('webhtml.cards.map_link')
     @patch('webhtml.cards.add_utm_marks')
-    @patch('webhtml.cards.format_time_until_ru')
     def test_render_event_full(
         self,
-        mock_format_time,
         mock_add_utm,
         mock_map_link,
     ):
-        mock_format_time.return_value = 'через 10 дней'
         mock_add_utm.return_value = 'https://register.com?utm=test'
         mock_map_link.return_value = 'https://maps.yandex.ru/test'
 
@@ -43,7 +40,8 @@ class TestHtmlRendering:
 
         assert 'Конференция 1С' in result
         assert 'Описание события' in result
-        assert 'через 10 дней' in result
+        assert '<span class="days-left"></span>' in result
+        assert 'через ' not in result
         assert 'https://register.com?utm=test' in result
         assert 'Показать на карте' in result
         assert 'calendar/2026-05-11-Конференция-1С.ics' in result
@@ -52,14 +50,11 @@ class TestHtmlRendering:
 
     @patch('webhtml.cards.map_link')
     @patch('webhtml.cards.add_utm_marks')
-    @patch('webhtml.cards.format_time_until_ru')
     def test_render_event_without_optional_fields(
         self,
-        mock_format_time,
         mock_add_utm,
         mock_map_link,
     ):
-        mock_format_time.return_value = 'сегодня'
         mock_add_utm.return_value = ''
         mock_map_link.return_value = ''
 
@@ -75,7 +70,7 @@ class TestHtmlRendering:
         result = render_event(event)
 
         assert 'Митап' in result
-        assert 'сегодня' in result
+        assert '<time itemprop="startDate" datetime="2026-06-01">' in result
         assert 'Регистрация' not in result
         assert 'Показать на карте' not in result
 
@@ -114,14 +109,11 @@ class TestHtmlRendering:
 
     @patch('webhtml.cards.map_link')
     @patch('webhtml.cards.add_utm_marks')
-    @patch('webhtml.cards.format_time_until_ru')
     def test_render_event_without_address(
         self,
-        mock_format_time,
         mock_add_utm,
         mock_map_link,
     ):
-        mock_format_time.return_value = 'завтра'
         mock_add_utm.return_value = ''
         mock_map_link.return_value = ''
 

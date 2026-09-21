@@ -38,6 +38,7 @@ TEMPLATE_FILE = Path('web/index.html')  # HTML шаблон сайта
 VIDEO_TEMPLATE_FILE = Path('web/video.html')  # HTML шаблон страницы видеозаписей
 ONEYEAR_TEMPLATE_FILE = Path('web/oneyear.html')  # HTML шаблон страницы итогов года
 SW_TEMPLATE_FILE = Path('web/sw.js')  # Шаблон Service Worker
+EVENT_DATES_FILE = Path('web/event-dates.js')
 STATIC_CACHE_DIRS = ('icons', 'img')  # Статика, которую Service Worker кеширует надолго
 OUTPUT_DIR = Path('site')  # Папка для собранного сайта
 OUTPUT_FILE = OUTPUT_DIR / 'index.html'  # Итоговый HTML файл
@@ -476,57 +477,51 @@ def generate_sitemap() -> str:
 </urlset>"""
 
 
+def include_event_in_html(event_date: date, build_date: date) -> bool:
+    """Сохраняет предыдущую дату, чтобы браузер учёл часовой пояс пользователя."""
+    return event_date >= build_date - timedelta(days=1)
+
+
+def select_html_events(events: list[dict], build_date: date) -> list[dict]:
+    """Отбирает карточки с однодневным запасом для клиентской фильтрации."""
+    return [
+        event
+        for event in events
+        if include_event_in_html(datetime.strptime(event['date'], '%Y-%m-%d').date(), build_date)
+    ]
+
+
+def load_records(directory: Path, build_date: date) -> tuple[list[dict], list[dict]]:
+    """Читает YAML-записи и возвращает все и только предстоящие."""
+    all_records = []
+    upcoming_records = []
+
+    for file in directory.glob('*.yml'):
+        try:
+            with open(file, encoding='utf-8') as f:
+                data = yaml.safe_load(f)
+
+            data['filename'] = file.stem
+            record_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+            all_records.append(data)
+            if record_date >= build_date:
+                upcoming_records.append(data)
+        except Exception as e:
+            print(f'Ошибка при чтении файла {file.name}: {e}')
+
+    all_records.sort(key=lambda record: record['date'])
+    upcoming_records.sort(key=lambda record: record['date'])
+    return all_records, upcoming_records
+
+
 def main() -> None:
     # Читаем HTML шаблон
     template = TEMPLATE_FILE.read_text(encoding='utf-8')
 
-    # Списки для хранения событий
-    all_events = []  # Все события (включая прошедшие)
-    events = []  # Только предстоящие события для карточек
-    all_webinars = []  # Все вебинары (включая прошедшие)
-    webinars = []  # Только предстоящие вебинары для карточек
-
-    # Читаем события из YAML файлов
-    for file in EVENTS_DIR.glob('*.yml'):
-        try:
-            with open(file, encoding='utf-8') as f:
-                data = yaml.safe_load(f)
-
-            # Добавляем имя файла для формирования ID события
-            data['filename'] = file.stem
-
-            # Парсим дату события
-            event_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
-
-            # Добавляем в соответствующие списки
-            all_events.append(data)
-            if event_date >= datetime.today().date():
-                events.append(data)
-        except Exception as e:
-            print(f'Ошибка при чтении файла {file.name}: {e}')
-
-    # Сортируем события по дате
-    all_events.sort(key=lambda e: e['date'])
-    events.sort(key=lambda e: e['date'])
-
-    # Читаем вебинары из YAML файлов
-    for file in WEBINARS_DIR.glob('*.yml'):
-        try:
-            with open(file, encoding='utf-8') as f:
-                data = yaml.safe_load(f)
-
-            data['filename'] = file.stem
-
-            webinar_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
-            all_webinars.append(data)
-            if webinar_date >= datetime.today().date():
-                webinars.append(data)
-        except Exception as e:
-            print(f'Ошибка при чтении файла {file.name}: {e}')
-
-    # Сортируем вебинары по дате
-    all_webinars.sort(key=lambda e: e['date'])
-    webinars.sort(key=lambda e: e['date'])
+    build_date = datetime.today().date()
+    all_events, events = load_records(EVENTS_DIR, build_date)
+    html_events = select_html_events(all_events, build_date)
+    all_webinars, webinars = load_records(WEBINARS_DIR, build_date)
 
     # Создаем директорию для сайта
     OUTPUT_DIR.mkdir(exist_ok=True)
@@ -534,6 +529,7 @@ def main() -> None:
     # Копируем статические файлы (картинки и иконки)
     shutil.copytree('img', 'site/img', dirs_exist_ok=True)
     shutil.copytree('icons', 'site/icons', dirs_exist_ok=True)
+    shutil.copy2(EVENT_DATES_FILE, OUTPUT_DIR / EVENT_DATES_FILE.name)
     sw_js = SW_TEMPLATE_FILE.read_text(encoding='utf-8').replace('{{ cache_version }}', build_static_version())
     (OUTPUT_DIR / 'sw.js').write_text(sw_js, encoding='utf-8')
 
@@ -542,7 +538,7 @@ def main() -> None:
     calendar_dir.mkdir(exist_ok=True)
 
     # Создаем индивидуальные календари для событий и вебинаров
-    generate_event_calendars(events, calendar_dir)
+    generate_event_calendars(html_events, calendar_dir)
     generate_event_calendars(webinars, calendar_dir)
 
     # Создаем публичные календари (общий и по городам)
@@ -575,7 +571,7 @@ def main() -> None:
     robots_file.write_text(robots_content, encoding='utf-8')
 
     # Генерируем HTML карточки событий и вебинаров
-    events_html = '\n'.join(render_event(e) for e in events)
+    events_html = '\n'.join(render_event(e) for e in html_events)
     webinar_html = '\n'.join(render_webinar(e) for e in webinars)
     public_calendars_html = render_public_calendars(public_calendars)
     webinars_calendar_html = render_webinars_calendar(webinars_public_calendar_url)
@@ -610,15 +606,11 @@ def main() -> None:
             video_items.append((webinar, 'webinar'))
 
     video_items.sort(key=lambda x: x[0]['date'], reverse=True)
-    video_cards_html = '\n'.join(
-        render_video_card(ev, ev_type) for ev, ev_type in video_items
-    )
+    video_cards_html = '\n'.join(render_video_card(ev, ev_type) for ev, ev_type in video_items)
 
     video_template = VIDEO_TEMPLATE_FILE.read_text(encoding='utf-8')
-    video_html = (
-        video_template
-        .replace('{{ eventsvideo }}', video_cards_html)
-        .replace('{{ builddate }}', today_date_str)
+    video_html = video_template.replace('{{ eventsvideo }}', video_cards_html).replace(
+        '{{ builddate }}', today_date_str
     )
     VIDEO_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     VIDEO_OUTPUT_FILE.write_text(video_html, encoding='utf-8')

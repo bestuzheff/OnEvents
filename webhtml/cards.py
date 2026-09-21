@@ -7,7 +7,6 @@ from datetime import datetime
 
 from babel.dates import format_date
 
-from utils.dates import format_time_until_ru
 from utils.text import DASHES_SPACES_PATTERN, SAFE_CHARS_PATTERN
 from utils.url import add_utm_marks, map_link
 
@@ -48,13 +47,7 @@ def render_event(event: dict) -> str:
     """
     # Форматируем дату
     date_obj = datetime.strptime(event['date'], '%Y-%m-%d')
-    today_date = datetime.today().date()
-    target_date = date_obj.date()
     date_str = format_date(date_obj, format='d MMMM y', locale='ru')
-
-    # Формируем текст "через сколько"
-    days_left_text = format_time_until_ru(today_date, target_date)
-    days_left_html = f'<span class="days-left">{days_left_text}</span>'
 
     # Формируем строку адреса (город + адрес)
     address = event.get('address') or ''
@@ -115,7 +108,7 @@ def render_event(event: dict) -> str:
             <h2 class="card-title" itemprop="name" style="margin:0 0 .25em 0;">{event['title']}</h2>
             <div class="meta-item">
               <span class="icon">📅</span>
-              <time itemprop="startDate" datetime="{event['date']}">{date_str} {days_left_html}</time>
+              <time itemprop="startDate" datetime="{event['date']}">{date_str} <span class="days-left"></span></time>
             </div>
             <div class="meta-item">
               <span class="icon">📌</span>
@@ -141,14 +134,14 @@ def render_video_card(event: dict, event_type: str) -> str:
     date_str = format_date(date_obj, format='d MMMM y', locale='ru')
 
     if event_type == 'event':
-        img_src = f"/img/events/{event['icon']}"
-        img_alt = f"Логотип «{event['title']}»"
+        img_src = f'/img/events/{event["icon"]}'
+        img_alt = f'Логотип «{event["title"]}»'
         city = event.get('city', 'Online')
         address = event.get('address') or ''
         location_str = f'{city}, {address}' if address else city
     else:
-        img_src = f"/img/webinars/{event['pic']}"
-        img_alt = f"Логотип «{event['title']}»"
+        img_src = f'/img/webinars/{event["pic"]}'
+        img_alt = f'Логотип «{event["title"]}»'
         city = 'Вебинар'
         location_str = 'Вебинар'
 
@@ -157,13 +150,9 @@ def render_video_card(event: dict, event_type: str) -> str:
         desc = v['description']
         links_parts = []
         for link in v.get('links', []):
-            links_parts.append(
-                f'<a href="{link["url"]}" target="_blank">{link["platform"]}</a>'
-            )
+            links_parts.append(f'<a href="{link["url"]}" target="_blank">{link["platform"]}</a>')
         if links_parts:
-            video_items.append(
-                f'<li>{desc} ({", ".join(links_parts)})</li>'
-            )
+            video_items.append(f'<li>{desc} ({", ".join(links_parts)})</li>')
     videos_html = '\n'.join(video_items)
 
     return f"""

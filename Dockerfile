@@ -27,6 +27,7 @@ COPY web/index.html /app/web/index.html
 COPY web/video.html /app/web/video.html
 COPY web/oneyear.html /app/web/oneyear.html
 COPY web/sw.js /app/web/sw.js
+COPY web/event-dates.js /app/web/event-dates.js
 RUN mkdir -p /app/img
 COPY img/ /app/img/
 RUN mkdir -p /app/events

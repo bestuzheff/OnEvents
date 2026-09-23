@@ -29,3 +29,9 @@ videos:
         url: "https://www.youtube.com/watch?v=QVrWsWP9lL4"
       - platform: "VK Видео"
         url: "https://vkvideo.ru/video-233393032_456239032"   
+  - description: "Павел Королев: 1С:Элемент в 2026: новые горизонты веб-разработки"
+    links:
+      - platform: "YouTube"
+        url: "https://youtu.be/GnnGA4rD2xs"
+      - platform: "VK Видео"
+        url: "https://vkvideo.ru/video-233393032_456239035"   

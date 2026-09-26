@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Asia/Irkutsk
+BEGIN:VEVENT
+UID:d85748bb-1b12-4ace-bc1f-66207d3808b1@onevents.ru
+DTSTART;TZID=Asia/Irkutsk:20261029T183000
+DTEND;TZID=Asia/Irkutsk:20261029T213000
+SUMMARY:Кунг-фу митап - ИИ в 1С: отрицать нельзя учиться (29 октября)
+DESCRIPTION:За один вечер можно унести три рабочие схемы\, как ИИ уже сидит внутри 1С. Свой конвейер CI\, который проверяет код после push. Автотесты\, которыми пользуется команда\, а не один герой. Полный цикл разработки с ИИ — вживую\, не по статье. Отрицать нельзя учиться. Запятую ставишь ты. Поставишь после «нельзя» — приходи смотреть. Поставишь раньше — можно и дальше писать в чат\, что ИИ в 1С «ну такое».\n\nСсылка: https://kotovdima.timepad.ru/event/4219119\n\nВремя: 18:30-21:30\n\nПоказать на карте: https://clck.ru/3W6N2o
+LOCATION:Иркутск, ул. ​Рабочая улица, 2а/4, БЦ Премьер, Коворкинг «Мой бизнес»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

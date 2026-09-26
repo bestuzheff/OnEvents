@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:8b483bda-efed-45bb-b80d-aeb4ba024780@onevents.ru
+DTSTART:20261029T180000
+DTEND:20261029T220000
+SUMMARY:PGMeetup.ЕКБ 2026 (29 октября)
+DESCRIPTION:Встречаемся\, чтобы послушать экспертов по PostgreSQL\, обсудить оптимизацию запросов\, репликацию и тестирование новых версий СУБД\, задать вопросы и пообщаться — участие бесплатное\, но места ограничены!\n\nСсылка: https://pgconf.ru/291026\n\nВремя: 18:00-22:00\n\nПоказать на карте: https://clck.ru/3VxnYp
+LOCATION:Екатеринбург, ул. Розы Люксембург, 49, 9 этаж
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:f2272a79-65da-4b14-a94f-e78b0d0f06d2@onevents.ru
+DTSTART;TZID=Europe/Moscow:20260927T180000
+DTEND;TZID=Europe/Moscow:20260927T200000
+SUMMARY:Бранч от Клуба Автоматизаторов (27 сентября)
+DESCRIPTION:Начинается сезон конференций\, а значит\, появляется ещё больше поводов встретиться с коллегами из разных городов\, обменяться впечатлениями\, обсудить новые идеи и просто приятно провести время вместе. Запись через Telegram. Место определим немного позже — будем ориентироваться на количество участников.\n\nСсылка: https://t.me/JIubimaia\n\nВремя: 18:00-20:00
+LOCATION:Москва
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

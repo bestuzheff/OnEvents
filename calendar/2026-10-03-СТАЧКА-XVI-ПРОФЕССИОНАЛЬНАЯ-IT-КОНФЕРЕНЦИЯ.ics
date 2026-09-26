@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:2e979a8a-1dc8-40c9-8a2e-a9014c81042e@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261003T100000
+DTEND;TZID=Europe/Moscow:20261003T200000
+SUMMARY:СТАЧКА: XVI ПРОФЕССИОНАЛЬНАЯ IT-КОНФЕРЕНЦИЯ (3 октября)
+DESCRIPTION:Профессиональная IT-конференция. Собираем разработчиков\, маркетологов\, дизайнеров\, руководителей и собственников IT-компаний. Тематика этой Стачки - внедрение ИИ во все процессы компаний. Мы ждём кейсы\, разбор инструментов и обсуждение того\, как ИИ меняет продукты\, команды и бизнес-модели.\n\nСсылка: https://spb.nastachku.ru\n\nВремя: 10:00-20:00\n\nПоказать на карте: https://clck.ru/3PTX5r
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, Cosmos St. Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:a8096d87-17e5-4a2d-b61b-95bfbca04026@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261004T110000
+DTEND;TZID=Europe/Moscow:20261004T193000
+SUMMARY:СТАЧКА: XVI ПРОФЕССИОНАЛЬНАЯ IT-КОНФЕРЕНЦИЯ (4 октября)
+DESCRIPTION:Профессиональная IT-конференция. Собираем разработчиков\, маркетологов\, дизайнеров\, руководителей и собственников IT-компаний. Тематика этой Стачки - внедрение ИИ во все процессы компаний. Мы ждём кейсы\, разбор инструментов и обсуждение того\, как ИИ меняет продукты\, команды и бизнес-модели.\n\nСсылка: https://spb.nastachku.ru\n\nВремя: 11:00-19:30\n\nПоказать на карте: https://clck.ru/3PTX5r
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, Cosmos St. Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

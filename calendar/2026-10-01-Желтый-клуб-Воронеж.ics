@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:606e3244-b897-46ee-a68a-3af3f08f657e@onevents.ru
+DTSTART:20261001T190000
+DTEND:20261001T210000
+SUMMARY:Желтый клуб Воронеж (1 октября)
+DESCRIPTION:В этот раз поговорим про инженерный подход — как универсальное средство для автоматизации не только на работе\, но и в домашней бухгалтерии\, а также от второго докладчика из первых рук узнаем что нужно\, чтобы стать лауреатом конкурса '1С:Проект года'!\n\nСсылка: https://yellowclub-voronezh.timepad.ru/event/4215256\n\nВремя: 19:00-21:00\n\nПоказать на карте: https://clck.ru/3W56zp
+LOCATION:Воронеж, ул. Свободы, 73, 2 этаж, каб. 220
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

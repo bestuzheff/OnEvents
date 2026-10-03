@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:55f21175-6a51-4619-8397-4aa6cf7be837@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261004T113000
+DTEND;TZID=Europe/Moscow:20261004T180000
+SUMMARY:Завтрак Клуба Питерских Одинэсников (4 октября)
+DESCRIPTION:В этот раз собираемся не в центре\, собираемся в хорошем месте: итальянский ресторанчик на юго-западе.🍁 А после завтрака поедем погулять в Петергофе в парке Александрия🧦\n\nСсылка: https://t.me/+ky6SUr-ezgljZGUy\n\nВремя: 11:30-18:00\n\nПоказать на карте: https://clck.ru/3WC6Mp
+LOCATION:Санкт-Петербург, пр. Героев 31, Маргаретти
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -27,6 +27,7 @@ def event():
         'registration_url': 'https://register.example.com',
         'url': 'https://event.example.com',
         'sessions': [{'title': 'Session 1'}],
+        'videos': [{'description': 'Доклад', 'links': [{'platform': 'YouTube', 'url': 'https://youtu.be/x'}]}],
     }
 
 
@@ -40,6 +41,7 @@ def webinar():
         'description': 'Webinar description',
         'url': 'https://webinar.example.com',
         'sessions': [{'title': 'Intro'}],
+        'videos': [{'description': 'Запись', 'links': [{'platform': 'VK Видео', 'url': 'https://vkvideo.ru/x'}]}],
     }
 
 
@@ -57,6 +59,7 @@ def test_serialize_event(event):
     assert result['registration_url'] == 'https://register.example.com'
     assert result['url'] == 'https://event.example.com'
     assert result['sessions'] == [{'title': 'Session 1'}]
+    assert result['videos'] == [{'description': 'Доклад', 'links': [{'platform': 'YouTube', 'url': 'https://youtu.be/x'}]}]
 
 
 def test_serialize_event_without_optional_fields():
@@ -72,6 +75,7 @@ def test_serialize_event_without_optional_fields():
     assert 'registration_url' not in result
     assert 'url' not in result
     assert 'sessions' not in result
+    assert 'videos' not in result
     assert result['icon'] == ''
 
 
@@ -83,6 +87,7 @@ def test_serialize_webinar(webinar):
     assert result['pic'] == 'img/webinars/webinar.png'
     assert result['url'] == 'https://webinar.example.com'
     assert result['sessions'] == [{'title': 'Intro'}]
+    assert result['videos'] == [{'description': 'Запись', 'links': [{'platform': 'VK Видео', 'url': 'https://vkvideo.ru/x'}]}]
 
 
 def test_serialize_webinar_without_optional_fields():
@@ -97,6 +102,7 @@ def test_serialize_webinar_without_optional_fields():
 
     assert 'url' not in result
     assert 'sessions' not in result
+    assert 'videos' not in result
     assert result['pic'] == ''
 
 

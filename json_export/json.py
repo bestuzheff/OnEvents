@@ -52,6 +52,10 @@ def serialize_event(event: dict) -> dict:
     if event.get('sessions'):
         result['sessions'] = event['sessions']
 
+    # Добавляем videos только если есть
+    if event.get('videos'):
+        result['videos'] = event['videos']
+
     return result
 
 
@@ -88,6 +92,10 @@ def serialize_webinar(webinar: dict) -> dict:
     sessions = webinar.get('sessions')
     if sessions:
         result['sessions'] = sessions
+
+    videos = webinar.get('videos')
+    if videos:
+        result['videos'] = videos
 
     return result
 

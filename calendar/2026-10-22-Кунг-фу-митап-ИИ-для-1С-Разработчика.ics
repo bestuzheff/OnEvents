@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:b8b9a6d9-9f11-46a7-9adc-03719b458d4b@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261022T190000
+DTEND;TZID=Europe/Moscow:20261022T120000
+SUMMARY:Кунг-фу митап: ИИ для 1С-Разработчика (22 октября)
+DESCRIPTION:Приходите на первый Кунг-фу митап в Москве\, чтобы обсудить ИИ в 1С\, разобраться в особенностях ИИ-разработки на платформе и увидеть\, как ИИ сдаёт экзамен «1С:Специалист по платформе».\n\nСсылка: https://kungfu-conf.qtickets.ru\n\nВремя: 19:00-12:00\n\nПоказать на карте: https://clck.ru/3WEYYJ
+LOCATION:Москва, ул. Малая Почтовая, 2/2с1 (Loft Lodge 5)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

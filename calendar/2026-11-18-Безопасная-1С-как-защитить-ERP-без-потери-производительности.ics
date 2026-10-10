@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:3716c0c6-6ccf-435e-b535-8177859624d3@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261118T150000
+DTEND;TZID=Europe/Moscow:20261118T190000
+SUMMARY:Безопасная 1С: как защитить ERP без потери производительности (18 ноября)
+DESCRIPTION:На митапе разберем\, как атакуют ERP-системы\, какие риски создает использование ИИ\, что меняет 187-ФЗ для компаний — субъектов КИИ\, как контролировать безопасность еще на этапе разработки и что делать при эксплуатации решения.\n\nСсылка: https://sec.ussc.ru/1c-security-meetup\n\nВремя: 15:00-19:00\n\nПоказать на карте: https://clck.ru/3WC3Xv
+LOCATION:Москва, ул. Большая Почтовая. д 40, стр. 7 (LOFT GOELRO)
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

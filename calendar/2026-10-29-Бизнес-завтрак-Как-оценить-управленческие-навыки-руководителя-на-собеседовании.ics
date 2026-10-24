@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:0bc6f987-f1c3-4158-b8a8-357d1afb08f0@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261029T093000
+DTEND;TZID=Europe/Moscow:20261029T133000
+SUMMARY:Бизнес-завтрак: «Как оценить управленческие навыки руководителя на собеседовании» (29 октября)
+DESCRIPTION:Бесплатный бизнес-завтрак\, который состоится в офисе фирмы «1С» и будет посвящен актуальным методам оценки управленческих компетенций кандидатов на этапе собеседования\, где участники на практике узнают\, как увидеть истинный профиль руководителя еще во время интервью\, а не после испытательного срока.\n\nСсылка: https://q-service.1c.ru/q/019fdb77-4c0b-7e3a-b165-080daad7913c\n\nВремя: 09:30-13:30\n\nПоказать на карте: https://clck.ru/3WXB4W
+LOCATION:Москва, Дмитровское шоссе, 9, м. «Тимирязевская»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

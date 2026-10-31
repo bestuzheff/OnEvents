@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:41cf7bd9-4dd5-435f-974b-e08059840bf3@onevents.ru
+DTSTART:20261105T190000
+DTEND:20261105T230000
+SUMMARY:Кунг-фу Ужин: МИНСК (5 ноября)
+DESCRIPTION:5 ноября в 19:00 собираемся с 1Сниками за одним столом! Поужинаем\, познакомимся\, поговорим про 1С\, ИИ и рабочие истории. Организуем встречу 1С-специалистов вместе с Артуром Коржаном. Ждём тех\, кто живёт в Минске или готов приехать. Место сообщим позже в закрытой группе участников. Вход бесплатный. Еду и напитки каждый оплачивает самостоятельно. Количество мест ограничено.\n\nСсылка: https://kotovdima.timepad.ru/event/4275079/\n\nВремя: 19:00-23:00
+LOCATION:Минск
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

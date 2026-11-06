@@ -1,0 +1,12 @@
+id: "a7d02902-a8b5-4bcc-a06b-4eea80ab9e21"
+title: "Желтый клуб Москва"
+date: "2026-11-11"
+city: "Москва"
+address: "Воздвиженка, 9, пространство 'Аудиториум'"
+icon: "yc_msk.jpg"
+description: "⚡️Пробуем новый формат — экспресс-митап: одно выступление + вопросы + общение. Полтора часа, с 19:30 до 21:00.  в этот раз формат недолгой встречи, из угощений вас будут ждать чай и кофе с печеньками🙂"
+registration_url: "https://moscow.qtickets.events/272249-kompaktnye-superkomandy-novaya-era-krupnykh-erp-proektov"
+sessions:
+  - date: "2026-11-11"
+    start_time: "19:30"
+    end_time: "21:00"

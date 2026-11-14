@@ -5,7 +5,7 @@ city: "Санкт-Петербург"
 address: "ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel"
 icon: "APM2027.jpg"
 description: "INFOSTART A&PM EVENT 2027 — крупнейшая конференция для аналитиков 1С и руководителей проектов 1С. В программе 70% практических форматов: мастер-классы, круглые столы, тренинги, управленческие поединки, деловые игры. Ещё 30% — доклады с кейсами, факапами и готовыми инструментами."
-registration_url: "https://infostart.ru/event/apm2027/?utm_source=telegram&utm_medium=tg-channel-onevents&utm_campaign=apm2026"
+registration_url: "https://infostart.ru/event/apm2027"
 sessions:
   - date: "2027-05-14"
     start_time: "10:00"

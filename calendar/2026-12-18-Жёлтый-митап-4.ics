@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:e8f048ee-bd66-452f-b458-16a413b23458@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261218T100000
+DTEND;TZID=Europe/Moscow:20261218T180000
+SUMMARY:Жёлтый митап №4 (18 декабря)
+DESCRIPTION:Что должен уметь аналитик 1С в 2027 году. Разберём\, какие результаты дало применение ИИ в проектах 1С в 2026 году. Обсудим\, как использовать нейросети в 2027 году и где по-прежнему нужны экспертиза и ответственность человека.\n\nСсылка: https://cors.su/zhyoltyj-mitap\n\nВремя: 10:00-18:00
+LOCATION:Online
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

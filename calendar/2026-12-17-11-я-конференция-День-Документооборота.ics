@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:cf87e3d9-680a-459e-aea8-d97d5ac18ebe@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261217T100000
+DTEND;TZID=Europe/Moscow:20261217T180000
+SUMMARY:11-я конференция «День Документооборота» (17 декабря)
+DESCRIPTION:Фирма «1С» приглашает пользователей\, потенциальных клиентов и партнеров принять участие в Конференции «День Документооборота»\, посвященной практике применения решений «1С» для автоматизации документооборота. Обмен опытом эксплуатации и поддержки\, решения типовых и нетиповых задач. Вопросы методистам\, разработчикам и внедренцам.\n\nСсылка: https://regevent.1c.ru/fdo/\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3X2PPa
+LOCATION:Москва, Дмитровское шоссе, дом 9, новый зал фирмы «1С»
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

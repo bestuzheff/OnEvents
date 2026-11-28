@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:8e36fce4-955d-40a0-bce9-23c3331e0838@onevents.ru
+DTSTART;TZID=Europe/Moscow:20261213T120000
+DTEND;TZID=Europe/Moscow:20261213T150000
+SUMMARY:Бранч от Клуба Автоматизаторов (13 декабря)
+DESCRIPTION:Предновогодняя суета\, горящие дедлайны\, запуски проектов… Кутерьма затягивает\, но мы всё равно планируем наш следующий бранч в Москве. Соберёмся\, выдохнем\, поговорим «о наболевшем». Организационного сбора нет — каждый оплачивает свой заказ. Запись через Telegram. Будем рады встрече\, новым знакомствам и живому общению!\n\nСсылка: https://t.me/JIubimaia\n\nВремя: 12:00-15:00
+LOCATION:Москва
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OnEvents//OnEvents Calendar//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:dbcc4c5f-2cda-4eac-a010-751b42082444@onevents.ru
+DTSTART;TZID=Europe/Moscow:20270514T100000
+DTEND;TZID=Europe/Moscow:20270514T180000
+SUMMARY:Infostart A&PM Event 2027 (14 мая)
+DESCRIPTION:INFOSTART A&PM EVENT 2027 — крупнейшая конференция для аналитиков 1С и руководителей проектов 1С. В программе 70% практических форматов: мастер-классы\, круглые столы\, тренинги\, управленческие поединки\, деловые игры. Ещё 30% — доклады с кейсами\, факапами и готовыми инструментами.\n\nСсылка: https://infostart.ru/event/apm2027\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX6H
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:e8e8f34b-4228-4090-b8ce-c708f640975c@onevents.ru
+DTSTART;TZID=Europe/Moscow:20270515T100000
+DTEND;TZID=Europe/Moscow:20270515T180000
+SUMMARY:Infostart A&PM Event 2027 (15 мая)
+DESCRIPTION:INFOSTART A&PM EVENT 2027 — крупнейшая конференция для аналитиков 1С и руководителей проектов 1С. В программе 70% практических форматов: мастер-классы\, круглые столы\, тренинги\, управленческие поединки\, деловые игры. Ещё 30% — доклады с кейсами\, факапами и готовыми инструментами.\n\nСсылка: https://infostart.ru/event/apm2027\n\nВремя: 10:00-18:00\n\nПоказать на карте: https://clck.ru/3PTX6H
+LOCATION:Санкт-Петербург, ул. Кораблестроителей, 14, отель Cosmos Saint-Petersburg Pribaltiyskaya Hotel
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
